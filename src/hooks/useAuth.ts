@@ -19,33 +19,32 @@ export function useAuth() {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
-  const initialized = useRef(false);
+  const loadingDone = useRef(false);
+
+  const finishLoading = () => {
+    if (!loadingDone.current) {
+      loadingDone.current = true;
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    // Safety fallback: never stay loading more than 5 seconds
-    const timeout = setTimeout(() => setLoading(false), 5000);
+    // Safety fallback
+    const timeout = setTimeout(finishLoading, 5000);
 
-    // Get initial session first, then subscribe
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        await fetchProfile(session.user.id);
-      }
-      setLoading(false);
-      initialized.current = true;
-      clearTimeout(timeout);
-    });
-
+    // Set up listener FIRST (Supabase best practice)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      // Skip the initial fire to avoid double-loading
-      if (!initialized.current) return;
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        await fetchProfile(session.user.id);
+        // Use setTimeout to avoid Supabase auth deadlock
+        setTimeout(async () => {
+          await fetchProfile(session.user.id);
+          finishLoading();
+        }, 0);
       } else {
         setProfile(null);
+        finishLoading();
       }
     });
 
@@ -54,6 +53,7 @@ export function useAuth() {
       clearTimeout(timeout);
     };
   }, []);
+
 
   const fetchProfile = async (userId: string) => {
     const { data } = await supabase
