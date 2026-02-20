@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,7 +9,6 @@ import { GraduationCap, Mail, Lock, Eye, EyeOff, Loader2, BookOpen } from 'lucid
 type Mode = 'login' | 'signup';
 
 export default function Auth() {
-  const navigate = useNavigate();
   const { toast } = useToast();
   const [mode, setMode] = useState<Mode>('login');
   const [email, setEmail] = useState('');
@@ -34,7 +32,7 @@ export default function Auth() {
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        navigate('/student-type');
+        // Navigation is handled by route guard once auth state updates
       }
     } catch (err: unknown) {
       toast({ title: 'Error', description: (err as Error).message, variant: 'destructive' });
