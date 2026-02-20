@@ -14,7 +14,123 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      marks: {
+        Row: {
+          cgpa: number | null
+          class: string | null
+          classification: string | null
+          course: string | null
+          created_at: string
+          grade: string | null
+          id: string
+          level: string | null
+          percentage: number | null
+          semester_data: Json | null
+          stream: string | null
+          student_type: string
+          subjects: Json | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cgpa?: number | null
+          class?: string | null
+          classification?: string | null
+          course?: string | null
+          created_at?: string
+          grade?: string | null
+          id?: string
+          level?: string | null
+          percentage?: number | null
+          semester_data?: Json | null
+          stream?: string | null
+          student_type: string
+          subjects?: Json | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cgpa?: number | null
+          class?: string | null
+          classification?: string | null
+          course?: string | null
+          created_at?: string
+          grade?: string | null
+          id?: string
+          level?: string | null
+          percentage?: number | null
+          semester_data?: Json | null
+          stream?: string | null
+          student_type?: string
+          subjects?: Json | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          district: string | null
+          education_type: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+          state: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          district?: string | null
+          education_type?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          state?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          district?: string | null
+          education_type?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          state?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      saved_items: {
+        Row: {
+          created_at: string
+          id: string
+          item_data: Json
+          item_type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          item_data: Json
+          item_type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          item_data?: Json
+          item_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
