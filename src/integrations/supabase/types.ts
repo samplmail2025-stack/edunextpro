@@ -73,6 +73,7 @@ export type Database = {
           avatar_url: string | null
           created_at: string
           district: string | null
+          dob: string | null
           education_type: string | null
           full_name: string | null
           id: string
@@ -85,6 +86,7 @@ export type Database = {
           avatar_url?: string | null
           created_at?: string
           district?: string | null
+          dob?: string | null
           education_type?: string | null
           full_name?: string | null
           id?: string
@@ -97,6 +99,7 @@ export type Database = {
           avatar_url?: string | null
           created_at?: string
           district?: string | null
+          dob?: string | null
           education_type?: string | null
           full_name?: string | null
           id?: string
