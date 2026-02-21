@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { BottomNav } from '@/components/layout/BottomNav';
+import { Card3D } from '@/components/layout/Card3D';
 import { School, GraduationCap, Sparkles } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -15,25 +17,30 @@ export default function StudentType() {
           <div className="absolute top-8 left-8 w-24 h-24 rounded-full bg-white" />
           <div className="absolute bottom-4 right-8 w-16 h-16 rounded-full bg-white" />
         </div>
-        <div className="relative">
+        <motion.div
+          initial={{ opacity: 0, y: -15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="relative"
+        >
           <div className="flex items-center justify-center gap-2 mb-2">
             <Sparkles className="w-5 h-5 text-yellow-300" />
             <span className="text-white/90 text-sm font-medium">Welcome back, {profile?.full_name?.split(' ')[0] || 'Student'}! 👋</span>
           </div>
           <h1 className="text-2xl font-bold text-white mt-2">Who are you?</h1>
           <p className="text-white/80 text-sm mt-1">Select your student category to get started</p>
-        </div>
+        </motion.div>
       </div>
 
       <div className="px-4 -mt-8 pb-8 space-y-4 max-w-lg mx-auto">
-        {/* School Student Card */}
-        <button
+        {/* School Student Card - 3D */}
+        <Card3D
           onClick={() => navigate('/school-marks')}
-          className="w-full bg-card rounded-3xl p-5 card-shadow border border-border text-left animate-slide-up hover:scale-[1.02] transition-transform active:scale-[0.98]"
-          style={{ animationDelay: '0.1s' }}
+          className="w-full bg-card rounded-3xl p-5 border border-border text-left cursor-pointer"
         >
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl gradient-orange flex items-center justify-center flex-shrink-0">
+            <div className="w-16 h-16 rounded-2xl gradient-orange flex items-center justify-center flex-shrink-0"
+              style={{ boxShadow: '0 8px 20px -4px rgba(249,115,22,0.4)' }}>
               <School className="w-8 h-8 text-white" />
             </div>
             <div>
@@ -41,25 +48,26 @@ export default function StudentType() {
               <p className="text-muted-foreground text-sm">10th / 11th / 12th</p>
               <div className="flex gap-1 mt-2">
                 {['Science', 'Commerce', 'Arts'].map((s) => (
-                  <span key={s} className="text-xs bg-edu-orange-light text-edu-orange px-2 py-0.5 rounded-full">{s}</span>
+                  <span key={s} className="text-xs bg-edu-orange-light text-edu-orange px-2 py-0.5 rounded-full font-medium">{s}</span>
                 ))}
               </div>
             </div>
           </div>
           <div className="mt-4 flex items-center justify-between">
             <div className="text-xs text-muted-foreground">Calculate marks → Get career guidance</div>
-            <div className="gradient-orange rounded-full px-3 py-1 text-white text-xs font-semibold">Start →</div>
+            <div className="gradient-orange rounded-full px-3 py-1 text-white text-xs font-semibold"
+              style={{ boxShadow: '0 4px 12px rgba(249,115,22,0.3)' }}>Start →</div>
           </div>
-        </button>
+        </Card3D>
 
-        {/* College Student Card */}
-        <button
+        {/* College Student Card - 3D */}
+        <Card3D
           onClick={() => navigate('/college-marks')}
-          className="w-full bg-card rounded-3xl p-5 card-shadow border border-border text-left animate-slide-up hover:scale-[1.02] transition-transform active:scale-[0.98]"
-          style={{ animationDelay: '0.2s' }}
+          className="w-full bg-card rounded-3xl p-5 border border-border text-left cursor-pointer"
         >
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl gradient-purple flex items-center justify-center flex-shrink-0">
+            <div className="w-16 h-16 rounded-2xl gradient-purple flex items-center justify-center flex-shrink-0"
+              style={{ boxShadow: '0 8px 20px -4px rgba(139,92,246,0.4)' }}>
               <GraduationCap className="w-8 h-8 text-white" />
             </div>
             <div>
@@ -67,35 +75,37 @@ export default function StudentType() {
               <p className="text-muted-foreground text-sm">UG / PG / PhD</p>
               <div className="flex gap-1 mt-2">
                 {['CGPA', 'Percentage', 'Semester'].map((s) => (
-                  <span key={s} className="text-xs bg-edu-purple-light text-edu-purple px-2 py-0.5 rounded-full">{s}</span>
+                  <span key={s} className="text-xs bg-edu-purple-light text-edu-purple px-2 py-0.5 rounded-full font-medium">{s}</span>
                 ))}
               </div>
             </div>
           </div>
           <div className="mt-4 flex items-center justify-between">
             <div className="text-xs text-muted-foreground">Semester-wise CGPA → Smart recommendations</div>
-            <div className="gradient-purple rounded-full px-3 py-1 text-white text-xs font-semibold">Start →</div>
+            <div className="gradient-purple rounded-full px-3 py-1 text-white text-xs font-semibold"
+              style={{ boxShadow: '0 4px 12px rgba(139,92,246,0.3)' }}>Start →</div>
           </div>
-        </button>
+        </Card3D>
 
         {/* Info Cards */}
         <div className="grid grid-cols-2 gap-3 mt-2">
-          <div className="bg-edu-blue-light rounded-2xl p-3 text-center">
-            <div className="text-2xl mb-1">📚</div>
-            <p className="text-xs font-semibold text-edu-blue">50+ Courses</p>
-          </div>
-          <div className="bg-edu-green-light rounded-2xl p-3 text-center">
-            <div className="text-2xl mb-1">🏛️</div>
-            <p className="text-xs font-semibold text-edu-green">100+ Colleges</p>
-          </div>
-          <div className="bg-edu-orange-light rounded-2xl p-3 text-center">
-            <div className="text-2xl mb-1">💼</div>
-            <p className="text-xs font-semibold text-edu-orange">20+ Job Paths</p>
-          </div>
-          <div className="bg-edu-purple-light rounded-2xl p-3 text-center">
-            <div className="text-2xl mb-1">🎯</div>
-            <p className="text-xs font-semibold text-edu-purple">Smart AI Reco</p>
-          </div>
+          {[
+            { emoji: '📚', label: '50+ Courses', bg: 'bg-edu-blue-light', color: 'text-edu-blue' },
+            { emoji: '🏛️', label: '100+ Colleges', bg: 'bg-edu-green-light', color: 'text-edu-green' },
+            { emoji: '💼', label: '20+ Job Paths', bg: 'bg-edu-orange-light', color: 'text-edu-orange' },
+            { emoji: '🎯', label: 'Smart AI Reco', bg: 'bg-edu-purple-light', color: 'text-edu-purple' },
+          ].map((item, i) => (
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 + i * 0.1 }}
+              className={`${item.bg} rounded-2xl p-3 text-center`}
+            >
+              <div className="text-2xl mb-1">{item.emoji}</div>
+              <p className={`text-xs font-semibold ${item.color}`}>{item.label}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
       <BottomNav />
