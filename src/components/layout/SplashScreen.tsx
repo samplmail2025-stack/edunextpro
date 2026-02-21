@@ -19,7 +19,6 @@ export function SplashScreen({ show }: SplashScreenProps) {
           {/* Decorative blobs */}
           <div className="absolute top-16 left-8 w-32 h-32 rounded-full bg-white/10 blur-2xl" />
           <div className="absolute bottom-24 right-8 w-40 h-40 rounded-full bg-white/10 blur-2xl" />
-          <div className="absolute top-1/3 right-12 w-20 h-20 rounded-full bg-white/10 blur-xl" />
 
           {/* Logo */}
           <motion.div
@@ -28,15 +27,14 @@ export function SplashScreen({ show }: SplashScreenProps) {
             transition={{ delay: 0.2, duration: 0.7, type: 'spring', bounce: 0.4 }}
             className="relative z-10 flex flex-col items-center"
           >
-            {/* Logo card with 3D shadow */}
             <div
-              className="w-36 h-36 rounded-3xl flex items-center justify-center mb-6 overflow-hidden"
+              className="w-40 h-40 rounded-3xl flex items-center justify-center mb-6 overflow-hidden"
               style={{
-                background: 'rgba(255,255,255,0.95)',
+                background: 'rgba(255,255,255,0.97)',
                 boxShadow: '0 30px 60px rgba(0,0,0,0.3), 0 8px 20px rgba(0,0,0,0.2)',
               }}
             >
-              <img src={logoImg} alt="EduNext Logo" className="w-28 h-28 object-contain" />
+              <img src={logoImg} alt="EduNext Logo" className="w-32 h-32 object-contain" />
             </div>
 
             <motion.div
@@ -45,7 +43,7 @@ export function SplashScreen({ show }: SplashScreenProps) {
               transition={{ delay: 0.6, duration: 0.5 }}
               className="text-center"
             >
-              <h1 className="text-4xl font-black text-white tracking-wide" style={{ fontFamily: 'system-ui' }}>
+              <h1 className="text-4xl font-black text-white tracking-wide italic">
                 EduNext
               </h1>
               <p className="text-white/80 text-sm mt-1 font-medium tracking-wider">
@@ -64,8 +62,8 @@ export function SplashScreen({ show }: SplashScreenProps) {
             {[0, 1, 2].map((i) => (
               <motion.div
                 key={i}
-                className="w-2 h-2 rounded-full bg-white"
-                animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1.2, 0.8] }}
+                className="w-2.5 h-2.5 rounded-full bg-white"
+                animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1.3, 0.8] }}
                 transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
               />
             ))}
