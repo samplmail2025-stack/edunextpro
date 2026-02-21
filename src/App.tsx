@@ -11,7 +11,8 @@ import { PageTransition } from "@/components/layout/PageTransition";
 import { SplashScreen } from "@/components/layout/SplashScreen";
 
 import Auth from "./pages/Auth";
-import ProfileSetup from "./pages/ProfileSetup";
+import Onboarding from "./pages/Onboarding";
+import PWAGate from "./pages/PWAGate";
 import StudentType from "./pages/StudentType";
 import SchoolMarks from "./pages/SchoolMarks";
 import CollegeMarks from "./pages/CollegeMarks";
@@ -25,31 +26,56 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+function isPWA(): boolean {
+  return (
+    window.matchMedia('(display-mode: standalone)').matches ||
+    (window.navigator as any).standalone === true ||
+    document.referrer.includes('android-app://')
+  );
+}
+
 function AppRoutes() {
   const { user, profile, loading, isProfileComplete } = useAuth();
   const location = useLocation();
   const [showSplash, setShowSplash] = useState(true);
+  const [isStandalone, setIsStandalone] = useState(true); // default true to avoid flash
 
   useEffect(() => { initPWA(); }, []);
   useEffect(() => {
     const timer = setTimeout(() => setShowSplash(false), 2200);
     return () => clearTimeout(timer);
   }, []);
+  useEffect(() => {
+    // Check PWA after mount
+    setIsStandalone(isPWA());
+  }, []);
 
   if (showSplash || loading) {
     return <SplashScreen show={true} />;
   }
 
+  // Show PWA install gate for non-PWA browser visitors
+  // Disable in development to allow testing
+  if (!isStandalone && import.meta.env.PROD) {
+    return <PWAGate />;
+  }
+
+  // Determine where authenticated users should go
+  const getAuthRedirect = () => {
+    if (!isProfileComplete) return "/onboarding";
+    return "/student-type";
+  };
+
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         {/* Public */}
-        <Route path="/auth" element={!user ? <PageTransition><Auth /></PageTransition> : <Navigate to="/student-type" replace />} />
+        <Route path="/auth" element={!user ? <PageTransition><Auth /></PageTransition> : <Navigate to={getAuthRedirect()} replace />} />
 
         {/* Protected */}
-        <Route path="/" element={user ? <Navigate to="/student-type" replace /> : <Navigate to="/auth" replace />} />
-        <Route path="/profile-setup" element={user ? <PageTransition><ProfileSetup /></PageTransition> : <Navigate to="/auth" replace />} />
-        <Route path="/student-type" element={user ? <PageTransition><StudentType /></PageTransition> : <Navigate to="/auth" replace />} />
+        <Route path="/" element={user ? <Navigate to={getAuthRedirect()} replace /> : <Navigate to="/auth" replace />} />
+        <Route path="/onboarding" element={user ? <PageTransition><Onboarding /></PageTransition> : <Navigate to="/auth" replace />} />
+        <Route path="/student-type" element={user ? (isProfileComplete ? <PageTransition><StudentType /></PageTransition> : <Navigate to="/onboarding" replace />) : <Navigate to="/auth" replace />} />
         <Route path="/school-marks" element={user ? <PageTransition><SchoolMarks /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/college-marks" element={user ? <PageTransition><CollegeMarks /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/results" element={user ? <PageTransition><Results /></PageTransition> : <Navigate to="/auth" replace />} />
