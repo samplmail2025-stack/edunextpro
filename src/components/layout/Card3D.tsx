@@ -38,7 +38,6 @@ export function Card3D({ children, className = '', style, onClick }: Card3DProps
         rotateY: tilt.y,
         scale: hovering ? 1.02 : 1,
       }}
-      whileTap={{ scale: 0.97 }}
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       className={className}
       style={{

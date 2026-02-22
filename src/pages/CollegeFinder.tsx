@@ -9,17 +9,15 @@ import { Input } from '@/components/ui/input';
 import { TN_DISTRICTS } from '@/data/districts';
 import { searchColleges, College } from '@/data/colleges';
 import { useBookmarks } from '@/hooks/useBookmarks';
-import { useAuth } from '@/hooks/useAuth';
 import { Search, GraduationCap } from 'lucide-react';
 
 const NAAC_GRADES = ['A++', 'A+', 'A', 'B+', 'B'];
 
 export default function CollegeFinder() {
   const [searchParams] = useSearchParams();
-  const { profile } = useAuth();
   const initialQuery = searchParams.get('course') || '';
   const [query, setQuery] = useState(initialQuery);
-  const [district, setDistrict] = useState(profile?.district || '');
+  const [district, setDistrict] = useState('');
   const [naacGrade, setNaacGrade] = useState('');
   const { saveItem, isItemSaved } = useBookmarks();
 
