@@ -21,7 +21,7 @@ export default function CollegeFinder() {
   const [naacGrade, setNaacGrade] = useState('');
   const { saveItem, isItemSaved } = useBookmarks();
 
-  const colleges = searchColleges(query, district || undefined, naacGrade || undefined);
+  const colleges = searchColleges(query, district && district !== 'all' ? district : undefined, naacGrade && naacGrade !== 'all' ? naacGrade : undefined);
 
   return (
     <PageWrapper>
@@ -45,7 +45,7 @@ export default function CollegeFinder() {
               <SelectValue placeholder="All Districts" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Districts</SelectItem>
+              <SelectItem value="all">All Districts</SelectItem>
               {TN_DISTRICTS.map((d) => <SelectItem key={d} value={d}>{d}</SelectItem>)}
             </SelectContent>
           </Select>
@@ -54,7 +54,7 @@ export default function CollegeFinder() {
               <SelectValue placeholder="NAAC Grade" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Grades</SelectItem>
+              <SelectItem value="all">All Grades</SelectItem>
               {NAAC_GRADES.map((g) => <SelectItem key={g} value={g}>NAAC {g}</SelectItem>)}
             </SelectContent>
           </Select>

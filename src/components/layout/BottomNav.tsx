@@ -18,33 +18,39 @@ export function BottomNav() {
     location.pathname === path ||
     (path === '/school-marks' && ['/school-marks', '/college-marks', '/results'].includes(location.pathname));
 
+  const activeIndex = NAV_ITEMS.findIndex((item) => isActive(item.path));
+
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-xl border-t border-border"
-      style={{ paddingBottom: 'env(safe-area-inset-bottom)', boxShadow: '0 -4px 30px rgba(0,0,0,0.08)' }}
+      className="fixed bottom-4 left-4 right-4 z-50"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
-      <div className="flex items-center justify-around px-1 py-1.5">
-        {NAV_ITEMS.map(({ icon: Icon, label, path }) => {
+      <div
+        className="relative flex items-center justify-around bg-card/95 backdrop-blur-xl border border-border rounded-[28px] px-2 py-2"
+        style={{ boxShadow: '0 8px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)' }}
+      >
+        {NAV_ITEMS.map(({ icon: Icon, label, path }, index) => {
           const active = isActive(path);
           return (
-            <button
+            <motion.button
               key={path}
               onClick={() => navigate(path)}
-              className="relative flex flex-col items-center gap-0.5 px-4 py-2 rounded-2xl transition-all duration-200"
+              whileTap={{ scale: 0.85 }}
+              className="relative flex flex-col items-center gap-0.5 z-10 px-3 py-1.5"
             >
               {active && (
                 <motion.div
-                  layoutId="navIndicator"
-                  className="absolute inset-0 gradient-primary rounded-2xl"
-                  style={{ boxShadow: '0 4px 15px rgba(99,102,241,0.35)' }}
-                  transition={{ type: 'spring', bounce: 0.15, duration: 0.5 }}
+                  layoutId="navBubble"
+                  className="absolute -top-1 left-1/2 -translate-x-1/2 w-12 h-[calc(100%+8px)] gradient-primary rounded-[20px]"
+                  style={{ boxShadow: '0 6px 20px rgba(99,102,241,0.4)' }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                 />
               )}
-              <Icon className={`relative z-10 w-5 h-5 transition-colors ${active ? 'text-white' : 'text-muted-foreground'}`} />
-              <span className={`relative z-10 text-[10px] font-semibold transition-colors ${active ? 'text-white' : 'text-muted-foreground'}`}>
+              <Icon className={`relative z-10 w-5 h-5 transition-colors duration-200 ${active ? 'text-white' : 'text-muted-foreground'}`} />
+              <span className={`relative z-10 text-[9px] font-bold tracking-wide transition-colors duration-200 ${active ? 'text-white' : 'text-muted-foreground'}`}>
                 {label}
               </span>
-            </button>
+            </motion.button>
           );
         })}
       </div>
