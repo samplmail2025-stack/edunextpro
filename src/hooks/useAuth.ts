@@ -80,7 +80,7 @@ export function useAuth() {
     return { data, error };
   };
 
-  const isProfileComplete = profile?.full_name && profile?.district;
+  const isProfileComplete = !!(profile?.full_name && profile?.district && profile?.education_type);
 
   return { user, session, profile, loading, signOut, updateProfile, isProfileComplete, fetchProfile };
 }
