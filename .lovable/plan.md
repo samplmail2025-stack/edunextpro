@@ -1,279 +1,97 @@
 
-# EduNext – Smart Student Career Navigator (PWA)
 
-## Vision & Theme
+# EduNext Redesign Plan
 
-Based on the reference image, the app will use a vibrant colorful design with:
-- Pastel-colored stat/info cards (orange, green, purple, teal, yellow gradients)
-- Clean white card backgrounds with colored icon badges
-- Bold typography with gradient text headings
-- Bottom navigation bar (mobile-first)
-- Glassmorphism effects on overlays and modals
-- Blue + Purple primary gradient (EduNext brand)
+## Overview
+This plan covers 6 major changes: OTP-style signup flow, blank page fix after login, navbar redesign, new app icon/splash screen, bottom-to-top page transitions, and renaming the plan file.
 
 ---
 
-## Phase 1 Build Plan (Complete Full App)
+## 1. Fix Blank Page After Login (Critical Bug)
 
-This is a large app. We will build all major screens in one go, using smart static data with Supabase auth integration.
+**Root Cause:** When a user logs in successfully, the `onAuthStateChange` listener fires and sets `user`, but the `fetchProfile` call happens in a `setTimeout(0)`. During this brief window, `user` is set but `profile` is still `null`, so `isProfileComplete` is `false`, and the app redirects to `/onboarding`. However, the route guard for `/auth` sees `user` exists and tries to `Navigate` away -- but the profile hasn't loaded yet, causing a timing race that can result in a blank page.
 
----
-
-## Technical Architecture
-
-```text
-src/
-├── pages/
-│   ├── Auth.tsx              (Login / OTP / Google)
-│   ├── StudentType.tsx       (School vs College)
-│   ├── SchoolMarks.tsx       (Class, Stream, Subjects)
-│   ├── CollegeMarks.tsx      (Level, Course, Semesters, CGPA)
-│   ├── Results.tsx           (Charts, Percentage, Grade)
-│   ├── Recommendations.tsx   (Higher Studies + Jobs tabs)
-│   ├── CollegeFinder.tsx     (State > District > Colleges)
-│   ├── Jobs.tsx              (Govt + Private + Internships)
-│   ├── Bookmarks.tsx         (Saved colleges/jobs)
-│   ├── Profile.tsx           (User profile dashboard)
-│   └── Index.tsx             (Redirect logic)
-├── components/
-│   ├── layout/
-│   │   ├── BottomNav.tsx     (Mobile bottom navigation)
-│   │   ├── AppHeader.tsx     (Top bar with back/menu)
-│   │   └── PageWrapper.tsx   (Transitions + padding)
-│   ├── cards/
-│   │   ├── CourseCard.tsx
-│   │   ├── CollegeCard.tsx
-│   │   ├── JobCard.tsx
-│   │   └── StatCard.tsx      (Colorful dashboard stat cards)
-│   ├── marks/
-│   │   ├── SchoolMarkEntry.tsx
-│   │   ├── CollegeMarkEntry.tsx
-│   │   └── SemesterForm.tsx
-│   ├── charts/
-│   │   ├── CircularProgress.tsx
-│   │   └── GradeBarChart.tsx
-│   └── auth/
-│       ├── LoginForm.tsx
-│       └── ProfileSetup.tsx
-├── data/
-│   ├── courses.ts            (All Indian UG/PG/PhD courses)
-│   ├── colleges.ts           (Tamil Nadu colleges by district)
-│   ├── jobs.ts               (Govt + Private job data)
-│   ├── districts.ts          (All TN districts)
-│   ├── exams.ts              (Entrance exams data)
-│   └── recommendations.ts   (Rule-based engine logic)
-├── hooks/
-│   ├── useAuth.ts
-│   ├── useMarks.ts
-│   └── useRecommendations.ts
-└── lib/
-    ├── calculations.ts       (CGPA, percentage, grade logic)
-    └── pwa.ts                (PWA install prompt)
-```
+**Fix:**
+- Add a `profileLoading` state to `useAuth.ts` that stays `true` until `fetchProfile` completes after login
+- In `App.tsx`, keep showing the splash screen while `profileLoading` is true (not just `loading`)
+- This ensures the redirect decision is only made once we know the profile status
 
 ---
 
-## Database Schema (Supabase)
+## 2. OTP-Style Signup Flow
 
-SQL migrations to create the following tables:
+**How it works with Supabase:** Supabase email signup already sends a verification email. We will redesign the Auth page to add an OTP verification step in the UI flow after signup:
 
-**profiles** – User profile (linked to auth.users)
-- id, full_name, phone, state, district, education_type, avatar_url, created_at
+- **Step 1 - Sign Up Form:** User enters name, email, password, clicks "Create Account"
+- **Step 2 - OTP Verification Screen:** After successful `signUp()`, show an OTP input UI (6-digit) styled like the reference image. The user enters the code from their email
+- **Step 3 - Success Animation:** On successful verification, show a celebration animation with confetti-like effects and "Account Created Successfully!" message
+- **Step 4 - Auto-redirect:** After 2 seconds, redirect to the onboarding/profile setup page
 
-**marks** – Student marks entries
-- id, user_id, student_type (school/college), class, stream, level, course, subjects (JSONB), cgpa, percentage, grade, semester_data (JSONB), created_at
+**Technical details:**
+- Use Supabase's `signUp` with `emailRedirectTo` for email verification
+- After signup, show OTP UI using the existing `input-otp` component
+- Use `supabase.auth.verifyOtp({ email, token, type: 'signup' })` to verify the code
+- On success, trigger a celebration animation using framer-motion (scale burst, confetti dots, checkmark)
+- Login flow remains unchanged (no OTP needed)
 
-**saved_items** – Bookmarks
-- id, user_id, item_type (college/job/course), item_data (JSONB), created_at
-
-All tables will have Row Level Security (RLS) enabled so users can only access their own data.
-
----
-
-## Color Theme System
-
-The colorful theme will use these pastel card colors:
-
-| Card Type | Background | Icon Color |
-|---|---|---|
-| School Student | Orange gradient | #FF6B35 |
-| College Student | Purple gradient | #7C3AED |
-| Higher Studies | Blue gradient | #2563EB |
-| Jobs | Green gradient | #16A34A |
-| CGPA card | Teal gradient | #0891B2 |
-| Exams card | Yellow gradient | #D97706 |
-
-CSS variables will be updated with:
-- Primary: Blue-Purple gradient
-- Accent colors: Orange, Green, Teal, Yellow
-- Background: Soft white (#F8FAFC)
-- Cards: White with pastel tinted backgrounds
+**Files modified:** `src/pages/Auth.tsx`
 
 ---
 
-## App Flow
+## 3. Redesign Navigation Bar
 
-```text
-/ (Index)
-  └─> Not logged in ──> /auth (Login)
-        └─> After login ──> /profile-setup (First time)
-              └─> /student-type (School / College)
-                    ├─> /school-marks (Class + Stream + Subjects)
-                    │     └─> /results (Charts + Grade)
-                    │           └─> /recommendations (Higher Studies | Jobs)
-                    │                 ├─> /college-finder (State > District > Colleges)
-                    │                 └─> /jobs (Govt | Private | Internships)
-                    └─> /college-marks (Level + Course + Semesters)
-                          └─> /results
-                                └─> /recommendations
-```
+Based on the reference image (image-9), the navbar should have:
+- A larger, rounded-square icon background for the active tab (not a pill shape)
+- The active icon floats slightly above the bar with a prominent purple/primary rounded square behind it
+- Inactive icons remain in the bar with muted color
+- Cleaner spacing and slightly larger icons
 
-Bottom Navigation (always visible after login):
-- Home / Dashboard
-- Calculator (Marks)
-- Recommendations
-- Bookmarks
-- Profile
+**Changes to `src/components/layout/BottomNav.tsx`:**
+- Replace the current pill/bubble `layoutId` indicator with a rounded-square that extends upward
+- Active icon gets a larger background (w-14 h-14 rounded-2xl) that lifts above the nav bar
+- Spring animation for the active indicator transition
 
 ---
 
-## Key Features Built
+## 4. Update App Icon and Splash Screen
 
-### 1. Authentication (Supabase Auth)
-- Email/Password login + signup
-- Google OAuth
-- Profile setup form with TN districts dropdown
-- Session persistence
-
-### 2. School Marks Calculator
-- Select Class: 10th / 11th / 12th
-- Select Stream: Science / Commerce / Arts
-- Subject-wise mark entry (dynamic by stream)
-- Auto-calculate: Total, Percentage, Grade, Classification
-
-### 3. College Marks Calculator
-- Level: UG / PG / PhD
-- Course dropdown (50+ Indian courses categorized)
-- Semester-wise mark entry with subject + marks + credits
-- Auto-calculate: CGPA, Percentage, Classification
-- Analytics: Circular progress chart + Grade bar chart (Recharts)
-
-### 4. Recommendation Engine (Rule-Based)
-Higher Studies recommendations based on:
-- Percentage thresholds
-- Stream matching
-- Level progression rules
-
-Jobs recommendations based on:
-- CGPA / Percentage
-- Course match
-- Government vs Private vs Internship categories
-
-### 5. College Finder
-- State selector (default: Tamil Nadu)
-- District selector (all 38 TN districts)
-- Static college database with 100+ TN colleges
-- Search + filter by NAAC grade
-- College cards with: Name, NAAC, Address, Phone, Website, Google Maps link
-
-### 6. Jobs Section
-- 4 tabs: Government / Private / Internships / Skill-based
-- Job cards with: Title, Qualification, Skills, Salary, Apply link
-
-### 7. Bookmarks
-- Save any college or job card
-- Stored in Supabase saved_items table
-- View all saved items in one place
-
-### 8. Profile Dashboard
-- View/edit profile info
-- View marks history
-- Edit marks option
-
-### 9. PWA Setup
-- manifest.json with app icon, name, theme color
-- Service worker for offline caching
-- Install to home screen prompt
-
-### 10. Dark/Light Mode
-- Toggle in profile/header
-- next-themes integration
-- All cards and backgrounds adapt
+- Copy the uploaded logo (`Teal_and_Yellow_Illustrated_Education_Logo_2.png`) to `src/assets/edunext-logo.png` and `public/app-icon.png`
+- Update `public/manifest.json` icons array
+- Update `index.html` favicon and apple-touch-icon references
+- Update `SplashScreen.tsx` to use the new logo
 
 ---
 
-## Files to Create / Modify
+## 5. Bottom-to-Top Page Transition
 
-### New Files (30+ files):
+Change the page transition animation in `PageTransition.tsx`:
+- **Current:** Slides from right (`x: 60`) to center
+- **New:** Slides from bottom (`y: 60`) to center with fade
+- Exit animation: fade out upward (`y: -30, opacity: 0`)
 
-**Pages:**
-- src/pages/Auth.tsx
-- src/pages/ProfileSetup.tsx
-- src/pages/StudentType.tsx
-- src/pages/SchoolMarks.tsx
-- src/pages/CollegeMarks.tsx
-- src/pages/Results.tsx
-- src/pages/Recommendations.tsx
-- src/pages/CollegeFinder.tsx
-- src/pages/Jobs.tsx
-- src/pages/Bookmarks.tsx
-- src/pages/Profile.tsx
-
-**Components:**
-- src/components/layout/BottomNav.tsx
-- src/components/layout/AppHeader.tsx
-- src/components/layout/PageWrapper.tsx
-- src/components/cards/CourseCard.tsx
-- src/components/cards/CollegeCard.tsx
-- src/components/cards/JobCard.tsx
-- src/components/cards/StatCard.tsx
-- src/components/charts/CircularProgress.tsx
-- src/components/charts/GradeBarChart.tsx
-- src/components/auth/LoginForm.tsx
-- src/components/auth/ProfileSetup.tsx
-
-**Data:**
-- src/data/courses.ts
-- src/data/colleges.ts
-- src/data/jobs.ts
-- src/data/districts.ts
-- src/data/exams.ts
-- src/data/recommendations.ts
-
-**Hooks:**
-- src/hooks/useAuth.ts
-- src/hooks/useMarks.ts
-- src/hooks/useRecommendations.ts
-- src/hooks/useBookmarks.ts
-
-**Utilities:**
-- src/lib/calculations.ts
-
-**PWA:**
-- public/manifest.json
-- public/sw.js (service worker)
-
-### Modified Files:
-- src/App.tsx (add all routes + auth guards)
-- src/index.css (full colorful theme system)
-- tailwind.config.ts (custom colors)
-- index.html (PWA meta tags + manifest link)
-- src/integrations/supabase/types.ts (updated with schema)
-
-### Database Migration:
-A SQL migration will create:
-- profiles table
-- marks table
-- saved_items table
-- All with RLS policies
+**File modified:** `src/components/layout/PageTransition.tsx`
 
 ---
 
-## What Will NOT Be Included (Future Phases)
-- Real Google Search API integration (will show curated static data with links)
-- Real Push Notifications (PWA manifest + permission request only)
-- PDF download (can be added later)
-- Real AI (rule-based recommendations only)
-- SMS/OTP login (Supabase email auth only)
+## 6. Rename Plan File
 
-These are noted as "Phase 2" features once the core app is verified working.
+Rename `.lovable/plan.md` to `.lovable/planing.md` as requested.
+
+---
+
+## Technical Summary
+
+| File | Action |
+|---|---|
+| `src/pages/Auth.tsx` | Major rewrite: add OTP step, verification UI, celebration animation |
+| `src/hooks/useAuth.ts` | Add profileLoading guard to fix blank page race condition |
+| `src/App.tsx` | Use profileLoading from useAuth to prevent premature redirects |
+| `src/components/layout/BottomNav.tsx` | Redesign with floating rounded-square active indicator |
+| `src/components/layout/PageTransition.tsx` | Change animation from horizontal slide to bottom-to-top |
+| `src/components/layout/SplashScreen.tsx` | Update to use new logo |
+| `src/assets/edunext-logo.png` | Replace with new uploaded logo |
+| `public/app-icon.png` | Replace with new uploaded logo |
+| `public/manifest.json` | Update icon references |
+| `index.html` | Update favicon/apple-touch-icon |
+| `.lovable/plan.md` | Rename to `.lovable/planing.md` |
+
