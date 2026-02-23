@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -6,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { useToast } from '@/hooks/use-toast';
+import { useAuthStep, setAuthStep as setGlobalAuthStep } from '@/hooks/useAuthStep';
 import { Mail, Lock, Eye, EyeOff, Loader2, BookOpen, CheckCircle2, ArrowLeft } from 'lucide-react';
 import logoImg from '@/assets/edunext-logo.png';
 
@@ -14,8 +16,9 @@ type Mode = 'login' | 'signup';
 
 export default function Auth() {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [mode, setMode] = useState<Mode>('login');
-  const [step, setStep] = useState<Step>('form');
+  const [step, setStepLocal] = useState<Step>('form');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
@@ -23,6 +26,11 @@ export default function Auth() {
   const [loading, setLoading] = useState(false);
   const [otpValue, setOtpValue] = useState('');
   const [verifying, setVerifying] = useState(false);
+
+  const setStep = (s: Step) => {
+    setStepLocal(s);
+    setGlobalAuthStep(s);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,6 +73,17 @@ export default function Auth() {
   useEffect(() => {
     if (otpValue.length === 6) handleVerifyOtp();
   }, [otpValue]);
+
+  // Redirect to profile setup after success animation
+  useEffect(() => {
+    if (step === 'success') {
+      const timer = setTimeout(() => {
+        setGlobalAuthStep('form'); // reset for next time
+        navigate('/onboarding', { replace: true });
+      }, 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [step, navigate]);
 
   // Confetti dots for celebration
   const confettiColors = ['#6366f1', '#a855f7', '#ec4899', '#f59e0b', '#10b981', '#3b82f6'];

@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { useAuthStep } from "@/hooks/useAuthStep";
 import { initPWA } from "@/lib/pwa";
 import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
@@ -36,6 +37,7 @@ function isPWA(): boolean {
 
 function AppRoutes() {
   const { user, profile, loading, profileLoading, isProfileComplete } = useAuth();
+  const { authStep } = useAuthStep();
   const location = useLocation();
   const [showSplash, setShowSplash] = useState(true);
   const [isStandalone, setIsStandalone] = useState(true); // default true to avoid flash
@@ -70,7 +72,7 @@ function AppRoutes() {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         {/* Public */}
-        <Route path="/auth" element={!user ? <PageTransition><Auth /></PageTransition> : <Navigate to={getAuthRedirect()} replace />} />
+        <Route path="/auth" element={!user ? <PageTransition><Auth /></PageTransition> : (authStep !== 'form' ? <PageTransition><Auth /></PageTransition> : <Navigate to={getAuthRedirect()} replace />)} />
 
         {/* Protected */}
         <Route path="/" element={user ? <Navigate to={getAuthRedirect()} replace /> : <Navigate to="/auth" replace />} />
