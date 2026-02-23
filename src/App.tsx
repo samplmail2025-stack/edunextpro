@@ -35,7 +35,7 @@ function isPWA(): boolean {
 }
 
 function AppRoutes() {
-  const { user, profile, loading, isProfileComplete } = useAuth();
+  const { user, profile, loading, profileLoading, isProfileComplete } = useAuth();
   const location = useLocation();
   const [showSplash, setShowSplash] = useState(true);
   const [isStandalone, setIsStandalone] = useState(true); // default true to avoid flash
@@ -50,7 +50,7 @@ function AppRoutes() {
     setIsStandalone(isPWA());
   }, []);
 
-  if (showSplash || loading) {
+  if (showSplash || loading || profileLoading) {
     return <SplashScreen show={true} />;
   }
 

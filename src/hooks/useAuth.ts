@@ -19,6 +19,7 @@ export function useAuth() {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [profileLoading, setProfileLoading] = useState(false);
   const loadingDone = useRef(false);
 
   const finishLoading = () => {
@@ -29,21 +30,21 @@ export function useAuth() {
   };
 
   useEffect(() => {
-    // Safety fallback
     const timeout = setTimeout(finishLoading, 5000);
 
-    // Set up listener FIRST (Supabase best practice)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        // Use setTimeout to avoid Supabase auth deadlock
+        setProfileLoading(true);
         setTimeout(async () => {
           await fetchProfile(session.user.id);
+          setProfileLoading(false);
           finishLoading();
         }, 0);
       } else {
         setProfile(null);
+        setProfileLoading(false);
         finishLoading();
       }
     });
@@ -53,7 +54,6 @@ export function useAuth() {
       clearTimeout(timeout);
     };
   }, []);
-
 
   const fetchProfile = async (userId: string) => {
     const { data } = await supabase
@@ -82,5 +82,5 @@ export function useAuth() {
 
   const isProfileComplete = !!(profile?.full_name && profile?.district && profile?.education_type);
 
-  return { user, session, profile, loading, signOut, updateProfile, isProfileComplete, fetchProfile };
+  return { user, session, profile, loading, profileLoading, signOut, updateProfile, isProfileComplete, fetchProfile };
 }
