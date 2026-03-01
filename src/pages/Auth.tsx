@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -137,13 +137,11 @@ export default function Auth() {
 
       {/* Content */}
       <div className="flex-1 px-5 -mt-6 relative z-10">
-        <AnimatePresence mode="wait">
           {step === 'form' && (
             <motion.div
               key="form"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.4 }}
               className="bg-card rounded-3xl border border-border p-6"
               style={{ boxShadow: '0 20px 60px -15px rgba(0,0,0,0.15), 0 8px 20px -8px rgba(0,0,0,0.1)' }}
@@ -172,57 +170,47 @@ export default function Auth() {
               </div>
 
               {/* Form */}
-              <AnimatePresence mode="wait">
-                <motion.form
-                  key={mode}
-                  initial={{ opacity: 0, x: mode === 'login' ? -20 : 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: mode === 'login' ? 20 : -20 }}
-                  transition={{ duration: 0.25 }}
-                  onSubmit={handleSubmit}
-                  className="space-y-4"
-                >
-                  {mode === 'signup' && (
-                    <div>
-                      <Label className="text-sm font-semibold">Full Name</Label>
-                      <div className="relative mt-1.5">
-                        <BookOpen className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                        <Input placeholder="Your full name" value={fullName} onChange={(e) => setFullName(e.target.value)}
-                          className="pl-10 rounded-xl h-12 border-2 focus:border-primary transition-colors" required />
-                      </div>
-                    </div>
-                  )}
-
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {mode === 'signup' && (
                   <div>
-                    <Label className="text-sm font-semibold">Email</Label>
+                    <Label className="text-sm font-semibold">Full Name</Label>
                     <div className="relative mt-1.5">
-                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input type="email" placeholder="your@email.com" value={email} onChange={(e) => setEmail(e.target.value)}
+                      <BookOpen className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                      <Input placeholder="Your full name" value={fullName} onChange={(e) => setFullName(e.target.value)}
                         className="pl-10 rounded-xl h-12 border-2 focus:border-primary transition-colors" required />
                     </div>
                   </div>
+                )}
 
-                  <div>
-                    <Label className="text-sm font-semibold">Password</Label>
-                    <div className="relative mt-1.5">
-                      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input type={showPassword ? 'text' : 'password'} placeholder="Min 6 characters" value={password}
-                        onChange={(e) => setPassword(e.target.value)} className="pl-10 pr-10 rounded-xl h-12 border-2 focus:border-primary transition-colors"
-                        required minLength={6} />
-                      <button type="button" onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
-                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                      </button>
-                    </div>
+                <div>
+                  <Label className="text-sm font-semibold">Email</Label>
+                  <div className="relative mt-1.5">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <Input type="email" placeholder="your@email.com" value={email} onChange={(e) => setEmail(e.target.value)}
+                      className="pl-10 rounded-xl h-12 border-2 focus:border-primary transition-colors" required />
                   </div>
+                </div>
 
-                  <Button type="submit" disabled={loading}
-                    className="w-full rounded-xl gradient-primary border-0 h-12 text-base font-bold shadow-lg"
-                    style={{ boxShadow: '0 8px 25px -5px rgba(99,102,241,0.4)' }}>
-                    {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : mode === 'login' ? '🚀 Login' : '🎉 Create Account'}
-                  </Button>
-                </motion.form>
-              </AnimatePresence>
+                <div>
+                  <Label className="text-sm font-semibold">Password</Label>
+                  <div className="relative mt-1.5">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <Input type={showPassword ? 'text' : 'password'} placeholder="Min 6 characters" value={password}
+                      onChange={(e) => setPassword(e.target.value)} className="pl-10 pr-10 rounded-xl h-12 border-2 focus:border-primary transition-colors"
+                      required minLength={6} />
+                    <button type="button" onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                <Button type="submit" disabled={loading}
+                  className="w-full rounded-xl gradient-primary border-0 h-12 text-base font-bold shadow-lg"
+                  style={{ boxShadow: '0 8px 25px -5px rgba(99,102,241,0.4)' }}>
+                  {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : mode === 'login' ? '🚀 Login' : '🎉 Create Account'}
+                </Button>
+              </form>
             </motion.div>
           )}
 
@@ -231,7 +219,6 @@ export default function Auth() {
               key="otp"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.4 }}
               className="bg-card rounded-3xl border border-border p-6 text-center"
               style={{ boxShadow: '0 20px 60px -15px rgba(0,0,0,0.15)' }}
@@ -297,17 +284,12 @@ export default function Auth() {
               className="bg-card rounded-3xl border border-border p-8 text-center relative overflow-hidden"
               style={{ boxShadow: '0 20px 60px -15px rgba(0,0,0,0.15)' }}
             >
-              {/* Confetti */}
               {confettiColors.map((color, i) => (
                 <motion.div
                   key={i}
                   className="absolute w-3 h-3 rounded-full"
                   style={{ background: color }}
-                  initial={{
-                    x: '50%',
-                    y: '50%',
-                    scale: 0,
-                  }}
+                  initial={{ x: '50%', y: '50%', scale: 0 }}
                   animate={{
                     x: `${20 + (i * 12)}%`,
                     y: `${10 + ((i % 3) * 30)}%`,
@@ -355,7 +337,6 @@ export default function Auth() {
               />
             </motion.div>
           )}
-        </AnimatePresence>
 
         <motion.p
           initial={{ opacity: 0 }}
