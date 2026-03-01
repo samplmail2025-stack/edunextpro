@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { useToast } from '@/hooks/use-toast';
-import { useAuthStep, setAuthStep as setGlobalAuthStep, getAuthStep } from '@/hooks/useAuthStep';
+import { useAuthStep, setAuthStep as setGlobalAuthStep, getAuthStep, getAuthEmail, setAuthEmail } from '@/hooks/useAuthStep';
 import { Mail, Lock, Eye, EyeOff, Loader2, BookOpen, CheckCircle2, ArrowLeft } from 'lucide-react';
 import logoImg from '@/assets/edunext-logo.png';
 
@@ -19,7 +19,7 @@ export default function Auth() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<Mode>('login');
   const [step, setStepLocal] = useState<Step>(getAuthStep());
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(getAuthEmail() || '');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -43,6 +43,7 @@ export default function Auth() {
           options: { data: { full_name: fullName }, emailRedirectTo: window.location.origin },
         });
         if (error) throw error;
+        setAuthEmail(email);
         setStep('otp');
         toast({ title: '📧 Code sent!', description: 'Check your email for the verification code.' });
       } else {
@@ -60,7 +61,7 @@ export default function Auth() {
     if (otpValue.length !== 6) return;
     setVerifying(true);
     try {
-      const { error } = await supabase.auth.verifyOtp({ email, token: otpValue, type: 'signup' });
+      const { error } = await supabase.auth.verifyOtp({ email, token: otpValue, type: 'email' });
       if (error) throw error;
       setStep('success');
     } catch (err: unknown) {
@@ -78,7 +79,8 @@ export default function Auth() {
   useEffect(() => {
     if (step === 'success') {
       const timer = setTimeout(() => {
-        setGlobalAuthStep('form'); // reset for next time
+        setGlobalAuthStep('form');
+        setAuthEmail('');
         navigate('/onboarding', { replace: true });
       }, 2500);
       return () => clearTimeout(timer);
