@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { useToast } from '@/hooks/use-toast';
-import { useAuthStep, setAuthStep as setGlobalAuthStep } from '@/hooks/useAuthStep';
+import { useAuthStep, setAuthStep as setGlobalAuthStep, getAuthStep } from '@/hooks/useAuthStep';
 import { Mail, Lock, Eye, EyeOff, Loader2, BookOpen, CheckCircle2, ArrowLeft } from 'lucide-react';
 import logoImg from '@/assets/edunext-logo.png';
 
@@ -18,7 +18,7 @@ export default function Auth() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [mode, setMode] = useState<Mode>('login');
-  const [step, setStepLocal] = useState<Step>('form');
+  const [step, setStepLocal] = useState<Step>(getAuthStep());
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
