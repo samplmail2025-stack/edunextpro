@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { PageTransition } from "@/components/layout/PageTransition";
 import { SplashScreen } from "@/components/layout/SplashScreen";
+import { NavigationDirectionProvider } from "@/contexts/NavigationDirection";
 
 import Auth from "./pages/Auth";
 import Onboarding from "./pages/Onboarding";
@@ -98,7 +99,9 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <AppRoutes />
+        <NavigationDirectionProvider>
+          <AppRoutes />
+        </NavigationDirectionProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
