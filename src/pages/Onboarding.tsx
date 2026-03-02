@@ -66,10 +66,7 @@ export default function Onboarding() {
       toast({ title: 'Error', description: 'Failed to save profile.', variant: 'destructive' });
     } else {
       toast({ title: '🎉 Welcome to EduNext!', description: 'Your profile has been set up.' });
-      // Small delay to let profile state propagate before navigating
-      setTimeout(() => {
-        navigate('/student-type', { replace: true });
-      }, 300);
+      navigate('/student-type', { replace: true });
     }
   };
 
