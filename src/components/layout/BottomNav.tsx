@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Home, Calculator, Star, Bookmark, User } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { LayoutGroup, motion } from 'framer-motion';
 
 const NAV_ITEMS = [
   { icon: Home, label: 'Home', path: '/student-type' },
@@ -20,44 +20,46 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-4 left-4 right-4 z-50"
+      className="fixed bottom-4 left-4 right-4 z-[100]"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
-      <div
-        className="relative flex items-center justify-around bg-card/95 backdrop-blur-xl border border-border rounded-[28px] px-2 py-2.5"
-        style={{ boxShadow: '0 8px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)' }}
-      >
-        {NAV_ITEMS.map(({ icon: Icon, label, path }) => {
-          const active = isActive(path);
-          return (
-            <motion.button
-              key={path}
-              onClick={() => navigate(path)}
-              whileTap={{ scale: 0.85 }}
-              className="relative flex flex-col items-center gap-0.5 z-10 px-2"
-            >
-              <motion.div
-                className="relative flex items-center justify-center"
-                animate={active ? { y: -14 } : { y: 0 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 28 }}
+      <LayoutGroup id="bottom-nav">
+        <div
+          className="relative flex items-center justify-around bg-card/95 backdrop-blur-xl border border-border rounded-[28px] px-2 py-2.5"
+          style={{ boxShadow: '0 8px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)' }}
+        >
+          {NAV_ITEMS.map(({ icon: Icon, label, path }) => {
+            const active = isActive(path);
+            return (
+              <motion.button
+                key={path}
+                onClick={() => navigate(path)}
+                whileTap={{ scale: 0.85 }}
+                className="relative flex flex-col items-center gap-0.5 z-10 px-2"
               >
-                {active && (
-                  <motion.div
-                    layoutId="navSquare"
-                    className="absolute w-14 h-14 rounded-2xl gradient-primary"
-                    style={{ boxShadow: '0 8px 24px rgba(99,102,241,0.45)' }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                  />
-                )}
-                <Icon className={`relative z-10 w-5 h-5 transition-colors duration-200 ${active ? 'text-white' : 'text-muted-foreground'}`} />
-              </motion.div>
-              <span className={`text-[9px] font-bold tracking-wide transition-colors duration-200 ${active ? 'text-primary' : 'text-muted-foreground'}`}>
-                {label}
-              </span>
-            </motion.button>
-          );
-        })}
-      </div>
+                <motion.div
+                  className="relative flex items-center justify-center"
+                  animate={active ? { y: -14 } : { y: 0 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 28 }}
+                >
+                  {active && (
+                    <motion.div
+                      layoutId="navSquare"
+                      className="absolute w-14 h-14 rounded-2xl gradient-primary"
+                      style={{ boxShadow: '0 8px 24px rgba(99,102,241,0.45)' }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                  <Icon className={`relative z-10 w-5 h-5 transition-colors duration-200 ${active ? 'text-white' : 'text-muted-foreground'}`} />
+                </motion.div>
+                <span className={`text-[9px] font-bold tracking-wide transition-colors duration-200 ${active ? 'text-primary' : 'text-muted-foreground'}`}>
+                  {label}
+                </span>
+              </motion.button>
+            );
+          })}
+        </div>
+      </LayoutGroup>
     </nav>
   );
 }
