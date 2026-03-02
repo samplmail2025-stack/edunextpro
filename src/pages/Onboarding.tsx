@@ -29,7 +29,7 @@ const STEPS: StepConfig[] = [
 ];
 
 export default function Onboarding() {
-  const { updateProfile } = useAuth();
+  const { user, updateProfile, fetchProfile } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -53,7 +53,7 @@ export default function Onboarding() {
 
   const handleFinish = async () => {
     setSaving(true);
-    const { error } = await updateProfile({
+    const { data, error } = await updateProfile({
       full_name: fullName,
       dob: dob || null,
       phone: phone || null,
@@ -65,6 +65,8 @@ export default function Onboarding() {
     if (error) {
       toast({ title: 'Error', description: 'Failed to save profile.', variant: 'destructive' });
     } else {
+      // Re-fetch profile to ensure isProfileComplete is true before navigating
+      if (user) await fetchProfile(user.id);
       toast({ title: '🎉 Welcome to EduNext!', description: 'Your profile has been set up.' });
       navigate('/student-type', { replace: true });
     }
