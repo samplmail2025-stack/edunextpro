@@ -1,6 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Home, Calculator, Star, Bookmark, User } from 'lucide-react';
 import { LayoutGroup, motion } from 'framer-motion';
+import { useNavigationDirection, getRouteIndex } from '@/contexts/NavigationDirection';
+import { useRef } from 'react';
 
 const NAV_ITEMS = [
   { icon: Home, label: 'Home', path: '/student-type' },
@@ -13,10 +15,26 @@ const NAV_ITEMS = [
 export function BottomNav() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { setDirection } = useNavigationDirection();
+  const lastRouteRef = useRef(location.pathname);
 
   const isActive = (path: string) =>
     location.pathname === path ||
     (path === '/school-marks' && ['/school-marks', '/college-marks', '/results'].includes(location.pathname));
+
+  const handleNavigate = (targetPath: string) => {
+    const currentIdx = getRouteIndex(location.pathname);
+    const targetIdx = getRouteIndex(targetPath);
+
+    if (currentIdx >= 0 && targetIdx >= 0) {
+      setDirection(targetIdx > currentIdx ? 'right' : targetIdx < currentIdx ? 'left' : 'none');
+    } else {
+      setDirection('none');
+    }
+
+    lastRouteRef.current = targetPath;
+    navigate(targetPath);
+  };
 
   return (
     <nav
@@ -33,7 +51,7 @@ export function BottomNav() {
             return (
               <motion.button
                 key={path}
-                onClick={() => navigate(path)}
+                onClick={() => handleNavigate(path)}
                 whileTap={{ scale: 0.85 }}
                 className="relative flex flex-col items-center gap-0.5 z-10 px-2"
               >
