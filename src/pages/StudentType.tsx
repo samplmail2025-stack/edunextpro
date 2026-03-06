@@ -94,22 +94,25 @@ export default function StudentType() {
         {/* Info Cards */}
         <div className="grid grid-cols-2 gap-3 mt-2">
           {[
-            { emoji: '📚', label: '50+ Courses', bg: 'bg-edu-blue-light', color: 'text-edu-blue' },
-            { emoji: '🏛️', label: '100+ Colleges', bg: 'bg-edu-green-light', color: 'text-edu-green' },
-            { emoji: '💼', label: '20+ Job Paths', bg: 'bg-edu-orange-light', color: 'text-edu-orange' },
-            { emoji: '🎯', label: 'Smart AI Reco', bg: 'bg-edu-purple-light', color: 'text-edu-purple' },
-          ].map((item, i) => (
-            <motion.div
-              key={item.label}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 + i * 0.1 }}
-              className={`${item.bg} rounded-2xl p-3 text-center`}
-            >
-              <div className="text-2xl mb-1">{item.emoji}</div>
-              <p className={`text-xs font-semibold ${item.color}`}>{item.label}</p>
-            </motion.div>
-          ))}
+            { icon: BookOpen, label: '50+ Courses', bg: 'bg-edu-blue-light', color: 'text-edu-blue' },
+            { icon: Building2, label: '100+ Colleges', bg: 'bg-edu-green-light', color: 'text-edu-green' },
+            { icon: Briefcase, label: '20+ Job Paths', bg: 'bg-edu-orange-light', color: 'text-edu-orange' },
+            { icon: Target, label: 'Smart AI Reco', bg: 'bg-edu-purple-light', color: 'text-edu-purple' },
+          ].map((item, i) => {
+            const Icon = item.icon;
+            return (
+              <motion.div
+                key={item.label}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 + i * 0.1 }}
+                className={`${item.bg} rounded-2xl p-3 text-center`}
+              >
+                <Icon className={`w-6 h-6 mx-auto mb-1 ${item.color}`} />
+                <p className={`text-xs font-semibold ${item.color}`}>{item.label}</p>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
       <BottomNav />
