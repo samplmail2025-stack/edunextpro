@@ -57,18 +57,25 @@ export function BottomNav() {
               >
                 <motion.div
                   className="relative flex items-center justify-center"
-                  animate={active ? { y: -14 } : { y: 0 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 28 }}
+                  animate={active ? { y: -14, scale: 1 } : { y: 0, scale: 1 }}
+                  whileTap={{ scale: 0.9 }}
+                  transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                 >
                   {active && (
                     <motion.div
                       layoutId="navSquare"
                       className="absolute w-14 h-14 rounded-2xl gradient-primary"
                       style={{ boxShadow: '0 8px 24px rgba(99,102,241,0.45)' }}
-                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                      transition={{ type: 'spring', stiffness: 500, damping: 32 }}
                     />
                   )}
-                  <Icon className={`relative z-10 w-5 h-5 transition-colors duration-200 ${active ? 'text-white' : 'text-muted-foreground'}`} />
+                  <motion.div
+                    animate={active ? { scale: [1, 1.2, 1] } : { scale: 1 }}
+                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                  >
+                    <Icon className={`relative z-10 w-5 h-5 transition-colors duration-200 ${active ? 'text-white' : 'text-muted-foreground'}`} />
+                  </motion.div>
+                </motion.div>
                 </motion.div>
                 <span className={`text-[9px] font-bold tracking-wide transition-colors duration-200 ${active ? 'text-primary' : 'text-muted-foreground'}`}>
                   {label}
