@@ -38,13 +38,12 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-4 left-4 right-4 z-[100]"
+      className="fixed bottom-0 left-0 right-0 z-[100] bg-card border-t border-border"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       <LayoutGroup id="bottom-nav">
         <div
-          className="relative flex items-center justify-around bg-card/95 backdrop-blur-xl border border-border rounded-[28px] px-2 py-2.5"
-          style={{ boxShadow: '0 8px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)' }}
+          className="relative flex items-center justify-around px-2 py-2"
         >
           {NAV_ITEMS.map(({ icon: Icon, label, path }) => {
             const active = isActive(path);
