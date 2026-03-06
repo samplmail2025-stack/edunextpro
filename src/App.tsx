@@ -55,8 +55,12 @@ function AppRoutes() {
     setIsStandalone(isPWA());
   }, []);
 
-  if (showSplash || loading || profileLoading) {
+  if (splashPhase === 'app' || loading || profileLoading) {
     return <SplashScreen show={true} />;
+  }
+
+  if (splashPhase === 'developer') {
+    return <DeveloperSplash show={true} />;
   }
 
   // Show PWA install gate for non-PWA browser visitors
