@@ -13,9 +13,13 @@ export default function StudentType() {
   return (
     <PageWrapper>
       <div className="gradient-primary pt-12 pb-16 px-6 text-center relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 opacity-[0.07]">
           <div className="absolute top-8 left-8 w-24 h-24 rounded-full bg-white" />
           <div className="absolute bottom-4 right-8 w-16 h-16 rounded-full bg-white" />
+          <BookOpen className="absolute top-6 right-12 w-10 h-10 text-white" />
+          <GraduationCap className="absolute bottom-8 left-12 w-12 h-12 text-white" />
+          <Lightbulb className="absolute top-16 left-1/2 w-8 h-8 text-white" />
+          <PenTool className="absolute bottom-12 right-1/3 w-7 h-7 text-white" />
         </div>
         <motion.div
           initial={{ opacity: 0, y: -15 }}
