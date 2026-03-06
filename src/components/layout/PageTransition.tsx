@@ -9,15 +9,19 @@ interface PageTransitionProps {
 export function PageTransition({ children }: PageTransitionProps) {
   const { direction } = useNavigationDirection();
 
-  const xOffset = direction === 'right' ? 60 : direction === 'left' ? -60 : 0;
+  const slideDistance = direction === 'right' ? '18%' : direction === 'left' ? '-18%' : '0%';
+  const exitSlide = direction === 'right' ? '-8%' : direction === 'left' ? '8%' : '0%';
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: xOffset }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -xOffset }}
-      transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
-      style={{ width: '100%', minHeight: '100vh' }}
+      initial={{ opacity: 0, x: slideDistance, scale: 0.97 }}
+      animate={{ opacity: 1, x: '0%', scale: 1 }}
+      exit={{ opacity: 0, x: exitSlide, scale: 0.98 }}
+      transition={{
+        duration: 0.28,
+        ease: [0.32, 0.72, 0, 1],
+      }}
+      style={{ width: '100%', minHeight: '100vh', willChange: 'transform, opacity' }}
     >
       {children}
     </motion.div>
