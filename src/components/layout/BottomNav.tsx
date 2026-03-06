@@ -76,7 +76,6 @@ export function BottomNav() {
                     <Icon className={`relative z-10 w-5 h-5 transition-colors duration-200 ${active ? 'text-white' : 'text-muted-foreground'}`} />
                   </motion.div>
                 </motion.div>
-                </motion.div>
                 <span className={`text-[9px] font-bold tracking-wide transition-colors duration-200 ${active ? 'text-primary' : 'text-muted-foreground'}`}>
                   {label}
                 </span>
