@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { PageTransition } from "@/components/layout/PageTransition";
 import { SplashScreen } from "@/components/layout/SplashScreen";
+import { DeveloperSplash } from "@/components/layout/DeveloperSplash";
 import { NavigationDirectionProvider } from "@/contexts/NavigationDirection";
 
 import Auth from "./pages/Auth";
@@ -40,21 +41,26 @@ function AppRoutes() {
   const { user, profile, loading, profileLoading, isProfileComplete } = useAuth();
   const { authStep } = useAuthStep();
   const location = useLocation();
-  const [showSplash, setShowSplash] = useState(true);
+  const [splashPhase, setSplashPhase] = useState<'app' | 'developer' | 'done'>('app');
   const [isStandalone, setIsStandalone] = useState(true); // default true to avoid flash
 
   useEffect(() => { initPWA(); }, []);
   useEffect(() => {
-    const timer = setTimeout(() => setShowSplash(false), 2200);
-    return () => clearTimeout(timer);
+    const t1 = setTimeout(() => setSplashPhase('developer'), 2200);
+    const t2 = setTimeout(() => setSplashPhase('done'), 4200);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
   useEffect(() => {
     // Check PWA after mount
     setIsStandalone(isPWA());
   }, []);
 
-  if (showSplash || loading || profileLoading) {
+  if (splashPhase === 'app' || loading || profileLoading) {
     return <SplashScreen show={true} />;
+  }
+
+  if (splashPhase === 'developer') {
+    return <DeveloperSplash show={true} />;
   }
 
   // Show PWA install gate for non-PWA browser visitors

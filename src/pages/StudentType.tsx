@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { Card3D } from '@/components/layout/Card3D';
-import { School, GraduationCap, Sparkles } from 'lucide-react';
+import { School, GraduationCap, Sparkles, BookOpen, Building2, Briefcase, Target, Lightbulb, PenTool } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function StudentType() {
@@ -13,9 +13,13 @@ export default function StudentType() {
   return (
     <PageWrapper>
       <div className="gradient-primary pt-12 pb-16 px-6 text-center relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 opacity-[0.07]">
           <div className="absolute top-8 left-8 w-24 h-24 rounded-full bg-white" />
           <div className="absolute bottom-4 right-8 w-16 h-16 rounded-full bg-white" />
+          <BookOpen className="absolute top-6 right-12 w-10 h-10 text-white" />
+          <GraduationCap className="absolute bottom-8 left-12 w-12 h-12 text-white" />
+          <Lightbulb className="absolute top-16 left-1/2 w-8 h-8 text-white" />
+          <PenTool className="absolute bottom-12 right-1/3 w-7 h-7 text-white" />
         </div>
         <motion.div
           initial={{ opacity: 0, y: -15 }}
@@ -90,22 +94,25 @@ export default function StudentType() {
         {/* Info Cards */}
         <div className="grid grid-cols-2 gap-3 mt-2">
           {[
-            { emoji: '📚', label: '50+ Courses', bg: 'bg-edu-blue-light', color: 'text-edu-blue' },
-            { emoji: '🏛️', label: '100+ Colleges', bg: 'bg-edu-green-light', color: 'text-edu-green' },
-            { emoji: '💼', label: '20+ Job Paths', bg: 'bg-edu-orange-light', color: 'text-edu-orange' },
-            { emoji: '🎯', label: 'Smart AI Reco', bg: 'bg-edu-purple-light', color: 'text-edu-purple' },
-          ].map((item, i) => (
-            <motion.div
-              key={item.label}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 + i * 0.1 }}
-              className={`${item.bg} rounded-2xl p-3 text-center`}
-            >
-              <div className="text-2xl mb-1">{item.emoji}</div>
-              <p className={`text-xs font-semibold ${item.color}`}>{item.label}</p>
-            </motion.div>
-          ))}
+            { icon: BookOpen, label: '50+ Courses', bg: 'bg-edu-blue-light', color: 'text-edu-blue' },
+            { icon: Building2, label: '100+ Colleges', bg: 'bg-edu-green-light', color: 'text-edu-green' },
+            { icon: Briefcase, label: '20+ Job Paths', bg: 'bg-edu-orange-light', color: 'text-edu-orange' },
+            { icon: Target, label: 'Smart AI Reco', bg: 'bg-edu-purple-light', color: 'text-edu-purple' },
+          ].map((item, i) => {
+            const Icon = item.icon;
+            return (
+              <motion.div
+                key={item.label}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 + i * 0.1 }}
+                className={`${item.bg} rounded-2xl p-3 text-center`}
+              >
+                <Icon className={`w-6 h-6 mx-auto mb-1 ${item.color}`} />
+                <p className={`text-xs font-semibold ${item.color}`}>{item.label}</p>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
       <BottomNav />
