@@ -41,13 +41,14 @@ function AppRoutes() {
   const { user, profile, loading, profileLoading, isProfileComplete } = useAuth();
   const { authStep } = useAuthStep();
   const location = useLocation();
-  const [showSplash, setShowSplash] = useState(true);
+  const [splashPhase, setSplashPhase] = useState<'app' | 'developer' | 'done'>('app');
   const [isStandalone, setIsStandalone] = useState(true); // default true to avoid flash
 
   useEffect(() => { initPWA(); }, []);
   useEffect(() => {
-    const timer = setTimeout(() => setShowSplash(false), 2200);
-    return () => clearTimeout(timer);
+    const t1 = setTimeout(() => setSplashPhase('developer'), 2200);
+    const t2 = setTimeout(() => setSplashPhase('done'), 4200);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
   useEffect(() => {
     // Check PWA after mount
