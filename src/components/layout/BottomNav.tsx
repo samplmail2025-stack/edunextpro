@@ -38,7 +38,7 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-4 left-4 right-4 z-[100]"
+      className="fixed bottom-0 left-0 right-0 z-[100] bg-card border-t border-border"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       <LayoutGroup id="bottom-nav">
