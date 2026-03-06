@@ -70,8 +70,7 @@ function AppRoutes() {
   };
 
   return (
-    <AnimatePresence mode="popLayout">
-      <Routes location={location} key={location.pathname}>
+      <Routes location={location}>
         {/* Public */}
         <Route path="/auth" element={!user ? <PageTransition><Auth /></PageTransition> : (authStep !== 'form' ? <PageTransition><Auth /></PageTransition> : <Navigate to={getAuthRedirect()} replace />)} />
 
