@@ -13,6 +13,12 @@ import { SplashScreen } from "@/components/layout/SplashScreen";
 import { DeveloperSplash } from "@/components/layout/DeveloperSplash";
 import { NavigationDirectionProvider } from "@/contexts/NavigationDirection";
 
+// Preload splash images immediately
+import edunextLogo from '@/assets/edunext-logo.png';
+import voorheesLogo from '@/assets/voorhees-logo.png';
+const preloadImages = [edunextLogo, voorheesLogo];
+preloadImages.forEach(src => { const img = new Image(); img.src = src; });
+
 import Auth from "./pages/Auth";
 import Onboarding from "./pages/Onboarding";
 import PWAGate from "./pages/PWAGate";
@@ -42,16 +48,16 @@ function AppRoutes() {
   const { authStep } = useAuthStep();
   const location = useLocation();
   const [splashPhase, setSplashPhase] = useState<'app' | 'developer' | 'done'>('app');
-  const [isStandalone, setIsStandalone] = useState(true); // default true to avoid flash
+  const [isStandalone, setIsStandalone] = useState(true);
 
   useEffect(() => { initPWA(); }, []);
   useEffect(() => {
-    const t1 = setTimeout(() => setSplashPhase('developer'), 2200);
-    const t2 = setTimeout(() => setSplashPhase('done'), 4200);
+    // Faster splash: 1.5s for EduNext, 1.5s for developer = 3s total
+    const t1 = setTimeout(() => setSplashPhase('developer'), 1500);
+    const t2 = setTimeout(() => setSplashPhase('done'), 3000);
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
   useEffect(() => {
-    // Check PWA after mount
     setIsStandalone(isPWA());
   }, []);
 
@@ -63,13 +69,10 @@ function AppRoutes() {
     return <DeveloperSplash show={true} />;
   }
 
-  // Show PWA install gate for non-PWA browser visitors
-  // Disable in development to allow testing
   if (!isStandalone && import.meta.env.PROD) {
     return <PWAGate />;
   }
 
-  // Determine where authenticated users should go
   const getAuthRedirect = () => {
     if (!isProfileComplete) return "/onboarding";
     return "/student-type";
@@ -77,10 +80,7 @@ function AppRoutes() {
 
   return (
       <Routes location={location}>
-        {/* Public */}
         <Route path="/auth" element={!user ? <PageTransition><Auth /></PageTransition> : (authStep !== 'form' ? <PageTransition><Auth /></PageTransition> : <Navigate to={getAuthRedirect()} replace />)} />
-
-        {/* Protected */}
         <Route path="/" element={user ? <Navigate to={getAuthRedirect()} replace /> : <Navigate to="/auth" replace />} />
         <Route path="/onboarding" element={user ? <PageTransition><Onboarding /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/student-type" element={user ? (isProfileComplete ? <PageTransition><StudentType /></PageTransition> : <Navigate to="/onboarding" replace />) : <Navigate to="/auth" replace />} />
