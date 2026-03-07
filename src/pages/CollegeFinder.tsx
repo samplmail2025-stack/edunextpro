@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { BottomNav } from '@/components/layout/BottomNav';
-import { AppHeader } from '@/components/layout/AppHeader';
 import { CollegeCard } from '@/components/cards/CollegeCard';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { TN_DISTRICTS } from '@/data/districts';
 import { searchColleges, College } from '@/data/colleges';
 import { useBookmarks } from '@/hooks/useBookmarks';
-import { Search, GraduationCap } from 'lucide-react';
+import { Search, GraduationCap, MapPin } from 'lucide-react';
+import campusImg from '@/assets/campus-building.jpg';
 
 const NAAC_GRADES = ['A++', 'A+', 'A', 'B+', 'B'];
 
@@ -25,8 +25,22 @@ export default function CollegeFinder() {
 
   return (
     <PageWrapper>
-      <AppHeader title="College Finder" subtitle="Tamil Nadu Colleges" gradient />
-      <div className="p-4 space-y-4 max-w-lg mx-auto">
+      {/* Hero header with campus image */}
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0">
+          <img src={campusImg} alt="University campus" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/80 to-primary/90" />
+        </div>
+        <div className="relative pt-10 pb-8 px-6 text-center">
+          <GraduationCap className="w-10 h-10 text-white/90 mx-auto mb-2" />
+          <h1 className="text-2xl font-bold text-white">College Finder</h1>
+          <p className="text-white/70 text-sm mt-1 flex items-center justify-center gap-1">
+            <MapPin className="w-3 h-3" /> Tamil Nadu · {colleges.length} Colleges
+          </p>
+        </div>
+      </div>
+
+      <div className="p-4 space-y-4 max-w-lg mx-auto -mt-4">
         {/* Search */}
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -34,7 +48,7 @@ export default function CollegeFinder() {
             placeholder="Search college or course..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="pl-10 rounded-xl"
+            className="pl-10 rounded-xl bg-card shadow-md border-border"
           />
         </div>
 
