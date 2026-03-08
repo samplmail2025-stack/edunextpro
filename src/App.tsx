@@ -34,6 +34,9 @@ import Bookmarks from "./pages/Bookmarks";
 import Profile from "./pages/Profile";
 import EntranceExams from "./pages/EntranceExams";
 import CompareColleges from "./pages/CompareColleges";
+import Scholarships from "./pages/Scholarships";
+import InterviewPrep from "./pages/InterviewPrep";
+import ResumeBuilder from "./pages/ResumeBuilder";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -96,6 +99,9 @@ function AppRoutes() {
         <Route path="/jobs" element={user ? <PageTransition><Jobs /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/entrance-exams" element={user ? <PageTransition><EntranceExams /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/bookmarks" element={user ? <PageTransition><Bookmarks /></PageTransition> : <Navigate to="/auth" replace />} />
+        <Route path="/scholarships" element={user ? <PageTransition><Scholarships /></PageTransition> : <Navigate to="/auth" replace />} />
+        <Route path="/interview-prep" element={user ? <PageTransition><InterviewPrep /></PageTransition> : <Navigate to="/auth" replace />} />
+        <Route path="/resume-builder" element={user ? <PageTransition><ResumeBuilder /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/profile" element={user ? <PageTransition><Profile /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>

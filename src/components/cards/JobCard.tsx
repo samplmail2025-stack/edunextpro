@@ -1,4 +1,4 @@
-import { ExternalLink, Briefcase, DollarSign, BookOpen, Bookmark } from 'lucide-react';
+import { ExternalLink, DollarSign, BookOpen, Bookmark, Briefcase, MapPin, Clock } from 'lucide-react';
 import { Job } from '@/data/jobs';
 import { Button } from '@/components/ui/button';
 
@@ -8,59 +8,93 @@ interface JobCardProps {
   isSaved?: boolean;
 }
 
-const categoryColors: Record<string, string> = {
-  Government: 'gradient-blue',
-  Private: 'gradient-purple',
-  Internship: 'gradient-green',
-  'Skill-based': 'gradient-orange',
-};
-
-const categoryBadge: Record<string, string> = {
-  Government: 'bg-edu-blue-light text-edu-blue',
-  Private: 'bg-edu-purple-light text-edu-purple',
-  Internship: 'bg-edu-green-light text-edu-green',
-  'Skill-based': 'bg-edu-orange-light text-edu-orange',
+const categoryConfig: Record<string, { gradient: string; icon: string }> = {
+  Government: { gradient: 'from-blue-600 to-indigo-700', icon: '🏛️' },
+  Private: { gradient: 'from-violet-500 to-purple-600', icon: '🏢' },
+  Internship: { gradient: 'from-emerald-500 to-teal-600', icon: '🎯' },
+  'Skill-based': { gradient: 'from-orange-500 to-amber-600', icon: '⚡' },
 };
 
 export function JobCard({ job, onSave, isSaved }: JobCardProps) {
+  const config = categoryConfig[job.category] || categoryConfig.Government;
+  const daysLeft = job.deadline ? Math.max(0, Math.ceil((new Date(job.deadline).getTime() - Date.now()) / 86400000)) : null;
+
   return (
-    <div className="bg-card rounded-2xl overflow-hidden card-shadow border border-border animate-fade-in">
-      <div className={`${categoryColors[job.category] || 'gradient-primary'} p-4 pb-3`}>
-        <div className="flex items-start justify-between gap-2">
-          <div>
+    <div className="bg-card rounded-2xl overflow-hidden border border-border shadow-sm hover:-translate-y-0.5 transition-transform">
+      {/* Gradient header */}
+      <div className={`bg-gradient-to-r ${config.gradient} p-4 relative overflow-hidden`}>
+        <div className="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-white/5" />
+        <div className="absolute right-6 bottom-2 opacity-10">
+          <Briefcase className="w-14 h-14 text-white" />
+        </div>
+        <div className="relative flex items-start justify-between gap-2">
+          <div className="flex-1">
+            <div className="flex items-center gap-1.5 mb-1">
+              <span className="text-base">{config.icon}</span>
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-white/20 text-white backdrop-blur-sm">
+                {job.category}
+              </span>
+              {daysLeft !== null && daysLeft <= 30 && (
+                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-red-500/80 text-white flex items-center gap-0.5">
+                  <Clock className="w-2.5 h-2.5" /> {daysLeft}d left
+                </span>
+              )}
+            </div>
             <h3 className="font-bold text-white text-sm leading-tight">{job.title}</h3>
             <p className="text-white/80 text-xs mt-0.5">{job.organization}</p>
           </div>
-          <span className={`text-xs font-semibold px-2 py-0.5 rounded-full bg-white/20 text-white flex-shrink-0`}>
-            {job.category}
-          </span>
+          {onSave && (
+            <button
+              onClick={onSave}
+              className="w-8 h-8 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center flex-shrink-0 hover:bg-white/25 transition-colors"
+            >
+              <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-white text-white' : 'text-white/80'}`} />
+            </button>
+          )}
         </div>
       </div>
 
       <div className="p-4 space-y-3">
-        <div className="flex items-center gap-1.5">
-          <DollarSign className="w-3.5 h-3.5 text-edu-green flex-shrink-0" />
-          <span className="text-sm font-semibold text-foreground">{job.salaryRange}</span>
+        {/* Salary & Location */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            <div className="w-6 h-6 rounded-lg bg-emerald-100 flex items-center justify-center">
+              <DollarSign className="w-3.5 h-3.5 text-emerald-600" />
+            </div>
+            <span className="text-sm font-bold text-foreground">{job.salaryRange}</span>
+          </div>
+          {job.location && (
+            <div className="flex items-center gap-1 text-muted-foreground">
+              <MapPin className="w-3 h-3" />
+              <span className="text-xs">{job.location}</span>
+            </div>
+          )}
         </div>
 
+        {/* Qualification */}
         <div>
-          <p className="text-xs font-medium text-muted-foreground mb-1">Required Qualification</p>
+          <p className="text-xs font-medium text-muted-foreground mb-1.5">Required Qualification</p>
           <div className="flex flex-wrap gap-1">
             {job.qualification.map((q) => (
-              <span key={q} className="text-xs bg-secondary text-secondary-foreground px-2 py-0.5 rounded-full">{q}</span>
+              <span key={q} className="text-xs bg-secondary text-secondary-foreground px-2 py-0.5 rounded-full font-medium">{q}</span>
             ))}
           </div>
         </div>
 
+        {/* Skills */}
         <div>
-          <p className="text-xs font-medium text-muted-foreground mb-1">Skills Needed</p>
+          <p className="text-xs font-medium text-muted-foreground mb-1.5">Skills Needed</p>
           <div className="flex flex-wrap gap-1">
             {job.skills.slice(0, 4).map((s) => (
-              <span key={s} className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">{s}</span>
+              <span key={s} className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium">{s}</span>
             ))}
+            {job.skills.length > 4 && (
+              <span className="text-xs text-muted-foreground px-1">+{job.skills.length - 4} more</span>
+            )}
           </div>
         </div>
 
+        {/* Prep Resources */}
         {job.prepResources.length > 0 && (
           <div className="bg-muted rounded-xl p-2.5">
             <p className="text-xs font-medium text-muted-foreground mb-1 flex items-center gap-1">
@@ -70,23 +104,12 @@ export function JobCard({ job, onSave, isSaved }: JobCardProps) {
           </div>
         )}
 
-        <div className="flex gap-2">
-          <a href={job.applyLink} target="_blank" rel="noopener noreferrer" className="flex-1">
-            <Button size="sm" className="w-full rounded-xl text-xs gradient-primary border-0 gap-1">
-              <ExternalLink className="w-3 h-3" /> Apply Now
-            </Button>
-          </a>
-          {onSave && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onSave}
-              className={`rounded-xl px-3 ${isSaved ? 'text-edu-yellow border-edu-yellow' : ''}`}
-            >
-              <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-edu-yellow' : ''}`} />
-            </Button>
-          )}
-        </div>
+        {/* Apply button */}
+        <a href={job.applyLink} target="_blank" rel="noopener noreferrer">
+          <Button size="sm" className={`w-full rounded-xl text-xs bg-gradient-to-r ${config.gradient} border-0 text-white gap-1`}>
+            <ExternalLink className="w-3 h-3" /> Apply Now
+          </Button>
+        </a>
       </div>
     </div>
   );
