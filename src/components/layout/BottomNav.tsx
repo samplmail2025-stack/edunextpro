@@ -54,8 +54,9 @@ export function BottomNav() {
           className="relative flex items-center justify-around bg-card/95 backdrop-blur-xl border border-border rounded-[28px] px-2 py-2.5"
           style={{ boxShadow: '0 8px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)' }}
         >
-          {NAV_ITEMS.map(({ icon: Icon, label, path }) => {
-            const active = isActive(path);
+          {NAV_ITEMS.map((item) => {
+            const { icon: Icon, label, path } = item;
+            const active = isActive(item);
             return (
               <motion.button
                 key={path}
