@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { AppHeader } from '@/components/layout/AppHeader';
@@ -11,6 +12,14 @@ import { useMarks } from '@/hooks/useMarks';
 import { Lightbulb, BookOpen, Briefcase, TrendingUp, Loader2 } from 'lucide-react';
 import type { RecommendationContext } from '@/data/recommendations';
 import recsHeroImg from '@/assets/recommendations-study.jpg';
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  visible: (i: number) => ({
+    opacity: 1, y: 0, scale: 1,
+    transition: { delay: i * 0.08, duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }
+  })
+};
 
 interface LocationState extends RecommendationContext {}
 
@@ -95,13 +104,21 @@ export default function Recommendations() {
                 <p>No courses matched your score. Try improving your marks!</p>
               </div>
             ) : (
-              higherStudies.map((course) => (
-                <CourseCard
+              higherStudies.map((course, i) => (
+                <motion.div
                   key={course.id}
-                  course={course}
-                  onSave={() => saveItem('course', course as unknown as Record<string, unknown>)}
-                  isSaved={isItemSaved(course.id)}
-                />
+                  custom={i}
+                  variants={cardVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-40px' }}
+                >
+                  <CourseCard
+                    course={course}
+                    onSave={() => saveItem('course', course as unknown as Record<string, unknown>)}
+                    isSaved={isItemSaved(course.id)}
+                  />
+                </motion.div>
               ))
             )}
           </div>
@@ -116,13 +133,21 @@ export default function Recommendations() {
                 <p>No jobs matched. Explore skill-based opportunities!</p>
               </div>
             ) : (
-              jobs.map((job) => (
-                <JobCard
+              jobs.map((job, i) => (
+                <motion.div
                   key={job.id}
-                  job={job}
-                  onSave={() => saveItem('job', job as unknown as Record<string, unknown>)}
-                  isSaved={isItemSaved(job.id)}
-                />
+                  custom={i}
+                  variants={cardVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-40px' }}
+                >
+                  <JobCard
+                    job={job}
+                    onSave={() => saveItem('job', job as unknown as Record<string, unknown>)}
+                    isSaved={isItemSaved(job.id)}
+                  />
+                </motion.div>
               ))
             )}
           </div>
@@ -138,10 +163,18 @@ export default function Recommendations() {
               </h3>
               <div className="space-y-3">
                 {skills.map((skill, i) => (
-                  <div key={i} className="flex items-start gap-3 p-3 bg-muted/50 rounded-xl animate-fade-in" style={{ animationDelay: `${i * 0.1}s` }}>
+                  <motion.div
+                    key={i}
+                    custom={i}
+                    variants={cardVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: '-20px' }}
+                    className="flex items-start gap-3 p-3 bg-muted/50 rounded-xl"
+                  >
                     <span className="text-lg flex-shrink-0">{['🚀', '💡', '📚', '🎯', '💼'][i % 5]}</span>
                     <p className="text-sm text-foreground">{skill}</p>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
