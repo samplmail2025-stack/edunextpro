@@ -26,7 +26,7 @@ export default function Jobs() {
 
   return (
     <PageWrapper>
-      <AppHeader title="Job Opportunities" subtitle="Govt • Private • Internships" gradient />
+      <AppHeader title="Job Opportunities" subtitle="Govt • Private • Internships" showBack gradient />
       <div className="p-4 space-y-4 max-w-lg mx-auto">
         {/* Hero image banner */}
         <div className="relative rounded-2xl overflow-hidden h-36 card-shadow">
