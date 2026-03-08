@@ -352,13 +352,17 @@ export default function Results() {
 }
 
 // Helper to build LocationState from saved marks data
-function buildStateFromMarks(marks: { student_type?: string; class?: string; stream?: string; level?: string; course?: string; subjects?: unknown; percentage?: number; grade?: string; classification?: string; cgpa?: number }): LocationState {
+function buildStateFromMarks(marks: { student_type?: string; class?: string; stream?: string; level?: string; course?: string; subjects?: unknown; percentage?: number; grade?: string; classification?: string; cgpa?: number; semester_data?: unknown }): LocationState {
   const subjects = marks.subjects
     ? (Array.isArray(marks.subjects)
-        ? marks.subjects as { name: string; marks: number; maxMarks: number }[]
+        ? marks.subjects as SemSubject[]
         : Object.entries(marks.subjects as Record<string, number>).map(([name, m]) => ({
             name, marks: m as number, maxMarks: 100
           })))
+    : undefined;
+
+  const semesters = marks.semester_data
+    ? (Array.isArray(marks.semester_data) ? marks.semester_data as SemesterData[] : undefined)
     : undefined;
 
   return {
@@ -372,5 +376,6 @@ function buildStateFromMarks(marks: { student_type?: string; class?: string; str
     grade: marks.grade as string | undefined,
     classification: (marks.classification as string) || '-',
     cgpa: marks.cgpa as number | undefined,
+    semesters,
   };
 }
