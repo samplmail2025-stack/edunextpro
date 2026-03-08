@@ -34,6 +34,9 @@ import Bookmarks from "./pages/Bookmarks";
 import Profile from "./pages/Profile";
 import EntranceExams from "./pages/EntranceExams";
 import CompareColleges from "./pages/CompareColleges";
+import Scholarships from "./pages/Scholarships";
+import InterviewPrep from "./pages/InterviewPrep";
+import ResumeBuilder from "./pages/ResumeBuilder";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
