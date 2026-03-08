@@ -24,7 +24,7 @@ export default function MarksSelector() {
       {/* Hero */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src={studentsStudyingImg} alt="Banner" className="w-full h-full object-cover" />
+          <img src={studentsStudyingImg} alt="Banner" loading="lazy" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/80 to-background" />
         </div>
         <div className="relative pt-10 pb-16 px-6 text-center">
