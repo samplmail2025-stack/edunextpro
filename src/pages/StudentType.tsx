@@ -371,12 +371,11 @@ export default function StudentType() {
 function MarksSlideCard({
   entry,
   onRecommendations,
-  onViewResults
-
-
-
-
-}: {entry: MarksEntry;onRecommendations: () => void;onViewResults: () => void;}) {
+  onViewResults,
+  onDelete,
+  isDeleting
+}: {entry: MarksEntry;onRecommendations: () => void;onViewResults: () => void;onDelete: () => void;isDeleting: boolean;}) {
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const pct = entry.percentage ?? 0;
   const cgpa = entry.cgpa;
   const classification = entry.classification ?? '-';
