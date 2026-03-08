@@ -54,7 +54,7 @@ export default function Recommendations() {
 
   return (
     <PageWrapper>
-      <AppHeader title="Recommendations" subtitle={`Based on ${ctx.percentage?.toFixed(0)}% • ${ctx.stream || ctx.course || ''}`} gradient />
+      <AppHeader title="Recommendations" subtitle={`Based on ${ctx.percentage?.toFixed(0)}% • ${ctx.stream || ctx.course || ''}`} showBack gradient />
       <div className="p-4 space-y-4 max-w-lg mx-auto">
         {/* Hero image banner */}
         <div className="relative rounded-2xl overflow-hidden h-36 card-shadow">
