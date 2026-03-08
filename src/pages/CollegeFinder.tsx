@@ -2,6 +2,7 @@ import { useState, useMemo, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { BottomNav } from '@/components/layout/BottomNav';
+import { AppHeader } from '@/components/layout/AppHeader';
 import { CollegeCard } from '@/components/cards/CollegeCard';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { TN_DISTRICTS } from '@/data/districts';
@@ -95,6 +96,7 @@ export default function CollegeFinder() {
 
   return (
     <PageWrapper>
+      <AppHeader title="College Finder" subtitle={`Tamil Nadu · ${TN_COLLEGES.length} Colleges`} showBack gradient />
       {/* Hero */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0">
@@ -107,11 +109,11 @@ export default function CollegeFinder() {
           <Building2 className="absolute bottom-6 left-10 w-12 h-12 text-white -rotate-6" />
           <BookOpen className="absolute top-10 left-1/3 w-8 h-8 text-white" />
         </div>
-        <div className="relative pt-10 pb-8 px-6 text-center">
+        <div className="relative pt-6 pb-8 px-6 text-center">
           <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-sm flex items-center justify-center mx-auto mb-3">
             <GraduationCap className="w-7 h-7 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">College Finder</h1>
+          <h2 className="text-xl font-bold text-white tracking-tight">Find Your College</h2>
           <p className="text-white/70 text-sm mt-1.5 flex items-center justify-center gap-1.5">
             <MapPin className="w-3.5 h-3.5" /> Tamil Nadu · {TN_COLLEGES.length} Colleges
           </p>
