@@ -53,7 +53,7 @@ export default function StudentType() {
   };
 
   const handleEditMarks = () => {
-    navigate(isSchool ? '/school-marks' : '/college-marks');
+    navigate('/marks');
   };
 
   const handleViewResults = () => {
