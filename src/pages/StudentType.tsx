@@ -177,15 +177,15 @@ export default function StudentType() {
                   </div>
 
                   {/* Score Display */}
-                  <div className="flex items-end justify-between">
-                    <div>
-                      <p className="text-4xl font-extrabold text-white tracking-tight">{percentage}%</p>
-                      <p className="text-sm text-white/60 mt-0.5 font-medium">Overall Percentage</p>
+                  <div className="flex items-end justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">{percentage}%</p>
+                      <p className="text-xs sm:text-sm text-white/60 mt-0.5 font-medium">Overall Percentage</p>
                     </div>
                     {cgpa != null && (
-                      <div className="text-right">
-                        <p className="text-3xl font-extrabold text-white tracking-tight">{cgpa}</p>
-                        <p className="text-sm text-white/60 mt-0.5 font-medium">CGPA</p>
+                      <div className="text-right flex-shrink-0">
+                        <p className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">{cgpa}</p>
+                        <p className="text-xs sm:text-sm text-white/60 mt-0.5 font-medium">CGPA</p>
                       </div>
                     )}
                   </div>
