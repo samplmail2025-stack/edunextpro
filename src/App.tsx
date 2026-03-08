@@ -13,6 +13,7 @@ import { SplashScreen } from "@/components/layout/SplashScreen";
 import { DeveloperSplash } from "@/components/layout/DeveloperSplash";
 import { NavigationDirectionProvider } from "@/contexts/NavigationDirection";
 import { CompareProvider } from "@/contexts/CompareContext";
+import { ScrollRestoration } from "@/components/layout/ScrollRestoration";
 
 // Preload splash images immediately
 import edunextLogo from '@/assets/edunext-logo.png';
