@@ -174,7 +174,7 @@ export default function Results() {
 }
 
 // Helper to build LocationState from saved marks data
-function buildStateFromMarks(marks: Record<string, unknown>): LocationState {
+function buildStateFromMarks(marks: { student_type?: string; class?: string; stream?: string; level?: string; course?: string; subjects?: unknown; percentage?: number; grade?: string; classification?: string; cgpa?: number }): LocationState {
   const subjects = marks.subjects
     ? (Array.isArray(marks.subjects)
         ? marks.subjects as { name: string; marks: number; maxMarks: number }[]

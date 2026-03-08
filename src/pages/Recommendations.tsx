@@ -7,22 +7,33 @@ import { CourseCard } from '@/components/cards/CourseCard';
 import { JobCard } from '@/components/cards/JobCard';
 import { useRecommendations } from '@/hooks/useRecommendations';
 import { useBookmarks } from '@/hooks/useBookmarks';
-import { Lightbulb, BookOpen, Briefcase, TrendingUp } from 'lucide-react';
+import { useMarks } from '@/hooks/useMarks';
+import { Lightbulb, BookOpen, Briefcase, TrendingUp, Loader2 } from 'lucide-react';
 import type { RecommendationContext } from '@/data/recommendations';
 import recsHeroImg from '@/assets/recommendations-study.jpg';
 
 interface LocationState extends RecommendationContext {}
 
 export default function Recommendations() {
-  const { state } = useLocation() as { state: LocationState };
+  const { state } = useLocation() as { state: LocationState | null };
   const [tab, setTab] = useState<'higher' | 'jobs' | 'skills'>('higher');
   const { saveItem, isItemSaved } = useBookmarks();
+  const { latestMarks, loading } = useMarks();
 
-  const ctx: RecommendationContext = state || {
+  // Build context from navigation state OR from saved marks
+  const ctx: RecommendationContext = state || (latestMarks ? {
+    studentType: (latestMarks.student_type as 'school' | 'college') || 'school',
+    percentage: latestMarks.percentage ?? 60,
+    cgpa: latestMarks.cgpa ?? undefined,
+    stream: latestMarks.stream ?? undefined,
+    level: latestMarks.level ?? undefined,
+    course: latestMarks.course ?? undefined,
+    classification: latestMarks.classification ?? undefined,
+  } : {
     studentType: 'school',
     percentage: 60,
     stream: 'Science',
-  };
+  });
 
   const { higherStudies, jobs, skills } = useRecommendations(ctx);
 
