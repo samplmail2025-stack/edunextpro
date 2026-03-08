@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { CollegeCard } from '@/components/cards/CollegeCard';
@@ -8,9 +8,11 @@ import { TN_DISTRICTS } from '@/data/districts';
 import { searchColleges, TN_COLLEGES } from '@/data/colleges';
 import { COURSES } from '@/data/courses';
 import { useBookmarks } from '@/hooks/useBookmarks';
+import { useCompare } from '@/contexts/CompareContext';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search, GraduationCap, MapPin, Building2, Filter, X,
-  BookOpen, Award, ChevronDown
+  BookOpen, Award, ChevronDown, GitCompareArrows, ArrowRight
 } from 'lucide-react';
 import campusImg from '@/assets/campus-building.jpg';
 
