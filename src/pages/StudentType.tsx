@@ -109,12 +109,30 @@ export default function StudentType() {
           </div>
         </Card3D>
 
+        {/* Quick Access */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
+          onClick={() => navigate('/entrance-exams')}
+          className="w-full bg-edu-yellow-light rounded-2xl p-4 flex items-center gap-3 cursor-pointer hover:shadow-md transition-all border border-edu-yellow/20"
+        >
+          <div className="w-10 h-10 rounded-xl gradient-yellow flex items-center justify-center flex-shrink-0">
+            <FileText className="w-5 h-5 text-white" />
+          </div>
+          <div className="flex-1">
+            <h3 className="font-semibold text-foreground text-sm">Entrance Exams Guide</h3>
+            <p className="text-xs text-muted-foreground">TNEA, NEET, JEE, TNPSC & more</p>
+          </div>
+          <span className="text-xs font-semibold text-edu-yellow">View →</span>
+        </motion.div>
+
         {/* Info Cards */}
         <div className="grid grid-cols-2 gap-3 mt-2">
           {[
-            { icon: BookOpen, label: '50+ Courses', bg: 'bg-edu-blue-light', color: 'text-edu-blue' },
-            { icon: Building2, label: '150+ Colleges', bg: 'bg-edu-green-light', color: 'text-edu-green' },
-            { icon: Briefcase, label: '45+ Job Paths', bg: 'bg-edu-orange-light', color: 'text-edu-orange' },
+            { icon: BookOpen, label: '110+ Courses', bg: 'bg-edu-blue-light', color: 'text-edu-blue' },
+            { icon: Building2, label: '170+ Colleges', bg: 'bg-edu-green-light', color: 'text-edu-green' },
+            { icon: Briefcase, label: '75+ Job Paths', bg: 'bg-edu-orange-light', color: 'text-edu-orange' },
             { icon: Target, label: 'Smart AI Reco', bg: 'bg-edu-purple-light', color: 'text-edu-purple' },
           ].map((item, i) => {
             const Icon = item.icon;
