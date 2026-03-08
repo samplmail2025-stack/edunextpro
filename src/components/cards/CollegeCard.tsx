@@ -1,4 +1,4 @@
-import { ExternalLink, MapPin, Phone, Bookmark, ArrowRight, Award, Calendar, Building2, GraduationCap } from 'lucide-react';
+import { ExternalLink, MapPin, Phone, Bookmark, ArrowRight, Calendar, GraduationCap, Globe, Star } from 'lucide-react';
 import { College } from '@/data/colleges';
 import { Button } from '@/components/ui/button';
 
@@ -9,27 +9,26 @@ interface CollegeCardProps {
   isSaved?: boolean;
 }
 
-const naacConfig: Record<string, { bg: string; text: string; glow: string }> = {
-  'A++': { bg: 'bg-edu-green/10', text: 'text-edu-green', glow: 'shadow-[0_0_8px_hsl(var(--green)/0.2)]' },
-  'A+': { bg: 'bg-edu-blue/10', text: 'text-edu-blue', glow: 'shadow-[0_0_8px_hsl(var(--blue)/0.2)]' },
-  'A': { bg: 'bg-edu-teal/10', text: 'text-edu-teal', glow: '' },
-  'B+': { bg: 'bg-edu-yellow/10', text: 'text-edu-yellow', glow: '' },
-  'B': { bg: 'bg-edu-orange/10', text: 'text-edu-orange', glow: '' },
+const naacConfig: Record<string, { gradient: string; badge: string }> = {
+  'A++': { gradient: 'from-emerald-500 to-teal-500', badge: 'bg-emerald-500' },
+  'A+': { gradient: 'from-blue-500 to-cyan-500', badge: 'bg-blue-500' },
+  'A': { gradient: 'from-sky-500 to-blue-400', badge: 'bg-sky-500' },
+  'B+': { gradient: 'from-amber-500 to-yellow-400', badge: 'bg-amber-500' },
+  'B': { gradient: 'from-orange-500 to-amber-400', badge: 'bg-orange-500' },
 };
 
-const typeGradients: Record<string, string> = {
-  Government: 'gradient-green',
-  Central: 'gradient-blue',
-  Aided: 'gradient-teal',
-  Private: 'gradient-purple',
-  Deemed: 'gradient-orange',
+const typeConfig: Record<string, { color: string; bg: string; gradient: string }> = {
+  Government: { color: 'text-edu-green', bg: 'bg-edu-green/10', gradient: 'gradient-green' },
+  Central: { color: 'text-edu-blue', bg: 'bg-edu-blue/10', gradient: 'gradient-blue' },
+  Aided: { color: 'text-edu-teal', bg: 'bg-edu-teal/10', gradient: 'gradient-teal' },
+  Private: { color: 'text-edu-purple', bg: 'bg-edu-purple/10', gradient: 'gradient-purple' },
+  Deemed: { color: 'text-edu-orange', bg: 'bg-edu-orange/10', gradient: 'gradient-orange' },
 };
 
 export function CollegeCard({ college, highlightCourse, onSave, isSaved }: CollegeCardProps) {
   const naac = naacConfig[college.naacGrade] || naacConfig['B'];
-  const typeGradient = typeGradients[college.type] || 'gradient-primary';
+  const type = typeConfig[college.type] || typeConfig['Private'];
 
-  // Determine which courses to highlight
   const searchTerms = highlightCourse ? highlightCourse.toLowerCase().split(' ').filter(t => t.length > 1) : [];
   const isHighlighted = (course: string) => {
     if (!highlightCourse) return false;
@@ -39,97 +38,115 @@ export function CollegeCard({ college, highlightCourse, onSave, isSaved }: Colle
   };
 
   return (
-    <div className="group bg-card rounded-2xl overflow-hidden card-shadow border border-border animate-fade-in hover:shadow-lg transition-all duration-300">
-      {/* Colored top bar */}
-      <div className={`${typeGradient} h-1.5`} />
+    <div className="group bg-card rounded-2xl overflow-hidden border border-border animate-fade-in hover:-translate-y-0.5 transition-all duration-300"
+      style={{ boxShadow: '0 4px 24px -4px rgba(0,0,0,0.08), 0 2px 8px -2px rgba(0,0,0,0.04)' }}>
 
-      <div className="p-4 space-y-3">
-        {/* Header */}
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1">
-              <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${naac.bg} ${naac.text} ${naac.glow}`}>
-                NAAC {college.naacGrade}
-              </span>
-              <span className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-muted text-muted-foreground">
-                {college.type}
-              </span>
+      {/* Gradient Header */}
+      <div className={`bg-gradient-to-r ${naac.gradient} p-4 pb-5 relative overflow-hidden`}>
+        {/* Decorative elements */}
+        <div className="absolute inset-0">
+          <div className="absolute -right-6 -top-6 w-24 h-24 bg-white/[0.08] rounded-full" />
+          <div className="absolute right-8 bottom--2 w-16 h-16 bg-white/[0.06] rounded-full" />
+          <GraduationCap className="absolute right-3 top-3 w-12 h-12 text-white/[0.1]" />
+        </div>
+
+        <div className="relative z-10">
+          {/* Badges row */}
+          <div className="flex items-center gap-2 mb-2.5">
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-white/25 text-white backdrop-blur-sm flex items-center gap-1">
+              <Star className="w-3 h-3 fill-current" />
+              NAAC {college.naacGrade}
+            </span>
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-white/15 text-white/90 backdrop-blur-sm">
+              {college.type}
+            </span>
+          </div>
+
+          {/* College name */}
+          <h3 className="font-bold text-white text-[17px] leading-snug tracking-tight pr-8">
+            {college.name}
+          </h3>
+
+          {/* Location & Year pills */}
+          <div className="flex items-center gap-3 mt-2">
+            <div className="flex items-center gap-1 text-white/80">
+              <MapPin className="w-3.5 h-3.5" />
+              <span className="text-xs font-medium">{college.district}</span>
             </div>
-            <h3 className="font-bold text-foreground text-[15px] leading-snug tracking-tight">{college.name}</h3>
-          </div>
-          {onSave && (
-            <button
-              onClick={onSave}
-              className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all flex-shrink-0 ${
-                isSaved ? 'bg-edu-yellow/15 text-edu-yellow' : 'bg-muted/50 text-muted-foreground hover:bg-muted'
-              }`}
-            >
-              <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
-            </button>
-          )}
-        </div>
-
-        {/* Info row */}
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <MapPin className="w-3.5 h-3.5 flex-shrink-0 text-primary" />
-            <span>{college.district}</span>
-          </div>
-          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <Calendar className="w-3.5 h-3.5 flex-shrink-0 text-edu-teal" />
-            <span>Est. {college.established}</span>
+            <div className="flex items-center gap-1 text-white/70">
+              <Calendar className="w-3.5 h-3.5" />
+              <span className="text-xs font-medium">Est. {college.established}</span>
+            </div>
           </div>
         </div>
 
-        {/* Courses with highlighting */}
+        {/* Bookmark button */}
+        {onSave && (
+          <button
+            onClick={onSave}
+            className={`absolute top-3 right-3 w-9 h-9 rounded-xl flex items-center justify-center transition-all z-10 ${
+              isSaved ? 'bg-white/30 text-white' : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white'
+            }`}
+          >
+            <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
+          </button>
+        )}
+      </div>
+
+      {/* Body */}
+      <div className="p-4 space-y-3">
+        {/* Departments */}
         <div>
-          <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider mb-1.5 flex items-center gap-1">
-            <GraduationCap className="w-3 h-3" /> Departments
+          <p className="text-[10px] text-muted-foreground font-semibold uppercase tracking-widest mb-2 flex items-center gap-1.5">
+            <GraduationCap className="w-3.5 h-3.5 text-primary" /> Departments Offered
           </p>
           <div className="flex flex-wrap gap-1.5">
-            {college.courses.slice(0, 5).map((c) => (
+            {college.courses.slice(0, 6).map((c) => (
               <span
                 key={c}
-                className={`text-[11px] font-medium px-2.5 py-1 rounded-lg border ${
+                className={`text-[11px] font-medium px-2.5 py-1 rounded-lg transition-colors ${
                   isHighlighted(c)
-                    ? 'bg-primary/10 text-primary border-primary/20 font-semibold'
-                    : 'bg-muted/40 text-foreground border-transparent'
+                    ? 'bg-primary text-primary-foreground font-semibold shadow-sm'
+                    : 'bg-muted/60 text-foreground border border-border/50 hover:bg-muted'
                 }`}
               >
                 {c}
               </span>
             ))}
-            {college.courses.length > 5 && (
-              <span className="text-[11px] text-muted-foreground px-2 py-1">+{college.courses.length - 5} more</span>
+            {college.courses.length > 6 && (
+              <span className="text-[11px] font-semibold text-primary bg-primary/8 px-2.5 py-1 rounded-lg">
+                +{college.courses.length - 6} more
+              </span>
             )}
           </div>
         </div>
 
-        {/* Address */}
-        <div className="p-2.5 bg-muted/30 rounded-xl">
-          <div className="flex items-start gap-2">
-            <MapPin className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0 mt-0.5" />
-            <div className="flex-1 min-w-0">
-              <p className="text-xs text-muted-foreground truncate">{college.address}</p>
-              <div className="flex items-center gap-1.5 mt-1">
-                <Phone className="w-3 h-3 text-muted-foreground" />
-                <span className="text-xs text-muted-foreground">{college.phone}</span>
-              </div>
+        {/* Contact info */}
+        <div className="flex gap-2">
+          <div className="flex-1 p-2.5 bg-muted/40 rounded-xl flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <MapPin className="w-3.5 h-3.5 text-primary" />
+            </div>
+            <p className="text-[11px] text-muted-foreground leading-tight truncate">{college.address}</p>
+          </div>
+          <div className="p-2.5 bg-muted/40 rounded-xl flex items-center gap-2 flex-shrink-0">
+            <div className="w-7 h-7 rounded-lg bg-edu-green/10 flex items-center justify-center">
+              <Phone className="w-3.5 h-3.5 text-edu-green" />
             </div>
           </div>
         </div>
 
-        {/* Actions */}
-        <div className="flex gap-2">
+        {/* Action buttons */}
+        <div className="flex gap-2 pt-0.5">
           <a href={college.website} target="_blank" rel="noopener noreferrer" className="flex-1">
-            <Button variant="outline" size="sm" className="w-full rounded-xl text-xs gap-1.5 h-9">
-              <ExternalLink className="w-3.5 h-3.5" /> Website
+            <Button variant="outline" size="sm" className="w-full rounded-xl text-xs gap-1.5 h-10 font-semibold hover:bg-muted/80 border-border/80">
+              <Globe className="w-3.5 h-3.5" /> Website
             </Button>
           </a>
           <a href={college.mapLink} target="_blank" rel="noopener noreferrer" className="flex-1">
-            <Button size="sm" className="w-full rounded-xl text-xs gradient-primary border-0 gap-1.5 h-9">
+            <Button size="sm" className="w-full rounded-xl text-xs gradient-primary border-0 gap-1.5 h-10 font-semibold group/btn">
               <MapPin className="w-3.5 h-3.5" /> Directions
-              <ArrowRight className="w-3 h-3 ml-auto" />
+              <ArrowRight className="w-3.5 h-3.5 ml-auto transition-transform group-hover/btn:translate-x-0.5" />
             </Button>
           </a>
         </div>
