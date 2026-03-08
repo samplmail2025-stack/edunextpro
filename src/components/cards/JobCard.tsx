@@ -80,15 +80,15 @@ export function JobCard({ job, onSave, isSaved }: JobCardProps) {
       </div>
 
       {/* Stats bar */}
-      <div className="flex gap-0 border-b border-border">
-        <div className="flex-1 flex items-center justify-center gap-1.5 py-2.5 border-r border-border">
-          <IndianRupee className="w-3.5 h-3.5 text-muted-foreground" />
-          <span className="text-xs font-semibold text-foreground">{job.salaryRange}</span>
+      <div className={`grid ${job.location ? 'grid-cols-2' : 'grid-cols-1'} divide-x divide-border border-b border-border`}>
+        <div className="flex items-center justify-center gap-2 py-3">
+          <IndianRupee className="w-4 h-4 text-primary/60" />
+          <span className="text-xs font-bold text-foreground">{job.salaryRange}</span>
         </div>
         {job.location && (
-          <div className="flex-1 flex items-center justify-center gap-1.5 py-2.5">
-            <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
-            <span className="text-xs font-semibold text-foreground">{job.location}</span>
+          <div className="flex items-center justify-center gap-2 py-3">
+            <MapPin className="w-4 h-4 text-primary/60" />
+            <span className="text-xs font-bold text-foreground">{job.location}</span>
           </div>
         )}
       </div>
