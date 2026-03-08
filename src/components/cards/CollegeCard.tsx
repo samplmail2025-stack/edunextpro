@@ -28,7 +28,8 @@ const typeConfig: Record<string, { color: string; bg: string; gradient: string }
 
 export function CollegeCard({ college, highlightCourse, onSave, isSaved }: CollegeCardProps) {
   const naac = naacConfig[college.naacGrade] || naacConfig['B'];
-  const type = typeConfig[college.type] || typeConfig['Private'];
+  const { toggleCollege, isSelected, canAdd } = useCompare();
+  const compared = isSelected(college.id);
 
   const searchTerms = highlightCourse ? highlightCourse.toLowerCase().split(' ').filter(t => t.length > 1) : [];
   const isHighlighted = (course: string) => {
