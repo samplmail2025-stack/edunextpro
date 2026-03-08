@@ -5,8 +5,9 @@ import { AppHeader } from '@/components/layout/AppHeader';
 import { CircularProgress } from '@/components/charts/CircularProgress';
 import { GradeBarChart } from '@/components/charts/GradeBarChart';
 import { Button } from '@/components/ui/button';
-import { Trophy, Star, TrendingUp, BookOpen, Loader2 } from 'lucide-react';
+import { Trophy, Star, TrendingUp, BookOpen, Loader2, Download } from 'lucide-react';
 import { useMarks } from '@/hooks/useMarks';
+import { useAuth } from '@/hooks/useAuth';
 import resultsHeroImg from '@/assets/results-celebration.jpg';
 
 interface LocationState {
