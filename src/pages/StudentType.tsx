@@ -7,8 +7,8 @@ import {
   School, GraduationCap, Sparkles, BookOpen, Building2, Briefcase,
   Target, Lightbulb, PenTool, FileText, Award, MessageSquare, FileUser,
   TrendingUp, BarChart3, Loader2, ChevronRight, ChevronLeft,
-  Trophy, Star, Zap
-} from 'lucide-react';
+  Trophy, Star, Zap } from
+'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useMarks, type MarksEntry } from '@/hooks/useMarks';
 import { CircularProgress } from '@/components/charts/CircularProgress';
@@ -18,11 +18,11 @@ import studentsStudyingImg from '@/assets/students-studying.jpg';
 import resultsImg from '@/assets/results-celebration.jpg';
 
 // Helper to parse subjects from a marks entry
-function parseSubjects(entry: MarksEntry): { name: string; marks: number; maxMarks: number }[] {
+function parseSubjects(entry: MarksEntry): {name: string;marks: number;maxMarks: number;}[] {
   if (!entry.subjects) return [];
-  if (Array.isArray(entry.subjects)) return entry.subjects as { name: string; marks: number; maxMarks: number }[];
+  if (Array.isArray(entry.subjects)) return entry.subjects as {name: string;marks: number;maxMarks: number;}[];
   return Object.entries(entry.subjects as Record<string, number>).map(([name, marks]) => ({
-    name, marks: marks as number, maxMarks: 100,
+    name, marks: marks as number, maxMarks: 100
   }));
 }
 
@@ -46,16 +46,16 @@ function getPerformanceLabel(pct: number) {
 const slideVariants = {
   enter: (direction: number) => ({
     x: direction > 0 ? '100%' : '-100%',
-    opacity: 0,
+    opacity: 0
   }),
   center: {
     x: 0,
-    opacity: 1,
+    opacity: 1
   },
   exit: (direction: number) => ({
     x: direction > 0 ? '-100%' : '100%',
-    opacity: 0,
-  }),
+    opacity: 0
+  })
 };
 
 export default function StudentType() {
@@ -101,8 +101,8 @@ export default function StudentType() {
         stream: entry.stream,
         level: entry.level,
         course: entry.course,
-        classification: entry.classification,
-      },
+        classification: entry.classification
+      }
     });
   };
 
@@ -119,8 +119,8 @@ export default function StudentType() {
         percentage: entry.percentage ?? 0,
         grade: entry.grade,
         classification: entry.classification ?? '-',
-        cgpa: entry.cgpa,
-      },
+        cgpa: entry.cgpa
+      }
     });
   };
 
@@ -156,103 +156,103 @@ export default function StudentType() {
 
       <div className="px-4 -mt-10 pb-8 space-y-5 max-w-lg mx-auto relative z-10">
         {/* Loading */}
-        {loading && (
-          <div className="flex flex-col items-center justify-center py-16 gap-3">
+        {loading &&
+        <div className="flex flex-col items-center justify-center py-16 gap-3">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
             <p className="text-sm text-muted-foreground">Loading your data...</p>
           </div>
-        )}
+        }
 
         {/* ========== MARKS CAROUSEL ========== */}
-        {!loading && hasMarks && currentEntry && (
-          <>
+        {!loading && hasMarks && currentEntry &&
+        <>
             {/* Slide counter + controls */}
-            {marks.length > 1 && (
-              <div className="flex items-center justify-between">
+            {marks.length > 1 &&
+          <div className="flex items-center justify-between">
                 <p className="text-xs font-medium text-muted-foreground">
                   {currentIndex + 1} / {marks.length} Records
                 </p>
-                <div className="flex items-center gap-1.5">
-                  <button
-                    onClick={() => { goPrev(); setIsPaused(true); }}
-                    className="w-7 h-7 rounded-lg bg-muted flex items-center justify-center hover:bg-muted/80 transition-colors"
-                  >
-                    <ChevronLeft className="w-4 h-4 text-foreground" />
-                  </button>
-                  <button
-                    onClick={() => { goNext(); setIsPaused(true); }}
-                    className="w-7 h-7 rounded-lg bg-muted flex items-center justify-center hover:bg-muted/80 transition-colors"
-                  >
-                    <ChevronRight className="w-4 h-4 text-foreground" />
-                  </button>
-                </div>
+                
+
+
+
+
+
+
+
+
+
+
+
+
+            
               </div>
-            )}
+          }
 
             {/* Animated Slide */}
             <div
-              className="relative overflow-hidden touch-pan-y"
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
-            >
+            className="relative overflow-hidden touch-pan-y"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}>
+            
               <AnimatePresence initial={false} custom={direction} mode="wait">
                 <motion.div
-                  key={currentEntry.id || currentIndex}
-                  custom={direction}
-                  variants={slideVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{ duration: 0.35, ease: 'easeInOut' }}
-                  drag={marks.length > 1 ? 'x' : false}
-                  dragConstraints={{ left: 0, right: 0 }}
-                  dragElastic={0.15}
-                  onDragEnd={(_: unknown, info: PanInfo) => {
-                    const swipeThreshold = 50;
-                    if (info.offset.x < -swipeThreshold) {
-                      goNext();
-                      setIsPaused(true);
-                      setTimeout(() => setIsPaused(false), 5000);
-                    } else if (info.offset.x > swipeThreshold) {
-                      goPrev();
-                      setIsPaused(true);
-                      setTimeout(() => setIsPaused(false), 5000);
-                    }
-                  }}
-                >
+                key={currentEntry.id || currentIndex}
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.35, ease: 'easeInOut' }}
+                drag={marks.length > 1 ? 'x' : false}
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.15}
+                onDragEnd={(_: unknown, info: PanInfo) => {
+                  const swipeThreshold = 50;
+                  if (info.offset.x < -swipeThreshold) {
+                    goNext();
+                    setIsPaused(true);
+                    setTimeout(() => setIsPaused(false), 5000);
+                  } else if (info.offset.x > swipeThreshold) {
+                    goPrev();
+                    setIsPaused(true);
+                    setTimeout(() => setIsPaused(false), 5000);
+                  }
+                }}>
+                
                   <MarksSlideCard
-                    entry={currentEntry}
-                    onRecommendations={() => handleRecommendations(currentEntry)}
-                    onViewResults={() => handleViewResults(currentEntry)}
-                  />
+                  entry={currentEntry}
+                  onRecommendations={() => handleRecommendations(currentEntry)}
+                  onViewResults={() => handleViewResults(currentEntry)} />
+                
                 </motion.div>
               </AnimatePresence>
             </div>
 
             {/* Dot indicators */}
-            {marks.length > 1 && (
-              <div className="flex items-center justify-center gap-1.5">
-                {marks.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => { setDirection(i > currentIndex ? 1 : -1); setCurrentIndex(i); setIsPaused(true); }}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      i === currentIndex ? 'w-6 bg-primary' : 'w-1.5 bg-muted-foreground/30'
-                    }`}
-                  />
-                ))}
-              </div>
+            {marks.length > 1 &&
+          <div className="flex items-center justify-center gap-1.5">
+                {marks.map((_, i) =>
+            <button
+              key={i}
+              onClick={() => {setDirection(i > currentIndex ? 1 : -1);setCurrentIndex(i);setIsPaused(true);}}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+              i === currentIndex ? 'w-6 bg-primary' : 'w-1.5 bg-muted-foreground/30'}`
+              } />
+
             )}
+              </div>
+          }
           </>
-        )}
+        }
 
         {/* No marks - prompt */}
-        {!loading && !hasMarks && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-card rounded-[1.25rem] p-6 border border-border shadow-lg text-center space-y-4"
-          >
+        {!loading && !hasMarks &&
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-card rounded-[1.25rem] p-6 border border-border shadow-lg text-center space-y-4">
+          
             <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto">
               <BarChart3 className="w-8 h-8 text-primary" />
             </div>
@@ -264,31 +264,31 @@ export default function StudentType() {
               Enter Marks <ChevronRight className="w-4 h-4 ml-1" />
             </Button>
           </motion.div>
-        )}
+        }
 
         {/* Career Tools */}
-        {!loading && (
-          <>
+        {!loading &&
+        <>
             <div className="space-y-3 pt-1">
               <div className="flex items-center gap-2">
                 <Zap className="w-4 h-4 text-primary" />
                 <p className="text-xs font-bold text-foreground uppercase tracking-wider">Career Tools</p>
               </div>
               {[
-                { path: '/scholarships', icon: Award, label: 'Scholarship Finder', desc: '40+ scholarships for TN students', gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-50/80 dark:bg-emerald-950/20' },
-                { path: '/interview-prep', icon: MessageSquare, label: 'Interview Prep', desc: 'HR, Technical & GD questions', gradient: 'from-violet-500 to-purple-600', bg: 'bg-violet-50/80 dark:bg-violet-950/20' },
-                { path: '/resume-builder', icon: FileUser, label: 'Resume Builder', desc: 'Create professional CV instantly', gradient: 'from-blue-500 to-indigo-600', bg: 'bg-blue-50/80 dark:bg-blue-950/20' },
-              ].map((item, i) => {
-                const Icon = item.icon;
-                return (
-                  <motion.div
-                    key={item.path}
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.25 + i * 0.08 }}
-                    onClick={() => navigate(item.path)}
-                    className={`w-full ${item.bg} rounded-2xl p-4 flex items-center gap-3.5 cursor-pointer hover:shadow-md transition-all border border-border/40 group`}
-                  >
+            { path: '/scholarships', icon: Award, label: 'Scholarship Finder', desc: '40+ scholarships for TN students', gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-50/80 dark:bg-emerald-950/20' },
+            { path: '/interview-prep', icon: MessageSquare, label: 'Interview Prep', desc: 'HR, Technical & GD questions', gradient: 'from-violet-500 to-purple-600', bg: 'bg-violet-50/80 dark:bg-violet-950/20' },
+            { path: '/resume-builder', icon: FileUser, label: 'Resume Builder', desc: 'Create professional CV instantly', gradient: 'from-blue-500 to-indigo-600', bg: 'bg-blue-50/80 dark:bg-blue-950/20' }].
+            map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <motion.div
+                  key={item.path}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.25 + i * 0.08 }}
+                  onClick={() => navigate(item.path)}
+                  className={`w-full ${item.bg} rounded-2xl p-4 flex items-center gap-3.5 cursor-pointer hover:shadow-md transition-all border border-border/40 group`}>
+                  
                     <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center flex-shrink-0 shadow-sm`}>
                       <Icon className="w-5 h-5 text-white" />
                     </div>
@@ -297,19 +297,19 @@ export default function StudentType() {
                       <p className="text-xs text-muted-foreground truncate">{item.desc}</p>
                     </div>
                     <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
-                  </motion.div>
-                );
-              })}
+                  </motion.div>);
+
+            })}
             </div>
 
             {/* Entrance Exams */}
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35 }}
-              onClick={() => navigate('/entrance-exams')}
-              className="w-full bg-edu-yellow-light/80 rounded-2xl p-4 flex items-center gap-3.5 cursor-pointer hover:shadow-md transition-all border border-edu-yellow/15 group"
-            >
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            onClick={() => navigate('/entrance-exams')}
+            className="w-full bg-edu-yellow-light/80 rounded-2xl p-4 flex items-center gap-3.5 cursor-pointer hover:shadow-md transition-all border border-edu-yellow/15 group">
+            
               <div className="w-11 h-11 rounded-xl gradient-yellow flex items-center justify-center flex-shrink-0 shadow-sm">
                 <FileText className="w-5 h-5 text-white" />
               </div>
@@ -323,45 +323,45 @@ export default function StudentType() {
             {/* Info Cards */}
             <div className="grid grid-cols-2 gap-3">
               {[
-                { icon: BookOpen, label: '110+ Courses', bg: 'bg-edu-blue-light', color: 'text-edu-blue', desc: 'Available' },
-                { icon: Building2, label: '170+ Colleges', bg: 'bg-edu-green-light', color: 'text-edu-green', desc: 'Listed' },
-                { icon: Briefcase, label: '75+ Job Paths', bg: 'bg-edu-orange-light', color: 'text-edu-orange', desc: 'Career paths' },
-                { icon: Target, label: 'Smart AI', bg: 'bg-edu-purple-light', color: 'text-edu-purple', desc: 'Recommendations' },
-              ].map((item, i) => {
-                const Icon = item.icon;
-                return (
-                  <motion.div
-                    key={item.label}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.45 + i * 0.08 }}
-                    className={`${item.bg} rounded-2xl p-4 text-center border border-border/30`}
-                  >
+            { icon: BookOpen, label: '110+ Courses', bg: 'bg-edu-blue-light', color: 'text-edu-blue', desc: 'Available' },
+            { icon: Building2, label: '170+ Colleges', bg: 'bg-edu-green-light', color: 'text-edu-green', desc: 'Listed' },
+            { icon: Briefcase, label: '75+ Job Paths', bg: 'bg-edu-orange-light', color: 'text-edu-orange', desc: 'Career paths' },
+            { icon: Target, label: 'Smart AI', bg: 'bg-edu-purple-light', color: 'text-edu-purple', desc: 'Recommendations' }].
+            map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.45 + i * 0.08 }}
+                  className={`${item.bg} rounded-2xl p-4 text-center border border-border/30`}>
+                  
                     <Icon className={`w-6 h-6 mx-auto mb-1.5 ${item.color}`} />
                     <p className={`text-sm font-bold ${item.color}`}>{item.label}</p>
                     <p className="text-[10px] text-muted-foreground mt-0.5">{item.desc}</p>
-                  </motion.div>
-                );
-              })}
+                  </motion.div>);
+
+            })}
             </div>
           </>
-        )}
+        }
       </div>
       <BottomNav />
-    </PageWrapper>
-  );
+    </PageWrapper>);
+
 }
 
 // ============ Individual Marks Slide Card ============
 function MarksSlideCard({
   entry,
   onRecommendations,
-  onViewResults,
-}: {
-  entry: MarksEntry;
-  onRecommendations: () => void;
-  onViewResults: () => void;
-}) {
+  onViewResults
+
+
+
+
+}: {entry: MarksEntry;onRecommendations: () => void;onViewResults: () => void;}) {
   const pct = entry.percentage ?? 0;
   const cgpa = entry.cgpa;
   const classification = entry.classification ?? '-';
@@ -369,13 +369,13 @@ function MarksSlideCard({
   const isSchool = entry.student_type === 'school';
   const subjects = parseSubjects(entry);
 
-  const typeLabel = isSchool
-    ? `${entry.class || ''}${entry.stream ? ` · ${entry.stream}` : ''}`
-    : `${entry.level || ''}${entry.course ? ` · ${entry.course}` : ''}`;
+  const typeLabel = isSchool ?
+  `${entry.class || ''}${entry.stream ? ` · ${entry.stream}` : ''}` :
+  `${entry.level || ''}${entry.course ? ` · ${entry.course}` : ''}`;
 
-  const dateLabel = entry.created_at
-    ? new Date(entry.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
-    : '';
+  const dateLabel = entry.created_at ?
+  new Date(entry.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) :
+  '';
 
   return (
     <div className="bg-card rounded-[1.25rem] overflow-hidden border border-border shadow-xl shadow-primary/5">
@@ -386,9 +386,9 @@ function MarksSlideCard({
           {/* Badges row */}
           <div className="flex items-center justify-between gap-2 mb-3 flex-wrap">
             <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm rounded-full px-2.5 py-1.5 min-w-0">
-              {isSchool
-                ? <School className="w-3.5 h-3.5 text-white/90 flex-shrink-0" />
-                : <GraduationCap className="w-3.5 h-3.5 text-white/90 flex-shrink-0" />
+              {isSchool ?
+              <School className="w-3.5 h-3.5 text-white/90 flex-shrink-0" /> :
+              <GraduationCap className="w-3.5 h-3.5 text-white/90 flex-shrink-0" />
               }
               <span className="text-[11px] sm:text-xs font-medium text-white/90 truncate">{typeLabel}</span>
             </div>
@@ -404,12 +404,12 @@ function MarksSlideCard({
               <p className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">{pct}%</p>
               <p className="text-xs sm:text-sm text-white/60 mt-0.5 font-medium">Overall Percentage</p>
             </div>
-            {cgpa != null && (
-              <div className="text-right flex-shrink-0">
+            {cgpa != null &&
+            <div className="text-right flex-shrink-0">
                 <p className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">{cgpa}</p>
                 <p className="text-xs sm:text-sm text-white/60 mt-0.5 font-medium">CGPA</p>
               </div>
-            )}
+            }
           </div>
 
           {/* Progress bar */}
@@ -423,8 +423,8 @@ function MarksSlideCard({
                 initial={{ width: 0 }}
                 animate={{ width: `${Math.min(pct, 100)}%` }}
                 transition={{ duration: 0.8, ease: 'easeOut' }}
-                className="h-full bg-gradient-to-r from-yellow-300 to-emerald-300 rounded-full"
-              />
+                className="h-full bg-gradient-to-r from-yellow-300 to-emerald-300 rounded-full" />
+              
             </div>
           </div>
         </div>
@@ -440,29 +440,29 @@ function MarksSlideCard({
               size={90}
               strokeWidth={8}
               sublabel="Score"
-              colorClass={pct >= 75 ? 'green' : pct >= 50 ? 'orange' : 'primary'}
-            />
+              colorClass={pct >= 75 ? 'green' : pct >= 50 ? 'orange' : 'primary'} />
+            
           </div>
           <div className="w-full flex-1 space-y-2">
             {[
-              { label: 'Grade', value: grade, icon: Star, color: 'text-yellow-500' },
-              { label: 'Classification', value: classification, icon: TrendingUp, color: 'text-emerald-500' },
-              ...(cgpa != null ? [{ label: 'CGPA', value: String(cgpa), icon: Target, color: 'text-primary' }] : []),
-            ].map((stat) => (
-              <div key={stat.label} className="flex items-center gap-2 bg-muted/40 rounded-xl px-3 py-2 border border-border/50">
+            { label: 'Grade', value: grade, icon: Star, color: 'text-yellow-500' },
+            { label: 'Classification', value: classification, icon: TrendingUp, color: 'text-emerald-500' },
+            ...(cgpa != null ? [{ label: 'CGPA', value: String(cgpa), icon: Target, color: 'text-primary' }] : [])].
+            map((stat) =>
+            <div key={stat.label} className="flex items-center gap-2 bg-muted/40 rounded-xl px-3 py-2 border border-border/50">
                 <div className="w-6 h-6 rounded-lg bg-background flex items-center justify-center flex-shrink-0 shadow-sm">
                   <stat.icon className={`w-3 h-3 ${stat.color}`} />
                 </div>
                 <span className="text-xs text-muted-foreground flex-1 truncate">{stat.label}</span>
                 <span className="text-sm font-bold text-foreground flex-shrink-0">{stat.value}</span>
               </div>
-            ))}
+            )}
           </div>
         </div>
 
         {/* Subject chart */}
-        {subjects.length > 0 && (
-          <div>
+        {subjects.length > 0 &&
+        <div>
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-1.5">
                 <BarChart3 className="w-3.5 h-3.5 text-primary" />
@@ -474,27 +474,27 @@ function MarksSlideCard({
               <GradeBarChart data={subjects.map((s) => ({ subject: s.name, marks: s.marks, maxMarks: s.maxMarks }))} />
             </div>
           </div>
-        )}
+        }
 
         {/* Actions */}
         <div className="flex gap-2.5">
           <Button
             onClick={onRecommendations}
-            className="flex-1 rounded-xl h-10 bg-gradient-to-r from-primary to-primary/85 text-primary-foreground shadow-lg shadow-primary/20 font-semibold text-xs sm:text-sm"
-          >
+            className="flex-1 rounded-xl h-10 bg-gradient-to-r from-primary to-primary/85 text-primary-foreground shadow-lg shadow-primary/20 font-semibold text-xs sm:text-sm">
+            
             <Target className="w-4 h-4 mr-1" />
             Recommendations
           </Button>
           <Button
             onClick={onViewResults}
             variant="outline"
-            className="flex-1 rounded-xl h-10 font-semibold text-xs sm:text-sm border-border/80"
-          >
+            className="flex-1 rounded-xl h-10 font-semibold text-xs sm:text-sm border-border/80">
+            
             <BarChart3 className="w-4 h-4 mr-1" />
             Full Results
           </Button>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 }
