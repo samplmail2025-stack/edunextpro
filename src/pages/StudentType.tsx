@@ -2,20 +2,17 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { BottomNav } from '@/components/layout/BottomNav';
-import { Card3D } from '@/components/layout/Card3D';
 import {
   School, GraduationCap, Sparkles, BookOpen, Building2, Briefcase,
   Target, Lightbulb, PenTool, FileText, Award, MessageSquare, FileUser,
-  TrendingUp, BarChart3, ArrowRight, RefreshCw, Loader2, ChevronRight,
-  Trophy, Star, Zap, Clock
+  TrendingUp, BarChart3, RefreshCw, Loader2, ChevronRight,
+  Trophy, Star, Zap
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useMarks } from '@/hooks/useMarks';
 import { CircularProgress } from '@/components/charts/CircularProgress';
 import { GradeBarChart } from '@/components/charts/GradeBarChart';
 import { Button } from '@/components/ui/button';
-import schoolStudentImg from '@/assets/school-student.jpg';
-import collegeGraduateImg from '@/assets/college-graduate.jpg';
 import studentsStudyingImg from '@/assets/students-studying.jpg';
 import resultsImg from '@/assets/results-celebration.jpg';
 
