@@ -5,7 +5,8 @@ import { AppHeader } from '@/components/layout/AppHeader';
 import { JobCard } from '@/components/cards/JobCard';
 import { JOBS } from '@/data/jobs';
 import { useBookmarks } from '@/hooks/useBookmarks';
-import { Briefcase } from 'lucide-react';
+import { Briefcase, Building2, Target, Zap } from 'lucide-react';
+import jobHeroImg from '@/assets/job-interview.jpg';
 
 const CATEGORIES = ['Government', 'Private', 'Internship', 'Skill-based'] as const;
 type Category = typeof CATEGORIES[number];
@@ -16,28 +17,38 @@ export default function Jobs() {
 
   const filtered = JOBS.filter((j) => j.category === activeCategory);
 
-  const categoryEmoji: Record<Category, string> = {
-    Government: '🏛️',
-    Private: '🏢',
-    Internship: '🎯',
-    'Skill-based': '⚡',
+  const categoryIcon: Record<Category, React.ReactNode> = {
+    Government: <Building2 className="w-4 h-4" />,
+    Private: <Briefcase className="w-4 h-4" />,
+    Internship: <Target className="w-4 h-4" />,
+    'Skill-based': <Zap className="w-4 h-4" />,
   };
 
   return (
     <PageWrapper>
       <AppHeader title="Job Opportunities" subtitle="Govt • Private • Internships" gradient />
       <div className="p-4 space-y-4 max-w-lg mx-auto">
+        {/* Hero image banner */}
+        <div className="relative rounded-2xl overflow-hidden h-36 card-shadow">
+          <img src={jobHeroImg} alt="Professional career opportunities" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+          <div className="absolute bottom-3 left-4 right-4">
+            <h2 className="text-white font-bold text-lg leading-tight">Find Your Dream Career</h2>
+            <p className="text-white/80 text-xs mt-0.5">Explore government, private & internship opportunities</p>
+          </div>
+        </div>
+
         {/* Category tabs */}
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`flex-shrink-0 px-3 py-2 rounded-xl text-sm font-semibold transition-all whitespace-nowrap ${
+              className={`flex-shrink-0 px-3 py-2 rounded-xl text-sm font-semibold transition-all whitespace-nowrap flex items-center gap-1.5 ${
                 activeCategory === cat ? 'gradient-primary text-white shadow' : 'bg-card border border-border text-foreground'
               }`}
             >
-              {categoryEmoji[cat]} {cat}
+              {categoryIcon[cat]} {cat}
             </button>
           ))}
         </div>
