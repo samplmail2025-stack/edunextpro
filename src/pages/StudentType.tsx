@@ -225,7 +225,20 @@ export default function StudentType() {
                   <MarksSlideCard
                   entry={currentEntry}
                   onRecommendations={() => handleRecommendations(currentEntry)}
-                  onViewResults={() => handleViewResults(currentEntry)} />
+                  onViewResults={() => handleViewResults(currentEntry)}
+                  onDelete={async () => {
+                    if (!currentEntry.id) return;
+                    setDeletingId(currentEntry.id);
+                    const { error } = await deleteMarks(currentEntry.id);
+                    setDeletingId(null);
+                    if (error) {
+                      toast({ title: 'Error', description: 'Failed to delete entry', variant: 'destructive' });
+                    } else {
+                      toast({ title: 'Deleted', description: 'Marks entry removed' });
+                      if (currentIndex >= marks.length - 1) setCurrentIndex(Math.max(0, marks.length - 2));
+                    }
+                  }}
+                  isDeleting={deletingId === currentEntry.id} />
                 
                 </motion.div>
               </AnimatePresence>
