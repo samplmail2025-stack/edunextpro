@@ -209,7 +209,7 @@ export default function StudentType() {
                 {subjects.length > 0 && (
                   <div>
                     <p className="text-sm font-semibold text-foreground mb-2">📊 Subject Performance</p>
-                    <GradeBarChart data={subjects} />
+                    <GradeBarChart data={subjects.map(s => ({ subject: s.name, marks: s.marks, maxMarks: s.maxMarks }))} />
                   </div>
                 )}
 
