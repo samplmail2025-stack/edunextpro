@@ -70,13 +70,21 @@ export default function Jobs() {
               <p className="font-medium">No jobs in this category</p>
             </div>
           ) : (
-            filtered.map((job) => (
-              <JobCard
+            filtered.map((job, i) => (
+              <motion.div
                 key={job.id}
-                job={job}
-                onSave={() => saveItem('job', job as unknown as Record<string, unknown>)}
-                isSaved={isItemSaved(job.id)}
-              />
+                custom={i}
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-40px' }}
+              >
+                <JobCard
+                  job={job}
+                  onSave={() => saveItem('job', job as unknown as Record<string, unknown>)}
+                  isSaved={isItemSaved(job.id)}
+                />
+              </motion.div>
             ))
           )}
         </div>

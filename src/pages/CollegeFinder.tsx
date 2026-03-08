@@ -262,14 +262,22 @@ export default function CollegeFinder() {
               )}
             </div>
           ) : (
-            colleges.map((college) => (
-              <CollegeCard
+            colleges.map((college, i) => (
+              <motion.div
                 key={college.id}
-                college={college}
-                highlightCourse={query}
-                onSave={() => saveItem('college', college as unknown as Record<string, unknown>)}
-                isSaved={isItemSaved(college.id)}
-              />
+                custom={i % 10}
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-40px' }}
+              >
+                <CollegeCard
+                  college={college}
+                  highlightCourse={query}
+                  onSave={() => saveItem('college', college as unknown as Record<string, unknown>)}
+                  isSaved={isItemSaved(college.id)}
+                />
+              </motion.div>
             ))
           )}
         </div>
