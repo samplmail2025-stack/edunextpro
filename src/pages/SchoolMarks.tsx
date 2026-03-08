@@ -25,7 +25,7 @@ export default function SchoolMarks() {
   const { saveMarks } = useMarks();
   const { toast } = useToast();
   const [cls, setCls] = useState('12th');
-  const [stream, setStream] = useState('Science');
+  const [stream, setStream] = useState('Science (Maths)');
   const [marks, setMarks] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
 
