@@ -11,30 +11,40 @@ export interface RecommendationContext {
   classification?: string;
 }
 
+// Map specific school HSC groups to course stream tags
+function getStreamTags(stream?: string): string[] {
+  if (!stream) return [];
+  if (stream.startsWith('Science (Maths)')) return ['Science', 'Engineering'];
+  if (stream.startsWith('Science (Biology)')) return ['Science', 'Medical'];
+  if (stream.startsWith('Science (Computer Science)')) return ['Science', 'Engineering', 'Technology'];
+  if (stream.startsWith('Commerce')) return ['Commerce'];
+  if (stream.startsWith('Arts')) return ['Arts'];
+  if (stream === 'Vocational') return ['Vocational', 'Arts', 'Commerce'];
+  return [];
+}
+
 export function getHigherStudiesRecommendations(ctx: RecommendationContext): Course[] {
   const { percentage, stream, level, studentType } = ctx;
 
   return COURSES.filter((course) => {
-    // Percentage threshold
     if (percentage < course.minPercentage) return false;
 
-    // School student → UG courses
+    // School student → UG courses with stream-specific matching
     if (studentType === 'school') {
       if (course.level !== 'UG') return false;
-      if (stream && course.stream && !course.stream.includes(stream)) return false;
+      if (stream && course.stream && course.stream.length > 0) {
+        const tags = getStreamTags(stream);
+        // Course must match at least one of the student's stream tags
+        const matches = tags.length === 0 || course.stream.some(s => tags.includes(s));
+        if (!matches) return false;
+      }
       return true;
     }
 
-    // College student UG → PG courses
-    if (level === 'UG') {
-      return course.level === 'PG';
-    }
-    // College student PG → PhD
-    if (level === 'PG') {
-      return course.level === 'PhD';
-    }
+    if (level === 'UG') return course.level === 'PG';
+    if (level === 'PG') return course.level === 'PhD';
     return false;
-  }).slice(0, 12);
+  }).slice(0, 15);
 }
 
 export function getJobRecommendations(ctx: RecommendationContext): Job[] {
