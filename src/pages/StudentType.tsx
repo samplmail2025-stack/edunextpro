@@ -2,20 +2,17 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { BottomNav } from '@/components/layout/BottomNav';
-import { Card3D } from '@/components/layout/Card3D';
 import {
   School, GraduationCap, Sparkles, BookOpen, Building2, Briefcase,
   Target, Lightbulb, PenTool, FileText, Award, MessageSquare, FileUser,
-  TrendingUp, BarChart3, ArrowRight, RefreshCw, Loader2, ChevronRight,
-  Trophy, Star, Zap, Clock
+  TrendingUp, BarChart3, RefreshCw, Loader2, ChevronRight,
+  Trophy, Star, Zap
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useMarks } from '@/hooks/useMarks';
 import { CircularProgress } from '@/components/charts/CircularProgress';
 import { GradeBarChart } from '@/components/charts/GradeBarChart';
 import { Button } from '@/components/ui/button';
-import schoolStudentImg from '@/assets/school-student.jpg';
-import collegeGraduateImg from '@/assets/college-graduate.jpg';
 import studentsStudyingImg from '@/assets/students-studying.jpg';
 import resultsImg from '@/assets/results-celebration.jpg';
 
@@ -56,7 +53,7 @@ export default function StudentType() {
   };
 
   const handleEditMarks = () => {
-    navigate(isSchool ? '/school-marks' : '/college-marks');
+    navigate('/marks');
   };
 
   const handleViewResults = () => {
@@ -283,86 +280,6 @@ export default function StudentType() {
           </>
         )}
 
-        {/* ========== STUDENT TYPE SELECTOR: Always visible ========== */}
-        {!loading && (
-          <>
-            {hasMarks && (
-              <div className="flex items-center gap-2 pt-1">
-                <School className="w-4 h-4 text-primary" />
-                <p className="text-xs font-bold text-foreground uppercase tracking-wider">Enter New Marks</p>
-              </div>
-            )}
-            <Card3D
-              onClick={() => navigate('/school-marks')}
-              className="w-full bg-card rounded-[1.25rem] overflow-hidden border border-border text-left cursor-pointer shadow-lg shadow-black/5"
-            >
-              <div className="relative h-32 overflow-hidden">
-                <img src={schoolStudentImg} alt="School student" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-r from-orange-600/85 to-orange-500/60" />
-                <div className="absolute inset-0 flex items-center p-5">
-                  <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center flex-shrink-0 mr-4 border border-white/20">
-                    <School className="w-7 h-7 text-white" />
-                  </div>
-                  <div>
-                    <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                      <School className="w-4 h-4" /> School Student
-                    </h2>
-                    <p className="text-white/80 text-sm mt-0.5">10th / 11th / 12th Class</p>
-                  </div>
-                </div>
-              </div>
-              <div className="p-4">
-                <div className="flex gap-1.5 mb-3">
-                  {['Science', 'Commerce', 'Arts'].map((s) => (
-                    <span key={s} className="text-xs bg-edu-orange-light text-edu-orange px-2.5 py-1 rounded-full font-medium">{s}</span>
-                  ))}
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="text-xs text-muted-foreground">Calculate marks & get career guidance</div>
-                  <div className="gradient-orange rounded-full px-3.5 py-1.5 text-white text-xs font-semibold flex items-center gap-1"
-                    style={{ boxShadow: '0 4px 14px rgba(249,115,22,0.25)' }}>
-                    Start <ChevronRight className="w-3 h-3" />
-                  </div>
-                </div>
-              </div>
-            </Card3D>
-
-            <Card3D
-              onClick={() => navigate('/college-marks')}
-              className="w-full bg-card rounded-[1.25rem] overflow-hidden border border-border text-left cursor-pointer shadow-lg shadow-black/5"
-            >
-              <div className="relative h-32 overflow-hidden">
-                <img src={collegeGraduateImg} alt="College graduate" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-r from-violet-600/85 to-purple-500/60" />
-                <div className="absolute inset-0 flex items-center p-5">
-                  <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center flex-shrink-0 mr-4 border border-white/20">
-                    <GraduationCap className="w-7 h-7 text-white" />
-                  </div>
-                  <div>
-                    <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                      <GraduationCap className="w-4 h-4" /> College Student
-                    </h2>
-                    <p className="text-white/80 text-sm mt-0.5">UG / PG / PhD Level</p>
-                  </div>
-                </div>
-              </div>
-              <div className="p-4">
-                <div className="flex gap-1.5 mb-3">
-                  {['CGPA', 'Percentage', 'Semester'].map((s) => (
-                    <span key={s} className="text-xs bg-edu-purple-light text-edu-purple px-2.5 py-1 rounded-full font-medium">{s}</span>
-                  ))}
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="text-xs text-muted-foreground">Semester-wise CGPA & smart recommendations</div>
-                  <div className="gradient-purple rounded-full px-3.5 py-1.5 text-white text-xs font-semibold flex items-center gap-1"
-                    style={{ boxShadow: '0 4px 14px rgba(139,92,246,0.25)' }}>
-                    Start <ChevronRight className="w-3 h-3" />
-                  </div>
-                </div>
-              </div>
-            </Card3D>
-          </>
-        )}
 
         {/* Career Tools */}
         {!loading && (
