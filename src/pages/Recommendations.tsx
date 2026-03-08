@@ -104,13 +104,21 @@ export default function Recommendations() {
                 <p>No courses matched your score. Try improving your marks!</p>
               </div>
             ) : (
-              higherStudies.map((course) => (
-                <CourseCard
+              higherStudies.map((course, i) => (
+                <motion.div
                   key={course.id}
-                  course={course}
-                  onSave={() => saveItem('course', course as unknown as Record<string, unknown>)}
-                  isSaved={isItemSaved(course.id)}
-                />
+                  custom={i}
+                  variants={cardVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-40px' }}
+                >
+                  <CourseCard
+                    course={course}
+                    onSave={() => saveItem('course', course as unknown as Record<string, unknown>)}
+                    isSaved={isItemSaved(course.id)}
+                  />
+                </motion.div>
               ))
             )}
           </div>
