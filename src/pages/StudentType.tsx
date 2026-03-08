@@ -516,21 +516,27 @@ function MarksSlideCard({
 
         {/* Actions */}
         <div className="flex gap-2.5">
-          <Button
+          <button
             onClick={onRecommendations}
-            className="flex-1 rounded-xl h-10 bg-gradient-to-r from-primary to-primary/85 text-primary-foreground shadow-lg shadow-primary/20 font-semibold text-xs sm:text-sm">
-            
-            <Target className="w-4 h-4 mr-1" />
-            Recommendations
-          </Button>
-          <Button
+            className="flex-1 relative overflow-hidden rounded-2xl h-12 font-bold text-xs sm:text-sm text-white shadow-lg shadow-primary/25 transition-all active:scale-[0.97] group/btn"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-violet-600" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
+            <div className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity bg-gradient-to-r from-violet-600 via-primary to-primary" />
+            <span className="relative flex items-center justify-center gap-1.5">
+              <Target className="w-4 h-4" />
+              Recommendations
+            </span>
+          </button>
+          <button
             onClick={onViewResults}
-            variant="outline"
-            className="flex-1 rounded-xl h-10 font-semibold text-xs sm:text-sm border-border/80">
-            
-            <BarChart3 className="w-4 h-4 mr-1" />
-            Full Results
-          </Button>
+            className="flex-1 relative overflow-hidden rounded-2xl h-12 font-bold text-xs sm:text-sm text-foreground border-2 border-border/60 bg-card hover:bg-muted/60 transition-all active:scale-[0.97] group/btn2"
+          >
+            <span className="relative flex items-center justify-center gap-1.5">
+              <BarChart3 className="w-4 h-4 text-primary" />
+              Full Results
+            </span>
+          </button>
         </div>
       </div>
     </div>);
