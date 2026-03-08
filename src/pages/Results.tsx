@@ -195,7 +195,8 @@ export default function Results() {
     return null;
   }
 
-  const { studentType, class: cls, stream, level, course, subjects, percentage, grade, classification, cgpa } = source;
+  const { studentType, class: cls, stream, level, course, subjects: rawSubjects, percentage, grade, classification, cgpa, semesters } = source;
+  const subjects = rawSubjects && rawSubjects.length > 0 ? rawSubjects : flattenSemesters(semesters);
   const gradientClass = classificationColor[classification] || 'gradient-primary';
 
   return (
