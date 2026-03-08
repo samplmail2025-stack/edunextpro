@@ -5,7 +5,7 @@ import { AppHeader } from '@/components/layout/AppHeader';
 import { CircularProgress } from '@/components/charts/CircularProgress';
 import { GradeBarChart } from '@/components/charts/GradeBarChart';
 import { Button } from '@/components/ui/button';
-import { Trophy, Star, TrendingUp, BookOpen, Loader2, Download } from 'lucide-react';
+import { Trophy, Star, TrendingUp, BookOpen, Loader2, Download, Share2 } from 'lucide-react';
 import { useMarks } from '@/hooks/useMarks';
 import { useAuth } from '@/hooks/useAuth';
 import resultsHeroImg from '@/assets/results-celebration.jpg';
@@ -319,20 +319,51 @@ export default function Results() {
         </div>
 
         {/* Action buttons */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-3 gap-3">
           <Button
             onClick={handleDownloadPDF}
             className="h-14 rounded-2xl bg-edu-green hover:bg-edu-green/90 border-0 flex flex-col gap-0.5"
           >
             <Download className="w-5 h-5" />
-            <span className="text-xs font-semibold">Download PDF</span>
+            <span className="text-xs font-semibold">Download</span>
+          </Button>
+          <Button
+            onClick={() => {
+              const name = profile?.full_name || 'Student';
+              const subjectLines = subjects?.map(s => `• ${s.name}: ${s.marks}/${s.maxMarks}`).join('\n') || '';
+              const text = [
+                `📚 *EduNext Academic Report*`,
+                `━━━━━━━━━━━━━━━━━━`,
+                `👤 *${name}*`,
+                studentType === 'school' && cls ? `📖 Class: ${cls}` : '',
+                stream ? `🎯 Stream: ${stream}` : '',
+                level ? `🎓 Level: ${level}` : '',
+                course ? `📖 Dept: ${course}` : '',
+                ``,
+                `🏆 *Result: ${classification}*`,
+                `📊 Percentage: *${percentage.toFixed(1)}%*`,
+                cgpa ? `📈 CGPA: *${cgpa.toFixed(2)}*` : '',
+                grade && grade !== '-' ? `🎯 Grade: *${grade}*` : '',
+                ``,
+                subjectLines ? `📋 *Subject Marks:*\n${subjectLines}` : '',
+                ``,
+                `━━━━━━━━━━━━━━━━━━`,
+                `Calculated by *EduNext* 📚`,
+                `Know Your Marks · Choose Your Path · Build Your Future`,
+              ].filter(Boolean).join('\n');
+              window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+            }}
+            className="h-14 rounded-2xl bg-[#25D366] hover:bg-[#1fba59] border-0 flex flex-col gap-0.5 text-white"
+          >
+            <Share2 className="w-5 h-5" />
+            <span className="text-xs font-semibold">WhatsApp</span>
           </Button>
           <Button
             onClick={() => navigate('/recommendations', { state: { studentType, percentage, cgpa, stream, level, course, classification } })}
             className="h-14 rounded-2xl gradient-primary border-0 flex flex-col gap-0.5"
           >
             <span className="text-lg">🎯</span>
-            <span className="text-xs font-semibold">Get Recommendations</span>
+            <span className="text-xs font-semibold">Recommend</span>
           </Button>
         </div>
         <div className="grid grid-cols-1 gap-3 pb-4">
