@@ -280,43 +280,18 @@ export default function StudentType() {
               </div>
             </motion.div>
 
-            {/* Quick Actions Row */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="grid grid-cols-2 gap-3"
-            >
-              <div
-                onClick={handleEditMarks}
-                className="bg-card rounded-2xl p-4 flex flex-col items-center gap-2 cursor-pointer hover:shadow-md transition-all border border-border/60 group"
-              >
-                <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-                  <RefreshCw className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                </div>
-                <span className="text-xs font-medium text-foreground">Re-enter Marks</span>
-              </div>
-              <div
-                onClick={() => navigate(isSchool ? '/college-marks' : '/school-marks')}
-                className="bg-card rounded-2xl p-4 flex flex-col items-center gap-2 cursor-pointer hover:shadow-md transition-all border border-border/60 group"
-              >
-                <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-                  {isSchool
-                    ? <GraduationCap className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                    : <School className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                  }
-                </div>
-                <span className="text-xs font-medium text-foreground text-center">
-                  {isSchool ? 'Add College Marks' : 'Add School Marks'}
-                </span>
-              </div>
-            </motion.div>
           </>
         )}
 
-        {/* ========== STUDENT TYPE SELECTOR: No marks ========== */}
-        {!loading && !hasMarks && (
+        {/* ========== STUDENT TYPE SELECTOR: Always visible ========== */}
+        {!loading && (
           <>
+            {hasMarks && (
+              <div className="flex items-center gap-2 pt-1">
+                <School className="w-4 h-4 text-primary" />
+                <p className="text-xs font-bold text-foreground uppercase tracking-wider">Enter New Marks</p>
+              </div>
+            )}
             <Card3D
               onClick={() => navigate('/school-marks')}
               className="w-full bg-card rounded-[1.25rem] overflow-hidden border border-border text-left cursor-pointer shadow-lg shadow-black/5"
