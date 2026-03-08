@@ -5,7 +5,8 @@ import { AppHeader } from '@/components/layout/AppHeader';
 import { CircularProgress } from '@/components/charts/CircularProgress';
 import { GradeBarChart } from '@/components/charts/GradeBarChart';
 import { Button } from '@/components/ui/button';
-import { Trophy, Star, TrendingUp, BookOpen } from 'lucide-react';
+import { Trophy, Star, TrendingUp, BookOpen, Loader2 } from 'lucide-react';
+import { useMarks } from '@/hooks/useMarks';
 import resultsHeroImg from '@/assets/results-celebration.jpg';
 
 interface LocationState {
@@ -33,14 +34,30 @@ const classificationColor: Record<string, string> = {
 
 export default function Results() {
   const navigate = useNavigate();
-  const { state } = useLocation() as { state: LocationState };
+  const { state } = useLocation() as { state: LocationState | null };
+  const { latestMarks, loading } = useMarks();
 
-  if (!state) {
+  // Build data from navigation state OR from saved marks
+  const source = state || (latestMarks ? buildStateFromMarks(latestMarks) : null);
+
+  if (loading && !source) {
+    return (
+      <PageWrapper>
+        <AppHeader title="Your Results" subtitle="Academic Performance" showBack gradient />
+        <div className="flex items-center justify-center py-20">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+        <BottomNav />
+      </PageWrapper>
+    );
+  }
+
+  if (!source) {
     navigate('/student-type');
     return null;
   }
 
-  const { studentType, class: cls, stream, level, course, subjects, percentage, grade, classification, cgpa } = state;
+  const { studentType, class: cls, stream, level, course, subjects, percentage, grade, classification, cgpa } = source;
   const gradientClass = classificationColor[classification] || 'gradient-primary';
 
   return (
@@ -62,7 +79,7 @@ export default function Results() {
           <Trophy className="w-10 h-10 mx-auto mb-2 text-white/90" />
           <h2 className="text-4xl font-bold">{percentage.toFixed(1)}%</h2>
           {cgpa && <p className="text-white/90 text-lg font-semibold mt-1">CGPA: {cgpa.toFixed(2)}</p>}
-          {grade && <p className="text-white/80 text-sm mt-1">Grade: {grade}</p>}
+          {grade && grade !== '-' && <p className="text-white/80 text-sm mt-1">Grade: {grade}</p>}
           <div className="mt-3 inline-block bg-white/20 rounded-full px-4 py-1">
             <span className="font-bold text-base">{classification}</span>
           </div>
@@ -154,4 +171,28 @@ export default function Results() {
       <BottomNav />
     </PageWrapper>
   );
+}
+
+// Helper to build LocationState from saved marks data
+function buildStateFromMarks(marks: { student_type?: string; class?: string; stream?: string; level?: string; course?: string; subjects?: unknown; percentage?: number; grade?: string; classification?: string; cgpa?: number }): LocationState {
+  const subjects = marks.subjects
+    ? (Array.isArray(marks.subjects)
+        ? marks.subjects as { name: string; marks: number; maxMarks: number }[]
+        : Object.entries(marks.subjects as Record<string, number>).map(([name, m]) => ({
+            name, marks: m as number, maxMarks: 100
+          })))
+    : undefined;
+
+  return {
+    studentType: (marks.student_type as 'school' | 'college') || 'school',
+    class: marks.class as string | undefined,
+    stream: marks.stream as string | undefined,
+    level: marks.level as string | undefined,
+    course: marks.course as string | undefined,
+    subjects,
+    percentage: (marks.percentage as number) || 0,
+    grade: marks.grade as string | undefined,
+    classification: (marks.classification as string) || '-',
+    cgpa: marks.cgpa as number | undefined,
+  };
 }
