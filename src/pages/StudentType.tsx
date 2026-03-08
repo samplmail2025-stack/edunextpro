@@ -153,39 +153,39 @@ export default function StudentType() {
               className="bg-card rounded-[1.25rem] overflow-hidden border border-border shadow-xl shadow-primary/5"
             >
               {/* Score Header */}
-              <div className="relative bg-gradient-to-br from-primary via-primary/95 to-primary/80 p-6 pb-5">
+              <div className="relative bg-gradient-to-br from-primary via-primary/95 to-primary/80 p-4 sm:p-6 pb-5">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_60%)]" />
                 <div className="relative">
                   {/* Type Badge */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5">
+                  <div className="flex items-center justify-between gap-2 mb-4 flex-wrap">
+                    <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm rounded-full px-2.5 py-1.5 min-w-0">
                       {isSchool
-                        ? <School className="w-3.5 h-3.5 text-white/90" />
-                        : <GraduationCap className="w-3.5 h-3.5 text-white/90" />
+                        ? <School className="w-3.5 h-3.5 text-white/90 flex-shrink-0" />
+                        : <GraduationCap className="w-3.5 h-3.5 text-white/90 flex-shrink-0" />
                       }
-                      <span className="text-xs font-medium text-white/90">
+                      <span className="text-[11px] sm:text-xs font-medium text-white/90 truncate">
                         {isSchool
                           ? `${latestMarks?.class || ''}${latestMarks?.stream ? ` · ${latestMarks.stream}` : ''}`
                           : `${latestMarks?.level || ''}${latestMarks?.course ? ` · ${latestMarks.course}` : ''}`
                         }
                       </span>
                     </div>
-                    <div className="flex items-center gap-1.5 bg-white/15 backdrop-blur-sm rounded-full px-3 py-1.5">
+                    <div className="flex items-center gap-1.5 bg-white/15 backdrop-blur-sm rounded-full px-2.5 py-1.5 flex-shrink-0">
                       <Trophy className="w-3.5 h-3.5 text-yellow-300" />
-                      <span className="text-xs font-semibold text-white">{classification}</span>
+                      <span className="text-[11px] sm:text-xs font-semibold text-white">{classification}</span>
                     </div>
                   </div>
 
                   {/* Score Display */}
-                  <div className="flex items-end justify-between">
-                    <div>
-                      <p className="text-4xl font-extrabold text-white tracking-tight">{percentage}%</p>
-                      <p className="text-sm text-white/60 mt-0.5 font-medium">Overall Percentage</p>
+                  <div className="flex items-end justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">{percentage}%</p>
+                      <p className="text-xs sm:text-sm text-white/60 mt-0.5 font-medium">Overall Percentage</p>
                     </div>
                     {cgpa != null && (
-                      <div className="text-right">
-                        <p className="text-3xl font-extrabold text-white tracking-tight">{cgpa}</p>
-                        <p className="text-sm text-white/60 mt-0.5 font-medium">CGPA</p>
+                      <div className="text-right flex-shrink-0">
+                        <p className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">{cgpa}</p>
+                        <p className="text-xs sm:text-sm text-white/60 mt-0.5 font-medium">CGPA</p>
                       </div>
                     )}
                   </div>
@@ -209,29 +209,29 @@ export default function StudentType() {
               </div>
 
               {/* Analytics Body */}
-              <div className="p-5 space-y-5">
+              <div className="p-4 sm:p-5 space-y-5">
                 {/* Stats + Chart Row */}
-                <div className="flex items-start gap-5">
+                <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5">
                   <div className="flex-shrink-0">
                     <CircularProgress
                       percentage={percentage}
-                      size={105}
+                      size={95}
                       sublabel="Score"
                       colorClass={percentage >= 75 ? 'green' : percentage >= 50 ? 'orange' : 'primary'}
                     />
                   </div>
-                  <div className="flex-1 space-y-2">
+                  <div className="w-full flex-1 space-y-2">
                     {[
                       { label: 'Grade', value: grade, icon: Star, color: 'text-yellow-500' },
                       { label: 'Classification', value: classification, icon: TrendingUp, color: 'text-emerald-500' },
                       ...(cgpa != null ? [{ label: 'CGPA', value: String(cgpa), icon: Target, color: 'text-primary' }] : []),
                     ].map((stat) => (
-                      <div key={stat.label} className="flex items-center gap-2.5 bg-muted/40 rounded-xl px-3 py-2.5 border border-border/50">
+                      <div key={stat.label} className="flex items-center gap-2 bg-muted/40 rounded-xl px-3 py-2.5 border border-border/50">
                         <div className="w-7 h-7 rounded-lg bg-background flex items-center justify-center flex-shrink-0 shadow-sm">
                           <stat.icon className={`w-3.5 h-3.5 ${stat.color}`} />
                         </div>
-                        <span className="text-xs text-muted-foreground flex-1">{stat.label}</span>
-                        <span className="text-sm font-bold text-foreground">{stat.value}</span>
+                        <span className="text-xs text-muted-foreground flex-1 truncate">{stat.label}</span>
+                        <span className="text-sm font-bold text-foreground flex-shrink-0">{stat.value}</span>
                       </div>
                     ))}
                   </div>
