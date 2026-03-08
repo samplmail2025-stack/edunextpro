@@ -91,6 +91,7 @@ function AppRoutes() {
         <Route path="/" element={user ? <Navigate to={getAuthRedirect()} replace /> : <Navigate to="/auth" replace />} />
         <Route path="/onboarding" element={user ? <PageTransition><Onboarding /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/student-type" element={user ? (isProfileComplete ? <PageTransition><StudentType /></PageTransition> : <Navigate to="/onboarding" replace />) : <Navigate to="/auth" replace />} />
+        <Route path="/marks" element={user ? <PageTransition><MarksSelector /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/school-marks" element={user ? <PageTransition><SchoolMarks /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/college-marks" element={user ? <PageTransition><CollegeMarks /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/results" element={user ? <PageTransition><Results /></PageTransition> : <Navigate to="/auth" replace />} />
