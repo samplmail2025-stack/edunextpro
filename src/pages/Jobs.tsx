@@ -1,4 +1,13 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  visible: (i: number) => ({
+    opacity: 1, y: 0, scale: 1,
+    transition: { delay: i * 0.08, duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }
+  })
+};
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { AppHeader } from '@/components/layout/AppHeader';
@@ -61,13 +70,21 @@ export default function Jobs() {
               <p className="font-medium">No jobs in this category</p>
             </div>
           ) : (
-            filtered.map((job) => (
-              <JobCard
+            filtered.map((job, i) => (
+              <motion.div
                 key={job.id}
-                job={job}
-                onSave={() => saveItem('job', job as unknown as Record<string, unknown>)}
-                isSaved={isItemSaved(job.id)}
-              />
+                custom={i}
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-40px' }}
+              >
+                <JobCard
+                  job={job}
+                  onSave={() => saveItem('job', job as unknown as Record<string, unknown>)}
+                  isSaved={isItemSaved(job.id)}
+                />
+              </motion.div>
             ))
           )}
         </div>

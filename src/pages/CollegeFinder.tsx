@@ -11,6 +11,14 @@ import { COURSES } from '@/data/courses';
 import { useBookmarks } from '@/hooks/useBookmarks';
 import { useCompare } from '@/contexts/CompareContext';
 import { motion, AnimatePresence } from 'framer-motion';
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  visible: (i: number) => ({
+    opacity: 1, y: 0, scale: 1,
+    transition: { delay: i * 0.08, duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }
+  })
+};
 import {
   Search, GraduationCap, MapPin, Building2, Filter, X,
   BookOpen, Award, ChevronDown, GitCompareArrows, ArrowRight
@@ -254,14 +262,22 @@ export default function CollegeFinder() {
               )}
             </div>
           ) : (
-            colleges.map((college) => (
-              <CollegeCard
+            colleges.map((college, i) => (
+              <motion.div
                 key={college.id}
-                college={college}
-                highlightCourse={query}
-                onSave={() => saveItem('college', college as unknown as Record<string, unknown>)}
-                isSaved={isItemSaved(college.id)}
-              />
+                custom={i % 10}
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-40px' }}
+              >
+                <CollegeCard
+                  college={college}
+                  highlightCourse={query}
+                  onSave={() => saveItem('college', college as unknown as Record<string, unknown>)}
+                  isSaved={isItemSaved(college.id)}
+                />
+              </motion.div>
             ))
           )}
         </div>
