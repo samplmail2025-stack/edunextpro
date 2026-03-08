@@ -8,6 +8,7 @@ const cardVariants = {
     transition: { delay: i * 0.08, duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }
   })
 };
+import { PageWrapper } from '@/components/layout/PageWrapper';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { AppHeader } from '@/components/layout/AppHeader';
 import { ENTRANCE_EXAMS, Exam } from '@/data/exams';
