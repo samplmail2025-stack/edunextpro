@@ -2,6 +2,7 @@ import { useState, useMemo, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { BottomNav } from '@/components/layout/BottomNav';
+import { AppHeader } from '@/components/layout/AppHeader';
 import { CollegeCard } from '@/components/cards/CollegeCard';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { TN_DISTRICTS } from '@/data/districts';
