@@ -18,6 +18,7 @@ import {
   Stethoscope, Briefcase, Scale, Search, Filter
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import entranceExamsHeroImg from '@/assets/entrance-exams-hero.jpg';
 
 const LEVEL_FILTERS = ['All', 'State', 'National'] as const;
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {
