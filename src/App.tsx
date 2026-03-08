@@ -109,7 +109,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <NavigationDirectionProvider>
-          <AppRoutes />
+          <CompareProvider>
+            <AppRoutes />
+          </CompareProvider>
         </NavigationDirectionProvider>
       </BrowserRouter>
     </TooltipProvider>
