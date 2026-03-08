@@ -10,18 +10,26 @@ import { useMarks } from '@/hooks/useMarks';
 import { useAuth } from '@/hooks/useAuth';
 import resultsHeroImg from '@/assets/results-celebration.jpg';
 
+interface SemSubject { name: string; marks: number; maxMarks: number; credits?: number }
+interface SemesterData { semester: number; subjects: SemSubject[] }
+
 interface LocationState {
   studentType: 'school' | 'college';
   class?: string;
   stream?: string;
   level?: string;
   course?: string;
-  subjects?: { name: string; marks: number; maxMarks: number }[];
+  subjects?: SemSubject[];
   percentage: number;
   grade?: string;
   classification: string;
   cgpa?: number;
-  semesters?: unknown[];
+  semesters?: SemesterData[];
+}
+
+function flattenSemesters(semesters?: SemesterData[]): SemSubject[] {
+  if (!semesters) return [];
+  return semesters.flatMap(sem => sem.subjects.filter(s => s.name));
 }
 
 const classificationColor: Record<string, string> = {
