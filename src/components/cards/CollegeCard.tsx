@@ -1,6 +1,7 @@
-import { ExternalLink, MapPin, Phone, Bookmark, ArrowRight, Calendar, GraduationCap, Globe, Star } from 'lucide-react';
+import { ExternalLink, MapPin, Phone, Bookmark, ArrowRight, Calendar, GraduationCap, Globe, Star, GitCompareArrows } from 'lucide-react';
 import { College } from '@/data/colleges';
 import { Button } from '@/components/ui/button';
+import { useCompare } from '@/contexts/CompareContext';
 
 interface CollegeCardProps {
   college: College;
@@ -27,7 +28,8 @@ const typeConfig: Record<string, { color: string; bg: string; gradient: string }
 
 export function CollegeCard({ college, highlightCourse, onSave, isSaved }: CollegeCardProps) {
   const naac = naacConfig[college.naacGrade] || naacConfig['B'];
-  const type = typeConfig[college.type] || typeConfig['Private'];
+  const { toggleCollege, isSelected, canAdd } = useCompare();
+  const compared = isSelected(college.id);
 
   const searchTerms = highlightCourse ? highlightCourse.toLowerCase().split(' ').filter(t => t.length > 1) : [];
   const isHighlighted = (course: string) => {
@@ -149,6 +151,15 @@ export function CollegeCard({ college, highlightCourse, onSave, isSaved }: Colle
               <ArrowRight className="w-3.5 h-3.5 ml-auto transition-transform group-hover/btn:translate-x-0.5" />
             </Button>
           </a>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => toggleCollege(college)}
+            disabled={!compared && !canAdd}
+            className={`rounded-xl px-3 h-10 ${compared ? 'bg-edu-teal/10 border-edu-teal text-edu-teal' : ''}`}
+          >
+            <GitCompareArrows className={`w-4 h-4 ${compared ? 'text-edu-teal' : ''}`} />
+          </Button>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { CollegeCard } from '@/components/cards/CollegeCard';
@@ -8,9 +8,11 @@ import { TN_DISTRICTS } from '@/data/districts';
 import { searchColleges, TN_COLLEGES } from '@/data/colleges';
 import { COURSES } from '@/data/courses';
 import { useBookmarks } from '@/hooks/useBookmarks';
+import { useCompare } from '@/contexts/CompareContext';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search, GraduationCap, MapPin, Building2, Filter, X,
-  BookOpen, Award, ChevronDown
+  BookOpen, Award, ChevronDown, GitCompareArrows, ArrowRight
 } from 'lucide-react';
 import campusImg from '@/assets/campus-building.jpg';
 
@@ -261,8 +263,57 @@ export default function CollegeFinder() {
             ))
           )}
         </div>
+
+        {/* Floating Compare Bar */}
+        <CompareFloatingBar />
       </div>
       <BottomNav />
     </PageWrapper>
+  );
+}
+
+function CompareFloatingBar() {
+  const { selected, clearAll } = useCompare();
+  const navigate = useNavigate();
+
+  return (
+    <AnimatePresence>
+      {selected.length > 0 && (
+        <motion.div
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 100, opacity: 0 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+          className="fixed bottom-24 left-4 right-4 z-50 max-w-lg mx-auto"
+        >
+          <div className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl p-3 flex items-center gap-3"
+            style={{ boxShadow: '0 8px 40px rgba(0,0,0,0.15)' }}>
+            <div className="w-10 h-10 rounded-xl gradient-teal flex items-center justify-center flex-shrink-0">
+              <GitCompareArrows className="w-5 h-5 text-white" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-bold text-foreground">{selected.length} college{selected.length > 1 ? 's' : ''} selected</p>
+              <p className="text-[10px] text-muted-foreground truncate">
+                {selected.map(c => c.name.split(' ').slice(0, 2).join(' ')).join(' vs ')}
+              </p>
+            </div>
+            <button onClick={clearAll} className="p-1.5 rounded-full hover:bg-muted">
+              <X className="w-4 h-4 text-muted-foreground" />
+            </button>
+            <button
+              onClick={() => navigate('/compare-colleges')}
+              disabled={selected.length < 2}
+              className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1 transition-all ${
+                selected.length >= 2
+                  ? 'gradient-primary text-white shadow-md'
+                  : 'bg-muted text-muted-foreground cursor-not-allowed'
+              }`}
+            >
+              Compare <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

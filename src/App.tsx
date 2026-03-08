@@ -12,6 +12,7 @@ import { PageTransition } from "@/components/layout/PageTransition";
 import { SplashScreen } from "@/components/layout/SplashScreen";
 import { DeveloperSplash } from "@/components/layout/DeveloperSplash";
 import { NavigationDirectionProvider } from "@/contexts/NavigationDirection";
+import { CompareProvider } from "@/contexts/CompareContext";
 
 // Preload splash images immediately
 import edunextLogo from '@/assets/edunext-logo.png';
@@ -32,6 +33,7 @@ import Jobs from "./pages/Jobs";
 import Bookmarks from "./pages/Bookmarks";
 import Profile from "./pages/Profile";
 import EntranceExams from "./pages/EntranceExams";
+import CompareColleges from "./pages/CompareColleges";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -90,6 +92,7 @@ function AppRoutes() {
         <Route path="/results" element={user ? <PageTransition><Results /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/recommendations" element={user ? <PageTransition><Recommendations /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/college-finder" element={user ? <PageTransition><CollegeFinder /></PageTransition> : <Navigate to="/auth" replace />} />
+        <Route path="/compare-colleges" element={user ? <PageTransition><CompareColleges /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/jobs" element={user ? <PageTransition><Jobs /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/entrance-exams" element={user ? <PageTransition><EntranceExams /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/bookmarks" element={user ? <PageTransition><Bookmarks /></PageTransition> : <Navigate to="/auth" replace />} />
@@ -106,7 +109,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <NavigationDirectionProvider>
-          <AppRoutes />
+          <CompareProvider>
+            <AppRoutes />
+          </CompareProvider>
         </NavigationDirectionProvider>
       </BrowserRouter>
     </TooltipProvider>
