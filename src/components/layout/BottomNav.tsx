@@ -6,7 +6,7 @@ import { useRef } from 'react';
 
 const NAV_ITEMS = [
   { icon: Home, label: 'Home', path: '/student-type' },
-  { icon: Calculator, label: 'Marks', path: '/school-marks' },
+  { icon: Calculator, label: 'Marks', path: '/student-type' },
   { icon: Star, label: 'Reco.', path: '/recommendations' },
   { icon: Bookmark, label: 'Saved', path: '/bookmarks' },
   { icon: User, label: 'Profile', path: '/profile' },
