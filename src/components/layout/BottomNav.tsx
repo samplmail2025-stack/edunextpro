@@ -18,11 +18,16 @@ export function BottomNav() {
   const { setDirection } = useNavigationDirection();
   const lastRouteRef = useRef(location.pathname);
 
-  const isActive = (path: string) => {
-    if (path === '/student-type') {
-      return ['/student-type', '/school-marks', '/college-marks', '/results'].includes(location.pathname);
+  const marksPages = ['/school-marks', '/college-marks', '/results'];
+
+  const isActive = (item: typeof NAV_ITEMS[0]) => {
+    if (item.id === 'marks') {
+      return marksPages.includes(location.pathname);
     }
-    return location.pathname === path;
+    if (item.id === 'home') {
+      return location.pathname === '/student-type' && !marksPages.includes(location.pathname);
+    }
+    return location.pathname === item.path;
   };
 
   const handleNavigate = (targetPath: string) => {
