@@ -81,14 +81,14 @@ export function CourseCard({ course, onSave, isSaved }: CourseCardProps) {
       </div>
 
       {/* Stats bar */}
-      <div className="flex gap-0 border-b border-border">
-        <div className="flex-1 flex items-center justify-center gap-1.5 py-2.5 border-r border-border">
-          <Clock className="w-3.5 h-3.5 text-muted-foreground" />
-          <span className="text-xs font-semibold text-foreground">{course.duration}</span>
+      <div className="grid grid-cols-2 divide-x divide-border border-b border-border">
+        <div className="flex items-center justify-center gap-2 py-3">
+          <Clock className="w-4 h-4 text-primary/60" />
+          <span className="text-xs font-bold text-foreground">{course.duration}</span>
         </div>
-        <div className="flex-1 flex items-center justify-center gap-1.5 py-2.5">
-          <IndianRupee className="w-3.5 h-3.5 text-muted-foreground" />
-          <span className="text-xs font-semibold text-foreground">{course.approxFees}</span>
+        <div className="flex items-center justify-center gap-2 py-3">
+          <IndianRupee className="w-4 h-4 text-primary/60" />
+          <span className="text-xs font-bold text-foreground">{course.approxFees}</span>
         </div>
       </div>
 
