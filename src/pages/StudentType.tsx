@@ -209,29 +209,29 @@ export default function StudentType() {
               </div>
 
               {/* Analytics Body */}
-              <div className="p-5 space-y-5">
+              <div className="p-4 sm:p-5 space-y-5">
                 {/* Stats + Chart Row */}
-                <div className="flex items-start gap-5">
+                <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5">
                   <div className="flex-shrink-0">
                     <CircularProgress
                       percentage={percentage}
-                      size={105}
+                      size={95}
                       sublabel="Score"
                       colorClass={percentage >= 75 ? 'green' : percentage >= 50 ? 'orange' : 'primary'}
                     />
                   </div>
-                  <div className="flex-1 space-y-2">
+                  <div className="w-full flex-1 space-y-2">
                     {[
                       { label: 'Grade', value: grade, icon: Star, color: 'text-yellow-500' },
                       { label: 'Classification', value: classification, icon: TrendingUp, color: 'text-emerald-500' },
                       ...(cgpa != null ? [{ label: 'CGPA', value: String(cgpa), icon: Target, color: 'text-primary' }] : []),
                     ].map((stat) => (
-                      <div key={stat.label} className="flex items-center gap-2.5 bg-muted/40 rounded-xl px-3 py-2.5 border border-border/50">
+                      <div key={stat.label} className="flex items-center gap-2 bg-muted/40 rounded-xl px-3 py-2.5 border border-border/50">
                         <div className="w-7 h-7 rounded-lg bg-background flex items-center justify-center flex-shrink-0 shadow-sm">
                           <stat.icon className={`w-3.5 h-3.5 ${stat.color}`} />
                         </div>
-                        <span className="text-xs text-muted-foreground flex-1">{stat.label}</span>
-                        <span className="text-sm font-bold text-foreground">{stat.value}</span>
+                        <span className="text-xs text-muted-foreground flex-1 truncate">{stat.label}</span>
+                        <span className="text-sm font-bold text-foreground flex-shrink-0">{stat.value}</span>
                       </div>
                     ))}
                   </div>
