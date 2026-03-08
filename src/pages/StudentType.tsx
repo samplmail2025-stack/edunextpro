@@ -153,26 +153,26 @@ export default function StudentType() {
               className="bg-card rounded-[1.25rem] overflow-hidden border border-border shadow-xl shadow-primary/5"
             >
               {/* Score Header */}
-              <div className="relative bg-gradient-to-br from-primary via-primary/95 to-primary/80 p-6 pb-5">
+              <div className="relative bg-gradient-to-br from-primary via-primary/95 to-primary/80 p-4 sm:p-6 pb-5">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_60%)]" />
                 <div className="relative">
                   {/* Type Badge */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5">
+                  <div className="flex items-center justify-between gap-2 mb-4 flex-wrap">
+                    <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm rounded-full px-2.5 py-1.5 min-w-0">
                       {isSchool
-                        ? <School className="w-3.5 h-3.5 text-white/90" />
-                        : <GraduationCap className="w-3.5 h-3.5 text-white/90" />
+                        ? <School className="w-3.5 h-3.5 text-white/90 flex-shrink-0" />
+                        : <GraduationCap className="w-3.5 h-3.5 text-white/90 flex-shrink-0" />
                       }
-                      <span className="text-xs font-medium text-white/90">
+                      <span className="text-[11px] sm:text-xs font-medium text-white/90 truncate">
                         {isSchool
                           ? `${latestMarks?.class || ''}${latestMarks?.stream ? ` · ${latestMarks.stream}` : ''}`
                           : `${latestMarks?.level || ''}${latestMarks?.course ? ` · ${latestMarks.course}` : ''}`
                         }
                       </span>
                     </div>
-                    <div className="flex items-center gap-1.5 bg-white/15 backdrop-blur-sm rounded-full px-3 py-1.5">
+                    <div className="flex items-center gap-1.5 bg-white/15 backdrop-blur-sm rounded-full px-2.5 py-1.5 flex-shrink-0">
                       <Trophy className="w-3.5 h-3.5 text-yellow-300" />
-                      <span className="text-xs font-semibold text-white">{classification}</span>
+                      <span className="text-[11px] sm:text-xs font-semibold text-white">{classification}</span>
                     </div>
                   </div>
 
