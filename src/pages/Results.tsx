@@ -10,18 +10,26 @@ import { useMarks } from '@/hooks/useMarks';
 import { useAuth } from '@/hooks/useAuth';
 import resultsHeroImg from '@/assets/results-celebration.jpg';
 
+interface SemSubject { name: string; marks: number; maxMarks: number; credits?: number }
+interface SemesterData { semester: number; subjects: SemSubject[] }
+
 interface LocationState {
   studentType: 'school' | 'college';
   class?: string;
   stream?: string;
   level?: string;
   course?: string;
-  subjects?: { name: string; marks: number; maxMarks: number }[];
+  subjects?: SemSubject[];
   percentage: number;
   grade?: string;
   classification: string;
   cgpa?: number;
-  semesters?: unknown[];
+  semesters?: SemesterData[];
+}
+
+function flattenSemesters(semesters?: SemesterData[]): SemSubject[] {
+  if (!semesters) return [];
+  return semesters.flatMap(sem => sem.subjects.filter(s => s.name));
 }
 
 const classificationColor: Record<string, string> = {
@@ -44,7 +52,8 @@ export default function Results() {
 
   const handleDownloadPDF = () => {
     if (!source) return;
-    const { studentType, class: cls, stream, level, course, subjects, percentage, grade, classification, cgpa } = source;
+    const { studentType, class: cls, stream, level, course, subjects: rawSubjects, percentage, grade, classification, cgpa, semesters } = source;
+    const subjects = rawSubjects && rawSubjects.length > 0 ? rawSubjects : flattenSemesters(semesters);
     const studentName = profile?.full_name || 'Student';
     const district = profile?.district || '';
     const now = new Date();
@@ -137,23 +146,52 @@ export default function Results() {
       ${grade && grade !== '-' ? `<div class="stat-row"><span class="stat-badge badge-purple">🎯 Grade: ${grade}</span></div>` : ''}
     </div>
   </div>
-  ${subjects && subjects.length > 0 ? `
-  <div class="table-section">
-    <h3>📋 Subject-wise Marks Breakdown</h3>
-    <table>
-      <thead><tr><th>#</th><th>Subject</th><th>Max</th><th>Obtained</th><th>%</th></tr></thead>
-      <tbody>
-        ${subjectRows}
-        <tr class="total-row">
-          <td style="padding:12px 14px;"></td>
-          <td style="padding:12px 14px;font-size:13px;">Total</td>
-          <td style="padding:12px 14px;text-align:center;font-size:13px;">${totalMax}</td>
-          <td style="padding:12px 14px;text-align:center;font-size:13px;">${totalMarks}</td>
-          <td style="padding:12px 14px;text-align:center;font-size:13px;color:#4f46e5;">${percentage.toFixed(1)}%</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>` : ''}
+   ${semesters && semesters.length > 0 ? semesters.map((sem, si) => {
+     const semSubRows = sem.subjects.filter(s => s.name).map((s, i) => `
+       <tr>
+         <td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;color:#374151;font-size:13px;">${i + 1}</td>
+         <td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;color:#1f2937;font-weight:500;font-size:13px;">${s.name}</td>
+         <td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;text-align:center;color:#374151;font-size:13px;">${s.maxMarks}</td>
+         <td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;text-align:center;font-weight:600;color:#1f2937;font-size:13px;">${s.marks}</td>
+         <td style="padding:10px 14px;border-bottom:1px solid #e5e7eb;text-align:center;font-size:13px;color:${(s.marks / s.maxMarks) * 100 >= 75 ? '#16a34a' : (s.marks / s.maxMarks) * 100 >= 50 ? '#2563eb' : '#dc2626'};font-weight:600;">${((s.marks / s.maxMarks) * 100).toFixed(1)}%</td>
+       </tr>
+     `).join('');
+     const semTotal = sem.subjects.filter(s => s.name).reduce((a, s) => a + s.marks, 0);
+     const semMax = sem.subjects.filter(s => s.name).reduce((a, s) => a + s.maxMarks, 0);
+     return `
+     <div class="table-section" style="padding-top:${si > 0 ? '8px' : '24px'};">
+       <h3>📋 Semester ${sem.semester} — Subject-wise Marks</h3>
+       <table>
+         <thead><tr><th>#</th><th>Subject</th><th>Max</th><th>Obtained</th><th>%</th></tr></thead>
+         <tbody>
+           ${semSubRows}
+           <tr class="total-row">
+             <td style="padding:12px 14px;"></td>
+             <td style="padding:12px 14px;font-size:13px;">Semester Total</td>
+             <td style="padding:12px 14px;text-align:center;font-size:13px;">${semMax}</td>
+             <td style="padding:12px 14px;text-align:center;font-size:13px;">${semTotal}</td>
+             <td style="padding:12px 14px;text-align:center;font-size:13px;color:#4f46e5;">${semMax > 0 ? ((semTotal / semMax) * 100).toFixed(1) : 0}%</td>
+           </tr>
+         </tbody>
+       </table>
+     </div>`;
+   }).join('') : subjects && subjects.length > 0 ? `
+   <div class="table-section">
+     <h3>📋 Subject-wise Marks Breakdown</h3>
+     <table>
+       <thead><tr><th>#</th><th>Subject</th><th>Max</th><th>Obtained</th><th>%</th></tr></thead>
+       <tbody>
+         ${subjectRows}
+         <tr class="total-row">
+           <td style="padding:12px 14px;"></td>
+           <td style="padding:12px 14px;font-size:13px;">Total</td>
+           <td style="padding:12px 14px;text-align:center;font-size:13px;">${totalMax}</td>
+           <td style="padding:12px 14px;text-align:center;font-size:13px;">${totalMarks}</td>
+           <td style="padding:12px 14px;text-align:center;font-size:13px;color:#4f46e5;">${percentage.toFixed(1)}%</td>
+         </tr>
+       </tbody>
+     </table>
+   </div>` : ''}
   <div class="footer">
     <div class="footer-left">This report is auto-generated by EduNext. For academic reference only.</div>
     <div class="footer-right">© ${now.getFullYear()} EduNext</div>
@@ -187,7 +225,8 @@ export default function Results() {
     return null;
   }
 
-  const { studentType, class: cls, stream, level, course, subjects, percentage, grade, classification, cgpa } = source;
+  const { studentType, class: cls, stream, level, course, subjects: rawSubjects, percentage, grade, classification, cgpa, semesters } = source;
+  const subjects = rawSubjects && rawSubjects.length > 0 ? rawSubjects : flattenSemesters(semesters);
   const gradientClass = classificationColor[classification] || 'gradient-primary';
 
   return (
@@ -313,13 +352,17 @@ export default function Results() {
 }
 
 // Helper to build LocationState from saved marks data
-function buildStateFromMarks(marks: { student_type?: string; class?: string; stream?: string; level?: string; course?: string; subjects?: unknown; percentage?: number; grade?: string; classification?: string; cgpa?: number }): LocationState {
+function buildStateFromMarks(marks: { student_type?: string; class?: string; stream?: string; level?: string; course?: string; subjects?: unknown; percentage?: number; grade?: string; classification?: string; cgpa?: number; semester_data?: unknown }): LocationState {
   const subjects = marks.subjects
     ? (Array.isArray(marks.subjects)
-        ? marks.subjects as { name: string; marks: number; maxMarks: number }[]
+        ? marks.subjects as SemSubject[]
         : Object.entries(marks.subjects as Record<string, number>).map(([name, m]) => ({
             name, marks: m as number, maxMarks: 100
           })))
+    : undefined;
+
+  const semesters = marks.semester_data
+    ? (Array.isArray(marks.semester_data) ? marks.semester_data as SemesterData[] : undefined)
     : undefined;
 
   return {
@@ -333,5 +376,6 @@ function buildStateFromMarks(marks: { student_type?: string; class?: string; str
     grade: marks.grade as string | undefined,
     classification: (marks.classification as string) || '-',
     cgpa: marks.cgpa as number | undefined,
+    semesters,
   };
 }
