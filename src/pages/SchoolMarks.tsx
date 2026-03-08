@@ -13,14 +13,19 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 
 const CLASSES = ['10th', '11th', '12th'];
-const STREAMS = ['Science', 'Commerce', 'Arts'];
+const STREAMS = [
+  'Science (Maths)', 'Science (Biology)', 'Science (Computer Science)',
+  'Commerce', 'Commerce (Computer Applications)',
+  'Arts (History)', 'Arts (Political Science)', 'Arts (Economics)',
+  'Vocational'
+];
 
 export default function SchoolMarks() {
   const navigate = useNavigate();
   const { saveMarks } = useMarks();
   const { toast } = useToast();
   const [cls, setCls] = useState('12th');
-  const [stream, setStream] = useState('Science');
+  const [stream, setStream] = useState('Science (Maths)');
   const [marks, setMarks] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
 
