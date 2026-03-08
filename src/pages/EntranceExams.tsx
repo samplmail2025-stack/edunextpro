@@ -1,4 +1,13 @@
 import { useState, useMemo } from 'react';
+import { motion } from 'framer-motion';
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  visible: (i: number) => ({
+    opacity: 1, y: 0, scale: 1,
+    transition: { delay: i * 0.08, duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }
+  })
+};
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { AppHeader } from '@/components/layout/AppHeader';
@@ -218,8 +227,17 @@ export default function EntranceExams() {
 
         {/* Cards */}
         <div className="space-y-4">
-          {filtered.map((exam) => (
-            <ExamCard key={exam.id} exam={exam} />
+          {filtered.map((exam, i) => (
+            <motion.div
+              key={exam.id}
+              custom={i % 10}
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-40px' }}
+            >
+              <ExamCard exam={exam} />
+            </motion.div>
           ))}
         </div>
 

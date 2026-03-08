@@ -1,5 +1,13 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  visible: (i: number) => ({
+    opacity: 1, y: 0, scale: 1,
+    transition: { delay: i * 0.08, duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }
+  })
+};
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { AppHeader } from '@/components/layout/AppHeader';
 import { BottomNav } from '@/components/layout/BottomNav';
@@ -168,13 +176,21 @@ export default function Scholarships() {
               <p className="text-muted-foreground text-sm">No scholarships found</p>
             </div>
           ) : (
-            filtered.map((s) => (
-              <ScholarshipCard
+            filtered.map((s, i) => (
+              <motion.div
                 key={s.id}
-                scholarship={s}
-                onSave={() => saveItem('course', s as unknown as Record<string, unknown>)}
-                isSaved={isItemSaved(s.id)}
-              />
+                custom={i % 10}
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-40px' }}
+              >
+                <ScholarshipCard
+                  scholarship={s}
+                  onSave={() => saveItem('course', s as unknown as Record<string, unknown>)}
+                  isSaved={isItemSaved(s.id)}
+                />
+              </motion.div>
             ))
           )}
         </div>
