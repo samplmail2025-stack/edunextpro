@@ -7,8 +7,9 @@ import {
   School, GraduationCap, Sparkles, BookOpen, Building2, Briefcase,
   Target, Lightbulb, PenTool, FileText, Award, MessageSquare, FileUser,
   TrendingUp, BarChart3, Loader2, ChevronRight, ChevronLeft,
-  Trophy, Star, Zap } from
+  Trophy, Star, Zap, Trash2 } from
 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 import { useMarks, type MarksEntry } from '@/hooks/useMarks';
 import { CircularProgress } from '@/components/charts/CircularProgress';
@@ -61,7 +62,8 @@ const slideVariants = {
 export default function StudentType() {
   const navigate = useNavigate();
   const { profile } = useAuth();
-  const { marks, loading } = useMarks();
+  const { marks, loading, deleteMarks } = useMarks();
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const hasMarks = marks.length > 0;
   const firstName = profile?.full_name?.split(' ')[0] || 'Student';
@@ -223,7 +225,20 @@ export default function StudentType() {
                   <MarksSlideCard
                   entry={currentEntry}
                   onRecommendations={() => handleRecommendations(currentEntry)}
-                  onViewResults={() => handleViewResults(currentEntry)} />
+                  onViewResults={() => handleViewResults(currentEntry)}
+                  onDelete={async () => {
+                    if (!currentEntry.id) return;
+                    setDeletingId(currentEntry.id);
+                    const { error } = await deleteMarks(currentEntry.id);
+                    setDeletingId(null);
+                    if (error) {
+                      toast({ title: 'Error', description: 'Failed to delete entry', variant: 'destructive' });
+                    } else {
+                      toast({ title: 'Deleted', description: 'Marks entry removed' });
+                      if (currentIndex >= marks.length - 1) setCurrentIndex(Math.max(0, marks.length - 2));
+                    }
+                  }}
+                  isDeleting={deletingId === currentEntry.id} />
                 
                 </motion.div>
               </AnimatePresence>
@@ -356,12 +371,11 @@ export default function StudentType() {
 function MarksSlideCard({
   entry,
   onRecommendations,
-  onViewResults
-
-
-
-
-}: {entry: MarksEntry;onRecommendations: () => void;onViewResults: () => void;}) {
+  onViewResults,
+  onDelete,
+  isDeleting
+}: {entry: MarksEntry;onRecommendations: () => void;onViewResults: () => void;onDelete: () => void;isDeleting: boolean;}) {
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const pct = entry.percentage ?? 0;
   const cgpa = entry.cgpa;
   const classification = entry.classification ?? '-';
@@ -392,9 +406,33 @@ function MarksSlideCard({
               }
               <span className="text-[11px] sm:text-xs font-medium text-white/90 truncate">{typeLabel}</span>
             </div>
-            <div className="flex items-center gap-1.5 bg-white/15 backdrop-blur-sm rounded-full px-2.5 py-1.5 flex-shrink-0">
-              <Trophy className="w-3.5 h-3.5 text-yellow-300" />
-              <span className="text-[11px] sm:text-xs font-semibold text-white">{classification}</span>
+            <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1.5 bg-white/15 backdrop-blur-sm rounded-full px-2.5 py-1.5 flex-shrink-0">
+                <Trophy className="w-3.5 h-3.5 text-yellow-300" />
+                <span className="text-[11px] sm:text-xs font-semibold text-white">{classification}</span>
+              </div>
+              {!confirmDelete ? (
+                <button
+                  onClick={(e) => { e.stopPropagation(); setConfirmDelete(true); }}
+                  className="w-7 h-7 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-red-500/30 transition-colors"
+                  title="Delete entry">
+                  <Trash2 className="w-3.5 h-3.5 text-white/70" />
+                </button>
+              ) : (
+                <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+                  <button
+                    onClick={() => { onDelete(); setConfirmDelete(false); }}
+                    disabled={isDeleting}
+                    className="px-2 py-1 rounded-full bg-red-500/80 text-[10px] font-semibold text-white hover:bg-red-600 transition-colors disabled:opacity-50">
+                    {isDeleting ? '...' : 'Delete'}
+                  </button>
+                  <button
+                    onClick={() => setConfirmDelete(false)}
+                    className="px-2 py-1 rounded-full bg-white/15 text-[10px] font-medium text-white hover:bg-white/25 transition-colors">
+                    Cancel
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
