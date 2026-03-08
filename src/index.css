@@ -147,6 +147,10 @@
   .card-shadow {
     box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
   }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
   .card-shadow-colored {
     box-shadow: 0 8px 25px -5px rgba(99, 102, 241, 0.2);
   }
