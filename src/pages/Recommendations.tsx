@@ -163,10 +163,18 @@ export default function Recommendations() {
               </h3>
               <div className="space-y-3">
                 {skills.map((skill, i) => (
-                  <div key={i} className="flex items-start gap-3 p-3 bg-muted/50 rounded-xl animate-fade-in" style={{ animationDelay: `${i * 0.1}s` }}>
+                  <motion.div
+                    key={i}
+                    custom={i}
+                    variants={cardVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: '-20px' }}
+                    className="flex items-start gap-3 p-3 bg-muted/50 rounded-xl"
+                  >
                     <span className="text-lg flex-shrink-0">{['🚀', '💡', '📚', '🎯', '💼'][i % 5]}</span>
                     <p className="text-sm text-foreground">{skill}</p>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
