@@ -226,8 +226,17 @@ export default function EntranceExams() {
 
         {/* Cards */}
         <div className="space-y-4">
-          {filtered.map((exam) => (
-            <ExamCard key={exam.id} exam={exam} />
+          {filtered.map((exam, i) => (
+            <motion.div
+              key={exam.id}
+              custom={i % 10}
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-40px' }}
+            >
+              <ExamCard exam={exam} />
+            </motion.div>
           ))}
         </div>
 

@@ -176,13 +176,21 @@ export default function Scholarships() {
               <p className="text-muted-foreground text-sm">No scholarships found</p>
             </div>
           ) : (
-            filtered.map((s) => (
-              <ScholarshipCard
+            filtered.map((s, i) => (
+              <motion.div
                 key={s.id}
-                scholarship={s}
-                onSave={() => saveItem('course', s as unknown as Record<string, unknown>)}
-                isSaved={isItemSaved(s.id)}
-              />
+                custom={i % 10}
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-40px' }}
+              >
+                <ScholarshipCard
+                  scholarship={s}
+                  onSave={() => saveItem('course', s as unknown as Record<string, unknown>)}
+                  isSaved={isItemSaved(s.id)}
+                />
+              </motion.div>
             ))
           )}
         </div>
