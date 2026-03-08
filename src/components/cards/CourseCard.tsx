@@ -1,4 +1,4 @@
-import { Clock, IndianRupee, BookOpen, ExternalLink, Bookmark } from 'lucide-react';
+import { Clock, IndianRupee, BookOpen, GraduationCap, Bookmark, ArrowRight, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Course } from '@/data/courses';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
@@ -9,81 +9,106 @@ interface CourseCardProps {
   isSaved?: boolean;
 }
 
-const levelColors: Record<string, string> = {
-  UG: 'gradient-blue',
-  PG: 'gradient-purple',
-  PhD: 'gradient-teal',
+const levelConfig: Record<string, { gradient: string; badge: string; icon: string }> = {
+  UG: { gradient: 'gradient-blue', badge: 'bg-white/20 text-white', icon: '🎓' },
+  PG: { gradient: 'gradient-purple', badge: 'bg-white/20 text-white', icon: '📚' },
+  PhD: { gradient: 'gradient-teal', badge: 'bg-white/20 text-white', icon: '🔬' },
 };
 
 export function CourseCard({ course, onSave, isSaved }: CourseCardProps) {
   const navigate = useNavigate();
+  const config = levelConfig[course.level] || levelConfig.UG;
 
   return (
-    <div className="bg-card rounded-2xl overflow-hidden card-shadow border border-border animate-fade-in">
-      <div className={`${levelColors[course.level] || 'gradient-primary'} p-4 pb-3`}>
-        <div className="flex items-start justify-between gap-2">
-          <div>
-            <h3 className="font-bold text-white text-sm leading-tight">{course.name}</h3>
-            <p className="text-white/80 text-xs mt-0.5">{course.category}</p>
+    <div className="group bg-card rounded-2xl overflow-hidden card-shadow border border-border hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
+      {/* Header with gradient */}
+      <div className={`${config.gradient} p-4 pb-5 relative overflow-hidden`}>
+        {/* Decorative background icons */}
+        <GraduationCap className="absolute -right-3 -top-3 w-20 h-20 text-white/[0.07] rotate-12" />
+        <BookOpen className="absolute right-10 bottom-0 w-12 h-12 text-white/[0.06] -rotate-6" />
+
+        <div className="flex items-start justify-between gap-3 relative z-10">
+          <div className="flex-1 min-w-0">
+            <h3 className="font-bold text-white text-[15px] leading-snug tracking-tight">{course.name}</h3>
+            <p className="text-white/70 text-xs mt-1 font-medium">{course.category}</p>
           </div>
-          <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-white/25 text-white flex-shrink-0">
-            {course.level}
-          </span>
+          <div className="flex items-center gap-1.5 flex-shrink-0">
+            <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full ${config.badge} backdrop-blur-sm`}>
+              {course.level}
+            </span>
+            {onSave && (
+              <button
+                onClick={(e) => { e.stopPropagation(); onSave(); }}
+                className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${isSaved ? 'bg-white/30 text-white' : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white'}`}
+              >
+                <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Stats pills overlapping the border */}
+        <div className="flex gap-2 mt-4">
+          <div className="flex items-center gap-1.5 bg-white/15 backdrop-blur-sm rounded-full px-3 py-1.5">
+            <Clock className="w-3.5 h-3.5 text-white/80" />
+            <span className="text-[11px] font-semibold text-white">{course.duration}</span>
+          </div>
+          <div className="flex items-center gap-1.5 bg-white/15 backdrop-blur-sm rounded-full px-3 py-1.5">
+            <IndianRupee className="w-3.5 h-3.5 text-white/80" />
+            <span className="text-[11px] font-semibold text-white">{course.approxFees}</span>
+          </div>
         </div>
       </div>
 
+      {/* Body */}
       <div className="p-4 space-y-3">
-        <div className="grid grid-cols-2 gap-2">
-          <div className="flex items-center gap-1.5">
-            <Clock className="w-3.5 h-3.5 text-edu-blue flex-shrink-0" />
-            <span className="text-xs text-foreground">{course.duration}</span>
+        {/* Requirements row */}
+        <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-xl">
+          <div className="flex-1">
+            <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-wider">Min. Score</p>
+            <p className="text-sm font-bold text-foreground mt-0.5">{course.minPercentage}%</p>
           </div>
-          <div className="flex items-center gap-1.5">
-            <IndianRupee className="w-3.5 h-3.5 text-edu-green flex-shrink-0" />
-            <span className="text-xs text-foreground">{course.approxFees}</span>
+          <div className="w-px h-8 bg-border" />
+          <div className="flex-1">
+            <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-wider">Entrance</p>
+            {course.entranceExam ? (
+              <div className="flex items-center gap-1 mt-0.5">
+                <AlertCircle className="w-3 h-3 text-edu-orange flex-shrink-0" />
+                <p className="text-xs font-semibold text-edu-orange">{course.entranceExam}</p>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1 mt-0.5">
+                <CheckCircle2 className="w-3 h-3 text-edu-green flex-shrink-0" />
+                <p className="text-xs font-semibold text-edu-green">Not Required</p>
+              </div>
+            )}
           </div>
         </div>
 
-        <div className="bg-muted/50 rounded-xl p-2.5">
-          <p className="text-xs text-muted-foreground mb-0.5">Min. Required: <span className="font-semibold text-foreground">{course.minPercentage}%</span></p>
-          {course.entranceExam && (
-            <p className="text-xs text-muted-foreground">Entrance: <span className="font-semibold text-edu-orange">{course.entranceExam}</span></p>
-          )}
-          {!course.entranceExam && (
-            <p className="text-xs text-edu-green font-medium">✓ No Entrance Exam</p>
-          )}
-        </div>
-
+        {/* Career scope */}
         <div>
-          <p className="text-xs font-medium text-muted-foreground mb-1 flex items-center gap-1">
-            <BookOpen className="w-3 h-3" /> Career Scope
+          <p className="text-[11px] text-muted-foreground font-medium uppercase tracking-wider mb-2 flex items-center gap-1.5">
+            <BookOpen className="w-3 h-3" /> Career Paths
           </p>
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1.5">
             {course.careerScope.slice(0, 3).map((c) => (
-              <span key={c} className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">{c}</span>
+              <span key={c} className="text-[11px] font-medium bg-primary/8 text-primary px-2.5 py-1 rounded-lg border border-primary/10">{c}</span>
             ))}
+            {course.careerScope.length > 3 && (
+              <span className="text-[11px] text-muted-foreground px-2 py-1">+{course.careerScope.length - 3} more</span>
+            )}
           </div>
         </div>
 
-        <div className="flex gap-2">
-          <Button
-            size="sm"
-            className="flex-1 rounded-xl text-xs gradient-primary border-0"
-            onClick={() => navigate(`/college-finder?course=${encodeURIComponent(course.name)}`)}
-          >
-            View Colleges
-          </Button>
-          {onSave && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onSave}
-              className={`rounded-xl px-3 ${isSaved ? 'text-edu-yellow border-edu-yellow' : ''}`}
-            >
-              <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-edu-yellow' : ''}`} />
-            </Button>
-          )}
-        </div>
+        {/* CTA */}
+        <Button
+          size="sm"
+          className="w-full rounded-xl text-xs font-semibold gradient-primary border-0 group/btn h-10"
+          onClick={() => navigate(`/college-finder?course=${encodeURIComponent(course.name)}`)}
+        >
+          View Colleges
+          <ArrowRight className="w-3.5 h-3.5 ml-1.5 transition-transform group-hover/btn:translate-x-0.5" />
+        </Button>
       </div>
     </div>
   );
