@@ -133,13 +133,21 @@ export default function Recommendations() {
                 <p>No jobs matched. Explore skill-based opportunities!</p>
               </div>
             ) : (
-              jobs.map((job) => (
-                <JobCard
+              jobs.map((job, i) => (
+                <motion.div
                   key={job.id}
-                  job={job}
-                  onSave={() => saveItem('job', job as unknown as Record<string, unknown>)}
-                  isSaved={isItemSaved(job.id)}
-                />
+                  custom={i}
+                  variants={cardVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-40px' }}
+                >
+                  <JobCard
+                    job={job}
+                    onSave={() => saveItem('job', job as unknown as Record<string, unknown>)}
+                    isSaved={isItemSaved(job.id)}
+                  />
+                </motion.div>
               ))
             )}
           </div>
