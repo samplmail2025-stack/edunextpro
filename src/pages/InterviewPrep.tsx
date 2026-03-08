@@ -5,6 +5,7 @@ import { AppHeader } from '@/components/layout/AppHeader';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { INTERVIEW_QUESTIONS, InterviewQuestion } from '@/data/interviewQuestions';
 import { ChevronDown, Lightbulb, MessageSquare, Users, BookOpen, Shield, Sparkles } from 'lucide-react';
+import interviewHeroImg from '@/assets/interview-prep-hero.jpg';
 
 const TABS = [
   { key: 'HR', label: 'HR Questions', icon: MessageSquare },

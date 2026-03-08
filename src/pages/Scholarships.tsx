@@ -121,9 +121,19 @@ export default function Scholarships() {
 
   return (
     <PageWrapper>
-      <AppHeader title="Scholarships" subtitle={`${filtered.length} scholarships found`} showBack />
+      <AppHeader title="Scholarships" subtitle={`${filtered.length} scholarships found`} showBack gradient />
 
       <div className="px-4 py-4 space-y-4 pb-24">
+        {/* Hero image banner */}
+        <div className="relative rounded-2xl overflow-hidden h-36 card-shadow">
+          <img src={scholarshipsHeroImg} alt="Scholarship opportunities" loading="lazy" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+          <div className="absolute bottom-3 left-4 right-4">
+            <h2 className="text-white font-bold text-lg leading-tight">Scholarship Finder</h2>
+            <p className="text-white/80 text-xs mt-0.5">40+ scholarships for Tamil Nadu students</p>
+          </div>
+        </div>
+
         {/* Search */}
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />

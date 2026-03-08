@@ -199,7 +199,16 @@ export default function EntranceExams() {
     <PageWrapper>
       <AppHeader title="Entrance Exams" subtitle="TN & National exam guide with dates & tips" showBack gradient />
       <div className="p-4 space-y-4 max-w-lg mx-auto">
-        {/* Search */}
+        {/* Hero image banner */}
+        <div className="relative rounded-2xl overflow-hidden h-36 card-shadow">
+          <img src={entranceExamsHeroImg} alt="Entrance exam preparation" loading="lazy" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+          <div className="absolute bottom-3 left-4 right-4">
+            <h2 className="text-white font-bold text-lg leading-tight">Entrance Exams Guide</h2>
+            <p className="text-white/80 text-xs mt-0.5">TNEA, NEET, JEE, TNPSC & more</p>
+          </div>
+        </div>
+
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
