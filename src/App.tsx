@@ -87,6 +87,8 @@ function AppRoutes() {
   };
 
   return (
+      <>
+      <ScrollRestoration />
       <Routes location={location}>
         <Route path="/auth" element={!user ? <PageTransition><Auth /></PageTransition> : (authStep !== 'form' ? <PageTransition><Auth /></PageTransition> : <Navigate to={getAuthRedirect()} replace />)} />
         <Route path="/" element={user ? <Navigate to={getAuthRedirect()} replace /> : <Navigate to="/auth" replace />} />
