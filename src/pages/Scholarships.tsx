@@ -16,6 +16,7 @@ import { useBookmarks } from '@/hooks/useBookmarks';
 import { Search, ExternalLink, Bookmark, GraduationCap, IndianRupee, Calendar, Filter, Award, Heart, Users, Trophy, Accessibility } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import scholarshipsHeroImg from '@/assets/scholarships-hero.jpg';
 
 const TYPES = ['All', 'Government of TN', 'Central Government', 'Private'] as const;
 const CATEGORIES = ['All', 'Merit', 'Income', 'Community', 'Sports', 'Disability'] as const;
