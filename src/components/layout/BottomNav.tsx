@@ -5,11 +5,11 @@ import { useNavigationDirection, getRouteIndex } from '@/contexts/NavigationDire
 import { useRef } from 'react';
 
 const NAV_ITEMS = [
-  { icon: Home, label: 'Home', path: '/student-type' },
-  { icon: Calculator, label: 'Marks', path: '/school-marks' },
-  { icon: Star, label: 'Reco.', path: '/recommendations' },
-  { icon: Bookmark, label: 'Saved', path: '/bookmarks' },
-  { icon: User, label: 'Profile', path: '/profile' },
+  { icon: Home, label: 'Home', path: '/student-type', id: 'home' },
+  { icon: Calculator, label: 'Marks', path: '/student-type', id: 'marks' },
+  { icon: Star, label: 'Reco.', path: '/recommendations', id: 'reco' },
+  { icon: Bookmark, label: 'Saved', path: '/bookmarks', id: 'saved' },
+  { icon: User, label: 'Profile', path: '/profile', id: 'profile' },
 ];
 
 export function BottomNav() {
@@ -18,9 +18,17 @@ export function BottomNav() {
   const { setDirection } = useNavigationDirection();
   const lastRouteRef = useRef(location.pathname);
 
-  const isActive = (path: string) =>
-    location.pathname === path ||
-    (path === '/school-marks' && ['/school-marks', '/college-marks', '/results'].includes(location.pathname));
+  const marksPages = ['/school-marks', '/college-marks', '/results'];
+
+  const isActive = (item: typeof NAV_ITEMS[0]) => {
+    if (item.id === 'marks') {
+      return marksPages.includes(location.pathname);
+    }
+    if (item.id === 'home') {
+      return location.pathname === '/student-type' && !marksPages.includes(location.pathname);
+    }
+    return location.pathname === item.path;
+  };
 
   const handleNavigate = (targetPath: string) => {
     const currentIdx = getRouteIndex(location.pathname);
@@ -46,8 +54,9 @@ export function BottomNav() {
           className="relative flex items-center justify-around bg-card/95 backdrop-blur-xl border border-border rounded-[28px] px-2 py-2.5"
           style={{ boxShadow: '0 8px 40px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)' }}
         >
-          {NAV_ITEMS.map(({ icon: Icon, label, path }) => {
-            const active = isActive(path);
+          {NAV_ITEMS.map((item) => {
+            const { icon: Icon, label, path } = item;
+            const active = isActive(item);
             return (
               <motion.button
                 key={path}
