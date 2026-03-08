@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { Card3D } from '@/components/layout/Card3D';
-import { School, GraduationCap, Sparkles, BookOpen, Building2, Briefcase, Target, Lightbulb, PenTool } from 'lucide-react';
+import { School, GraduationCap, Sparkles, BookOpen, Building2, Briefcase, Target, Lightbulb, PenTool, FileText } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import schoolStudentImg from '@/assets/school-student.jpg';
 import collegeGraduateImg from '@/assets/college-graduate.jpg';
