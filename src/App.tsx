@@ -13,6 +13,7 @@ import { SplashScreen } from "@/components/layout/SplashScreen";
 import { DeveloperSplash } from "@/components/layout/DeveloperSplash";
 import { NavigationDirectionProvider } from "@/contexts/NavigationDirection";
 import { CompareProvider } from "@/contexts/CompareContext";
+import { ScrollRestoration } from "@/components/layout/ScrollRestoration";
 
 // Preload splash images immediately
 import edunextLogo from '@/assets/edunext-logo.png';
@@ -86,6 +87,8 @@ function AppRoutes() {
   };
 
   return (
+      <>
+      <ScrollRestoration />
       <Routes location={location}>
         <Route path="/auth" element={!user ? <PageTransition><Auth /></PageTransition> : (authStep !== 'form' ? <PageTransition><Auth /></PageTransition> : <Navigate to={getAuthRedirect()} replace />)} />
         <Route path="/" element={user ? <Navigate to={getAuthRedirect()} replace /> : <Navigate to="/auth" replace />} />
@@ -107,6 +110,7 @@ function AppRoutes() {
         <Route path="/profile" element={user ? <PageTransition><Profile /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
+      </>
   );
 }
 
