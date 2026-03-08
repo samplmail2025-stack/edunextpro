@@ -18,9 +18,12 @@ export function BottomNav() {
   const { setDirection } = useNavigationDirection();
   const lastRouteRef = useRef(location.pathname);
 
-  const isActive = (path: string) =>
-    location.pathname === path ||
-    (path === '/school-marks' && ['/school-marks', '/college-marks', '/results'].includes(location.pathname));
+  const isActive = (path: string) => {
+    if (path === '/student-type') {
+      return ['/student-type', '/school-marks', '/college-marks', '/results'].includes(location.pathname);
+    }
+    return location.pathname === path;
+  };
 
   const handleNavigate = (targetPath: string) => {
     const currentIdx = getRouteIndex(location.pathname);
