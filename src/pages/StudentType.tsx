@@ -6,7 +6,8 @@ import { Card3D } from '@/components/layout/Card3D';
 import {
   School, GraduationCap, Sparkles, BookOpen, Building2, Briefcase,
   Target, Lightbulb, PenTool, FileText, Award, MessageSquare, FileUser,
-  TrendingUp, BarChart3, ArrowRight, RefreshCw, Loader2
+  TrendingUp, BarChart3, ArrowRight, RefreshCw, Loader2, ChevronRight,
+  Trophy, Star, Zap, Clock
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useMarks } from '@/hooks/useMarks';
@@ -26,7 +27,6 @@ export default function StudentType() {
   const hasMarks = !!latestMarks;
   const firstName = profile?.full_name?.split(' ')[0] || 'Student';
 
-  // Parse subjects from marks data
   const subjects = latestMarks?.subjects
     ? (Array.isArray(latestMarks.subjects)
         ? latestMarks.subjects as { name: string; marks: number; maxMarks: number }[]
@@ -76,17 +76,21 @@ export default function StudentType() {
     });
   };
 
-  const classificationGradient: Record<string, string> = {
-    'Outstanding': 'from-yellow-500 to-amber-600',
-    'Distinction': 'from-emerald-500 to-teal-600',
-    'First Class': 'from-blue-500 to-indigo-600',
-    'Second Class': 'from-orange-500 to-amber-600',
-    'Third Class': 'from-rose-500 to-pink-600',
-    'Pass Class': 'from-orange-500 to-amber-600',
-    'Fail': 'from-red-600 to-rose-700',
+  const getPerformanceEmoji = () => {
+    if (percentage >= 90) return '🏆';
+    if (percentage >= 75) return '🌟';
+    if (percentage >= 60) return '💪';
+    if (percentage >= 50) return '📈';
+    return '🎯';
   };
 
-  const gradientClass = classificationGradient[classification] || 'from-primary to-primary/80';
+  const getPerformanceLabel = () => {
+    if (percentage >= 90) return 'Outstanding Performance';
+    if (percentage >= 75) return 'Excellent Performance';
+    if (percentage >= 60) return 'Good Performance';
+    if (percentage >= 50) return 'Average Performance';
+    return 'Keep Working Hard';
+  };
 
   return (
     <PageWrapper>
@@ -98,10 +102,10 @@ export default function StudentType() {
             alt="Banner"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/85 via-primary/75 to-primary/90" />
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/80 to-background" />
         </div>
-        <div className="relative pt-10 pb-14 px-6 text-center">
-          <div className="absolute inset-0 opacity-[0.07]">
+        <div className="relative pt-10 pb-16 px-6 text-center">
+          <div className="absolute inset-0 opacity-[0.05]">
             <BookOpen className="absolute top-6 right-12 w-10 h-10 text-white" />
             <GraduationCap className="absolute bottom-8 left-12 w-12 h-12 text-white" />
             <Lightbulb className="absolute top-16 left-1/2 w-8 h-8 text-white" />
@@ -113,93 +117,121 @@ export default function StudentType() {
             transition={{ duration: 0.5 }}
             className="relative"
           >
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Sparkles className="w-5 h-5 text-yellow-300" />
-              <span className="text-white/90 text-sm font-medium">Welcome back, {firstName}! 👋</span>
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <Sparkles className="w-4 h-4 text-yellow-300" />
+              <span className="text-white/90 text-xs font-medium tracking-wide uppercase">Welcome back, {firstName}! 👋</span>
             </div>
-            <h1 className="text-2xl font-bold text-white mt-2">
-              {hasMarks ? 'Your Dashboard' : 'Who are you?'}
+            <h1 className="text-2xl font-bold text-white mt-1 tracking-tight">
+              {hasMarks ? 'Academic Dashboard' : 'Get Started'}
             </h1>
-            <p className="text-white/80 text-sm mt-1">
+            <p className="text-white/70 text-sm mt-1.5 max-w-xs mx-auto">
               {hasMarks
-                ? 'Your academic performance at a glance'
-                : 'Select your student category to get started'}
+                ? 'Track performance & discover opportunities'
+                : 'Select your student category to begin'}
             </p>
           </motion.div>
         </div>
       </div>
 
-      <div className="px-4 -mt-8 pb-8 space-y-4 max-w-lg mx-auto">
+      <div className="px-4 -mt-10 pb-8 space-y-5 max-w-lg mx-auto relative z-10">
         {/* Loading State */}
         {loading && (
-          <div className="flex items-center justify-center py-12">
+          <div className="flex flex-col items-center justify-center py-16 gap-3">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            <p className="text-sm text-muted-foreground">Loading your data...</p>
           </div>
         )}
 
         {/* ========== DASHBOARD: When marks exist ========== */}
         {!loading && hasMarks && (
           <>
-            {/* Performance Card */}
+            {/* Main Performance Card */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="bg-card rounded-3xl overflow-hidden border border-border shadow-lg"
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+              className="bg-card rounded-[1.25rem] overflow-hidden border border-border shadow-xl shadow-primary/5"
             >
-              {/* Gradient Header */}
-              <div className={`bg-gradient-to-r ${gradientClass} p-5 text-white`}>
-                <div className="flex items-center justify-between mb-1">
-                  <div className="flex items-center gap-2">
-                    {isSchool
-                      ? <School className="w-5 h-5" />
-                      : <GraduationCap className="w-5 h-5" />
-                    }
-                    <span className="text-sm font-medium opacity-90">
+              {/* Score Header */}
+              <div className="relative bg-gradient-to-br from-primary via-primary/95 to-primary/80 p-6 pb-5">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_60%)]" />
+                <div className="relative">
+                  {/* Type Badge */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5">
                       {isSchool
-                        ? `${latestMarks?.class || ''} ${latestMarks?.stream ? `• ${latestMarks.stream}` : ''}`
-                        : `${latestMarks?.level || ''} ${latestMarks?.course ? `• ${latestMarks.course}` : ''}`
+                        ? <School className="w-3.5 h-3.5 text-white/90" />
+                        : <GraduationCap className="w-3.5 h-3.5 text-white/90" />
                       }
-                    </span>
-                  </div>
-                  <span className="text-xs bg-white/20 backdrop-blur-sm px-2.5 py-1 rounded-full font-medium">
-                    {classification}
-                  </span>
-                </div>
-                <div className="flex items-end gap-4 mt-3">
-                  <div>
-                    <p className="text-3xl font-bold">{percentage}%</p>
-                    <p className="text-sm opacity-80">Overall Score</p>
-                  </div>
-                  {cgpa && (
-                    <div className="ml-auto text-right">
-                      <p className="text-2xl font-bold">{cgpa}</p>
-                      <p className="text-sm opacity-80">CGPA</p>
+                      <span className="text-xs font-medium text-white/90">
+                        {isSchool
+                          ? `${latestMarks?.class || ''}${latestMarks?.stream ? ` · ${latestMarks.stream}` : ''}`
+                          : `${latestMarks?.level || ''}${latestMarks?.course ? ` · ${latestMarks.course}` : ''}`
+                        }
+                      </span>
                     </div>
-                  )}
+                    <div className="flex items-center gap-1.5 bg-white/15 backdrop-blur-sm rounded-full px-3 py-1.5">
+                      <Trophy className="w-3.5 h-3.5 text-yellow-300" />
+                      <span className="text-xs font-semibold text-white">{classification}</span>
+                    </div>
+                  </div>
+
+                  {/* Score Display */}
+                  <div className="flex items-end justify-between">
+                    <div>
+                      <p className="text-4xl font-extrabold text-white tracking-tight">{percentage}%</p>
+                      <p className="text-sm text-white/60 mt-0.5 font-medium">Overall Percentage</p>
+                    </div>
+                    {cgpa != null && (
+                      <div className="text-right">
+                        <p className="text-3xl font-extrabold text-white tracking-tight">{cgpa}</p>
+                        <p className="text-sm text-white/60 mt-0.5 font-medium">CGPA</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Performance indicator bar */}
+                  <div className="mt-4">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-xs text-white/60">{getPerformanceEmoji()} {getPerformanceLabel()}</span>
+                      <span className="text-xs font-medium text-white/80">{percentage}%</span>
+                    </div>
+                    <div className="h-1.5 bg-white/15 rounded-full overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${Math.min(percentage, 100)}%` }}
+                        transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
+                        className="h-full bg-gradient-to-r from-yellow-300 to-emerald-300 rounded-full"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Charts Section */}
+              {/* Analytics Body */}
               <div className="p-5 space-y-5">
-                {/* Circular + Stats */}
-                <div className="flex items-center gap-4">
-                  <CircularProgress
-                    percentage={percentage}
-                    size={110}
-                    sublabel="Score"
-                    colorClass={percentage >= 75 ? 'green' : percentage >= 50 ? 'orange' : 'primary'}
-                  />
-                  <div className="flex-1 space-y-2.5">
+                {/* Stats + Chart Row */}
+                <div className="flex items-start gap-5">
+                  <div className="flex-shrink-0">
+                    <CircularProgress
+                      percentage={percentage}
+                      size={105}
+                      sublabel="Score"
+                      colorClass={percentage >= 75 ? 'green' : percentage >= 50 ? 'orange' : 'primary'}
+                    />
+                  </div>
+                  <div className="flex-1 space-y-2">
                     {[
-                      { label: 'Grade', value: grade, icon: TrendingUp },
-                      { label: 'Classification', value: classification, icon: BarChart3 },
-                      ...(cgpa ? [{ label: 'CGPA', value: String(cgpa), icon: Target }] : []),
+                      { label: 'Grade', value: grade, icon: Star, color: 'text-yellow-500' },
+                      { label: 'Classification', value: classification, icon: TrendingUp, color: 'text-emerald-500' },
+                      ...(cgpa != null ? [{ label: 'CGPA', value: String(cgpa), icon: Target, color: 'text-primary' }] : []),
                     ].map((stat) => (
-                      <div key={stat.label} className="flex items-center gap-2 bg-muted/50 rounded-xl px-3 py-2">
-                        <stat.icon className="w-4 h-4 text-muted-foreground" />
-                        <span className="text-xs text-muted-foreground">{stat.label}</span>
-                        <span className="ml-auto text-sm font-semibold text-foreground">{stat.value}</span>
+                      <div key={stat.label} className="flex items-center gap-2.5 bg-muted/40 rounded-xl px-3 py-2.5 border border-border/50">
+                        <div className="w-7 h-7 rounded-lg bg-background flex items-center justify-center flex-shrink-0 shadow-sm">
+                          <stat.icon className={`w-3.5 h-3.5 ${stat.color}`} />
+                        </div>
+                        <span className="text-xs text-muted-foreground flex-1">{stat.label}</span>
+                        <span className="text-sm font-bold text-foreground">{stat.value}</span>
                       </div>
                     ))}
                   </div>
@@ -207,62 +239,77 @@ export default function StudentType() {
 
                 {/* Subject Bar Chart */}
                 {subjects.length > 0 && (
-                  <div>
-                    <p className="text-sm font-semibold text-foreground mb-2">📊 Subject Performance</p>
-                    <GradeBarChart data={subjects.map(s => ({ subject: s.name, marks: s.marks, maxMarks: s.maxMarks }))} />
-                  </div>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded-md bg-primary/10 flex items-center justify-center">
+                          <BarChart3 className="w-3.5 h-3.5 text-primary" />
+                        </div>
+                        <p className="text-sm font-semibold text-foreground">Subject Performance</p>
+                      </div>
+                      <span className="text-xs text-muted-foreground">{subjects.length} subjects</span>
+                    </div>
+                    <div className="bg-muted/20 rounded-xl p-3 border border-border/40">
+                      <GradeBarChart data={subjects.map(s => ({ subject: s.name, marks: s.marks, maxMarks: s.maxMarks }))} />
+                    </div>
+                  </motion.div>
                 )}
 
                 {/* Action Buttons */}
-                <div className="flex gap-2">
+                <div className="flex gap-2.5 pt-1">
                   <Button
                     onClick={handleRecommendations}
-                    className="flex-1 rounded-xl bg-gradient-to-r from-primary to-primary/80 text-primary-foreground"
+                    className="flex-1 rounded-xl h-11 bg-gradient-to-r from-primary to-primary/85 text-primary-foreground shadow-lg shadow-primary/20 font-semibold text-sm"
                   >
-                    <Target className="w-4 h-4 mr-1" />
+                    <Target className="w-4 h-4 mr-1.5" />
                     Recommendations
                   </Button>
                   <Button
                     onClick={handleViewResults}
                     variant="outline"
-                    className="flex-1 rounded-xl"
+                    className="flex-1 rounded-xl h-11 font-semibold text-sm border-border/80"
                   >
-                    <BarChart3 className="w-4 h-4 mr-1" />
+                    <BarChart3 className="w-4 h-4 mr-1.5" />
                     Full Results
                   </Button>
                 </div>
-                <Button
-                  onClick={handleEditMarks}
-                  variant="ghost"
-                  className="w-full text-muted-foreground text-xs"
-                >
-                  <RefreshCw className="w-3 h-3 mr-1" />
-                  Re-enter Marks
-                </Button>
               </div>
             </motion.div>
 
-            {/* New Entry Card */}
+            {/* Quick Actions Row */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 }}
-              className="bg-muted/40 rounded-2xl p-4 flex items-center gap-3 cursor-pointer hover:bg-muted/60 transition-colors border border-border/50"
-              onClick={() => navigate(isSchool ? '/college-marks' : '/school-marks')}
+              transition={{ delay: 0.2 }}
+              className="grid grid-cols-2 gap-3"
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-primary/20 to-primary/10 flex items-center justify-center">
-                {isSchool
-                  ? <GraduationCap className="w-5 h-5 text-primary" />
-                  : <School className="w-5 h-5 text-primary" />
-                }
+              <div
+                onClick={handleEditMarks}
+                className="bg-card rounded-2xl p-4 flex flex-col items-center gap-2 cursor-pointer hover:shadow-md transition-all border border-border/60 group"
+              >
+                <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+                  <RefreshCw className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                </div>
+                <span className="text-xs font-medium text-foreground">Re-enter Marks</span>
               </div>
-              <div className="flex-1">
-                <p className="text-sm font-medium text-foreground">
+              <div
+                onClick={() => navigate(isSchool ? '/college-marks' : '/school-marks')}
+                className="bg-card rounded-2xl p-4 flex flex-col items-center gap-2 cursor-pointer hover:shadow-md transition-all border border-border/60 group"
+              >
+                <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+                  {isSchool
+                    ? <GraduationCap className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                    : <School className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                  }
+                </div>
+                <span className="text-xs font-medium text-foreground text-center">
                   {isSchool ? 'Add College Marks' : 'Add School Marks'}
-                </p>
-                <p className="text-xs text-muted-foreground">Enter marks for another category</p>
+                </span>
               </div>
-              <ArrowRight className="w-4 h-4 text-muted-foreground" />
             </motion.div>
           </>
         )}
@@ -272,62 +319,70 @@ export default function StudentType() {
           <>
             <Card3D
               onClick={() => navigate('/school-marks')}
-              className="w-full bg-card rounded-3xl overflow-hidden border border-border text-left cursor-pointer"
+              className="w-full bg-card rounded-[1.25rem] overflow-hidden border border-border text-left cursor-pointer shadow-lg shadow-black/5"
             >
-              <div className="relative h-28 overflow-hidden">
+              <div className="relative h-32 overflow-hidden">
                 <img src={schoolStudentImg} alt="School student" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-r from-orange-600/80 to-orange-500/60" />
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-600/85 to-orange-500/60" />
                 <div className="absolute inset-0 flex items-center p-5">
-                  <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0 mr-4">
+                  <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center flex-shrink-0 mr-4 border border-white/20">
                     <School className="w-7 h-7 text-white" />
                   </div>
                   <div>
-                    <h2 className="text-lg font-bold text-white">🏫 School Student</h2>
-                    <p className="text-white/80 text-sm">10th / 11th / 12th</p>
+                    <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                      <School className="w-4 h-4" /> School Student
+                    </h2>
+                    <p className="text-white/80 text-sm mt-0.5">10th / 11th / 12th Class</p>
                   </div>
                 </div>
               </div>
               <div className="p-4">
-                <div className="flex gap-1 mb-3">
+                <div className="flex gap-1.5 mb-3">
                   {['Science', 'Commerce', 'Arts'].map((s) => (
-                    <span key={s} className="text-xs bg-edu-orange-light text-edu-orange px-2 py-0.5 rounded-full font-medium">{s}</span>
+                    <span key={s} className="text-xs bg-edu-orange-light text-edu-orange px-2.5 py-1 rounded-full font-medium">{s}</span>
                   ))}
                 </div>
                 <div className="flex items-center justify-between">
-                  <div className="text-xs text-muted-foreground">Calculate marks → Get career guidance</div>
-                  <div className="gradient-orange rounded-full px-3 py-1 text-white text-xs font-semibold"
-                    style={{ boxShadow: '0 4px 12px rgba(249,115,22,0.3)' }}>Start →</div>
+                  <div className="text-xs text-muted-foreground">Calculate marks & get career guidance</div>
+                  <div className="gradient-orange rounded-full px-3.5 py-1.5 text-white text-xs font-semibold flex items-center gap-1"
+                    style={{ boxShadow: '0 4px 14px rgba(249,115,22,0.25)' }}>
+                    Start <ChevronRight className="w-3 h-3" />
+                  </div>
                 </div>
               </div>
             </Card3D>
 
             <Card3D
               onClick={() => navigate('/college-marks')}
-              className="w-full bg-card rounded-3xl overflow-hidden border border-border text-left cursor-pointer"
+              className="w-full bg-card rounded-[1.25rem] overflow-hidden border border-border text-left cursor-pointer shadow-lg shadow-black/5"
             >
-              <div className="relative h-28 overflow-hidden">
+              <div className="relative h-32 overflow-hidden">
                 <img src={collegeGraduateImg} alt="College graduate" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-r from-violet-600/80 to-purple-500/60" />
+                <div className="absolute inset-0 bg-gradient-to-r from-violet-600/85 to-purple-500/60" />
                 <div className="absolute inset-0 flex items-center p-5">
-                  <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0 mr-4">
+                  <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center flex-shrink-0 mr-4 border border-white/20">
                     <GraduationCap className="w-7 h-7 text-white" />
                   </div>
                   <div>
-                    <h2 className="text-lg font-bold text-white">🎓 College Student</h2>
-                    <p className="text-white/80 text-sm">UG / PG / PhD</p>
+                    <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                      <GraduationCap className="w-4 h-4" /> College Student
+                    </h2>
+                    <p className="text-white/80 text-sm mt-0.5">UG / PG / PhD Level</p>
                   </div>
                 </div>
               </div>
               <div className="p-4">
-                <div className="flex gap-1 mb-3">
+                <div className="flex gap-1.5 mb-3">
                   {['CGPA', 'Percentage', 'Semester'].map((s) => (
-                    <span key={s} className="text-xs bg-edu-purple-light text-edu-purple px-2 py-0.5 rounded-full font-medium">{s}</span>
+                    <span key={s} className="text-xs bg-edu-purple-light text-edu-purple px-2.5 py-1 rounded-full font-medium">{s}</span>
                   ))}
                 </div>
                 <div className="flex items-center justify-between">
-                  <div className="text-xs text-muted-foreground">Semester-wise CGPA → Smart recommendations</div>
-                  <div className="gradient-purple rounded-full px-3 py-1 text-white text-xs font-semibold"
-                    style={{ boxShadow: '0 4px 12px rgba(139,92,246,0.3)' }}>Start →</div>
+                  <div className="text-xs text-muted-foreground">Semester-wise CGPA & smart recommendations</div>
+                  <div className="gradient-purple rounded-full px-3.5 py-1.5 text-white text-xs font-semibold flex items-center gap-1"
+                    style={{ boxShadow: '0 4px 14px rgba(139,92,246,0.25)' }}>
+                    Start <ChevronRight className="w-3 h-3" />
+                  </div>
                 </div>
               </div>
             </Card3D>
@@ -337,12 +392,15 @@ export default function StudentType() {
         {/* Career Tools */}
         {!loading && (
           <>
-            <div className="space-y-3">
-              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">🚀 Career Tools</p>
+            <div className="space-y-3 pt-1">
+              <div className="flex items-center gap-2">
+                <Zap className="w-4 h-4 text-primary" />
+                <p className="text-xs font-bold text-foreground uppercase tracking-wider">Career Tools</p>
+              </div>
               {[
-                { path: '/scholarships', icon: Award, label: 'Scholarship Finder', desc: '40+ scholarships for TN students', gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-50 dark:bg-emerald-950/30' },
-                { path: '/interview-prep', icon: MessageSquare, label: 'Interview Prep', desc: 'HR, Technical & GD questions', gradient: 'from-violet-500 to-purple-600', bg: 'bg-violet-50 dark:bg-violet-950/30' },
-                { path: '/resume-builder', icon: FileUser, label: 'Resume Builder', desc: 'Create professional CV instantly', gradient: 'from-blue-500 to-indigo-600', bg: 'bg-blue-50 dark:bg-blue-950/30' },
+                { path: '/scholarships', icon: Award, label: 'Scholarship Finder', desc: '40+ scholarships for TN students', gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-50/80 dark:bg-emerald-950/20' },
+                { path: '/interview-prep', icon: MessageSquare, label: 'Interview Prep', desc: 'HR, Technical & GD questions', gradient: 'from-violet-500 to-purple-600', bg: 'bg-violet-50/80 dark:bg-violet-950/20' },
+                { path: '/resume-builder', icon: FileUser, label: 'Resume Builder', desc: 'Create professional CV instantly', gradient: 'from-blue-500 to-indigo-600', bg: 'bg-blue-50/80 dark:bg-blue-950/20' },
               ].map((item, i) => {
                 const Icon = item.icon;
                 return (
@@ -350,18 +408,18 @@ export default function StudentType() {
                     key={item.path}
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 + i * 0.08 }}
+                    transition={{ delay: 0.25 + i * 0.08 }}
                     onClick={() => navigate(item.path)}
-                    className={`w-full ${item.bg} rounded-2xl p-4 flex items-center gap-3 cursor-pointer hover:shadow-md transition-all border border-border/50`}
+                    className={`w-full ${item.bg} rounded-2xl p-4 flex items-center gap-3.5 cursor-pointer hover:shadow-md transition-all border border-border/40 group`}
                   >
-                    <div className={`w-10 h-10 rounded-xl bg-gradient-to-r ${item.gradient} flex items-center justify-center flex-shrink-0`}>
+                    <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center flex-shrink-0 shadow-sm`}>
                       <Icon className="w-5 h-5 text-white" />
                     </div>
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-foreground text-sm">{item.label}</h3>
-                      <p className="text-xs text-muted-foreground">{item.desc}</p>
+                      <p className="text-xs text-muted-foreground truncate">{item.desc}</p>
                     </div>
-                    <span className="text-xs font-semibold text-primary">View →</span>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
                   </motion.div>
                 );
               })}
@@ -373,37 +431,38 @@ export default function StudentType() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35 }}
               onClick={() => navigate('/entrance-exams')}
-              className="w-full bg-edu-yellow-light rounded-2xl p-4 flex items-center gap-3 cursor-pointer hover:shadow-md transition-all border border-edu-yellow/20"
+              className="w-full bg-edu-yellow-light/80 rounded-2xl p-4 flex items-center gap-3.5 cursor-pointer hover:shadow-md transition-all border border-edu-yellow/15 group"
             >
-              <div className="w-10 h-10 rounded-xl gradient-yellow flex items-center justify-center flex-shrink-0">
+              <div className="w-11 h-11 rounded-xl gradient-yellow flex items-center justify-center flex-shrink-0 shadow-sm">
                 <FileText className="w-5 h-5 text-white" />
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-foreground text-sm">Entrance Exams Guide</h3>
                 <p className="text-xs text-muted-foreground">TNEA, NEET, JEE, TNPSC & more</p>
               </div>
-              <span className="text-xs font-semibold text-edu-yellow">View →</span>
+              <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-edu-yellow transition-colors flex-shrink-0" />
             </motion.div>
 
             {/* Info Cards */}
-            <div className="grid grid-cols-2 gap-3 mt-2">
+            <div className="grid grid-cols-2 gap-3">
               {[
-                { icon: BookOpen, label: '110+ Courses', bg: 'bg-edu-blue-light', color: 'text-edu-blue' },
-                { icon: Building2, label: '170+ Colleges', bg: 'bg-edu-green-light', color: 'text-edu-green' },
-                { icon: Briefcase, label: '75+ Job Paths', bg: 'bg-edu-orange-light', color: 'text-edu-orange' },
-                { icon: Target, label: 'Smart AI Reco', bg: 'bg-edu-purple-light', color: 'text-edu-purple' },
+                { icon: BookOpen, label: '110+ Courses', bg: 'bg-edu-blue-light', color: 'text-edu-blue', desc: 'Available' },
+                { icon: Building2, label: '170+ Colleges', bg: 'bg-edu-green-light', color: 'text-edu-green', desc: 'Listed' },
+                { icon: Briefcase, label: '75+ Job Paths', bg: 'bg-edu-orange-light', color: 'text-edu-orange', desc: 'Career paths' },
+                { icon: Target, label: 'Smart AI', bg: 'bg-edu-purple-light', color: 'text-edu-purple', desc: 'Recommendations' },
               ].map((item, i) => {
                 const Icon = item.icon;
                 return (
                   <motion.div
                     key={item.label}
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 + i * 0.1 }}
-                    className={`${item.bg} rounded-2xl p-3 text-center`}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.45 + i * 0.08 }}
+                    className={`${item.bg} rounded-2xl p-4 text-center border border-border/30`}
                   >
-                    <Icon className={`w-6 h-6 mx-auto mb-1 ${item.color}`} />
-                    <p className={`text-xs font-semibold ${item.color}`}>{item.label}</p>
+                    <Icon className={`w-6 h-6 mx-auto mb-1.5 ${item.color}`} />
+                    <p className={`text-sm font-bold ${item.color}`}>{item.label}</p>
+                    <p className="text-[10px] text-muted-foreground mt-0.5">{item.desc}</p>
                   </motion.div>
                 );
               })}
