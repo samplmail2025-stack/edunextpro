@@ -7,8 +7,9 @@ import {
   School, GraduationCap, Sparkles, BookOpen, Building2, Briefcase,
   Target, Lightbulb, PenTool, FileText, Award, MessageSquare, FileUser,
   TrendingUp, BarChart3, Loader2, ChevronRight, ChevronLeft,
-  Trophy, Star, Zap } from
+  Trophy, Star, Zap, Trash2 } from
 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 import { useMarks, type MarksEntry } from '@/hooks/useMarks';
 import { CircularProgress } from '@/components/charts/CircularProgress';
