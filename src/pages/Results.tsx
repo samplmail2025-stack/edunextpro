@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Trophy, Star, TrendingUp, BookOpen, Loader2, Download, Share2 } from 'lucide-react';
 import { useMarks } from '@/hooks/useMarks';
 import { useAuth } from '@/hooks/useAuth';
+import { generateResultsPDF } from '@/lib/generateResultsPDF';
 import resultsHeroImg from '@/assets/results-celebration.jpg';
 
 interface SemSubject { name: string; marks: number; maxMarks: number; credits?: number }
