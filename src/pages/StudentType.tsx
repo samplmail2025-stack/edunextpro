@@ -191,11 +191,9 @@ export default function StudentType() {
 
             {/* Animated Slide */}
             <div
-              className="relative overflow-hidden"
+              className="relative overflow-hidden touch-pan-y"
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
-              onTouchStart={() => setIsPaused(true)}
-              onTouchEnd={() => setTimeout(() => setIsPaused(false), 3000)}
             >
               <AnimatePresence initial={false} custom={direction} mode="wait">
                 <motion.div
@@ -206,6 +204,21 @@ export default function StudentType() {
                   animate="center"
                   exit="exit"
                   transition={{ duration: 0.35, ease: 'easeInOut' }}
+                  drag={marks.length > 1 ? 'x' : false}
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.15}
+                  onDragEnd={(_: unknown, info: PanInfo) => {
+                    const swipeThreshold = 50;
+                    if (info.offset.x < -swipeThreshold) {
+                      goNext();
+                      setIsPaused(true);
+                      setTimeout(() => setIsPaused(false), 5000);
+                    } else if (info.offset.x > swipeThreshold) {
+                      goPrev();
+                      setIsPaused(true);
+                      setTimeout(() => setIsPaused(false), 5000);
+                    }
+                  }}
                 >
                   <MarksSlideCard
                     entry={currentEntry}
