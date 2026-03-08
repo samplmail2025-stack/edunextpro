@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { AppHeader } from '@/components/layout/AppHeader';
@@ -11,6 +12,14 @@ import { useMarks } from '@/hooks/useMarks';
 import { Lightbulb, BookOpen, Briefcase, TrendingUp, Loader2 } from 'lucide-react';
 import type { RecommendationContext } from '@/data/recommendations';
 import recsHeroImg from '@/assets/recommendations-study.jpg';
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  visible: (i: number) => ({
+    opacity: 1, y: 0, scale: 1,
+    transition: { delay: i * 0.08, duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }
+  })
+};
 
 interface LocationState extends RecommendationContext {}
 
