@@ -91,6 +91,7 @@ function AppRoutes() {
         <Route path="/recommendations" element={user ? <PageTransition><Recommendations /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/college-finder" element={user ? <PageTransition><CollegeFinder /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/jobs" element={user ? <PageTransition><Jobs /></PageTransition> : <Navigate to="/auth" replace />} />
+        <Route path="/entrance-exams" element={user ? <PageTransition><EntranceExams /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/bookmarks" element={user ? <PageTransition><Bookmarks /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/profile" element={user ? <PageTransition><Profile /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
