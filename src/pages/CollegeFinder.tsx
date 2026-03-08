@@ -108,7 +108,7 @@ export default function CollegeFinder() {
       {/* Hero */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src={campusImg} alt="University campus" className="w-full h-full object-cover" />
+          <img src={campusImg} alt="University campus" loading="lazy" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-primary/85 via-primary/75 to-primary/90" />
         </div>
         {/* Decorative icons */}

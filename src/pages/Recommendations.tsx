@@ -58,7 +58,7 @@ export default function Recommendations() {
       <div className="p-4 space-y-4 max-w-lg mx-auto">
         {/* Hero image banner */}
         <div className="relative rounded-2xl overflow-hidden h-36 card-shadow">
-          <img src={recsHeroImg} alt="Study recommendations" className="w-full h-full object-cover" />
+          <img src={recsHeroImg} alt="Study recommendations" loading="lazy" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
           <div className="absolute bottom-3 left-4 right-4">
             <h2 className="text-white font-bold text-lg leading-tight">Personalized For You</h2>

@@ -5,6 +5,7 @@ import { AppHeader } from '@/components/layout/AppHeader';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { INTERVIEW_QUESTIONS, InterviewQuestion } from '@/data/interviewQuestions';
 import { ChevronDown, Lightbulb, MessageSquare, Users, BookOpen, Shield, Sparkles } from 'lucide-react';
+import interviewHeroImg from '@/assets/interview-prep-hero.jpg';
 
 const TABS = [
   { key: 'HR', label: 'HR Questions', icon: MessageSquare },
@@ -97,16 +98,15 @@ export default function InterviewPrep() {
       <AppHeader title="Interview Prep" subtitle="Ace your next interview" showBack />
 
       <div className="px-4 py-4 space-y-4 pb-24">
-        {/* Hero */}
-        <div className={`bg-gradient-to-r ${tabGradients[activeTab]} rounded-2xl p-5 relative overflow-hidden`}>
-          <div className="absolute top-2 right-3 opacity-10">
-            <Sparkles className="w-20 h-20 text-white" />
-          </div>
-          <div className="relative">
-            <h2 className="text-white font-bold text-lg">
+        {/* Hero image banner */}
+        <div className="relative rounded-2xl overflow-hidden h-36 card-shadow">
+          <img src={interviewHeroImg} alt="Interview preparation" loading="lazy" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+          <div className="absolute bottom-3 left-4 right-4">
+            <h2 className="text-white font-bold text-lg leading-tight">
               {TABS.find((t) => t.key === activeTab)?.label}
             </h2>
-            <p className="text-white/80 text-xs mt-1">{filtered.length} questions with model answers & tips</p>
+            <p className="text-white/80 text-xs mt-0.5">{filtered.length} questions with model answers & tips</p>
           </div>
         </div>
 

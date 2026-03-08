@@ -24,7 +24,7 @@ export default function MarksSelector() {
       {/* Hero */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src={studentsStudyingImg} alt="Banner" className="w-full h-full object-cover" />
+          <img src={studentsStudyingImg} alt="Banner" loading="lazy" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/80 to-background" />
         </div>
         <div className="relative pt-10 pb-16 px-6 text-center">
@@ -88,7 +88,7 @@ export default function MarksSelector() {
             className="w-full bg-card rounded-[1.25rem] overflow-hidden border border-border text-left cursor-pointer shadow-lg shadow-black/5"
           >
             <div className="relative h-32 overflow-hidden">
-              <img src={schoolStudentImg} alt="School student" className="w-full h-full object-cover" />
+              <img src={schoolStudentImg} alt="School student" loading="lazy" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-r from-orange-600/85 to-orange-500/60" />
               <div className="absolute inset-0 flex items-center p-5">
                 <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center flex-shrink-0 mr-4 border border-white/20">
@@ -130,7 +130,7 @@ export default function MarksSelector() {
             className="w-full bg-card rounded-[1.25rem] overflow-hidden border border-border text-left cursor-pointer shadow-lg shadow-black/5"
           >
             <div className="relative h-32 overflow-hidden">
-              <img src={collegeGraduateImg} alt="College graduate" className="w-full h-full object-cover" />
+              <img src={collegeGraduateImg} alt="College graduate" loading="lazy" className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-r from-violet-600/85 to-purple-500/60" />
               <div className="absolute inset-0 flex items-center p-5">
                 <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center flex-shrink-0 mr-4 border border-white/20">
