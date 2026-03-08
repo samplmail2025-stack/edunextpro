@@ -1,6 +1,7 @@
-import { ExternalLink, MapPin, Phone, Bookmark, ArrowRight, Calendar, GraduationCap, Globe, Star } from 'lucide-react';
+import { ExternalLink, MapPin, Phone, Bookmark, ArrowRight, Calendar, GraduationCap, Globe, Star, GitCompareArrows } from 'lucide-react';
 import { College } from '@/data/colleges';
 import { Button } from '@/components/ui/button';
+import { useCompare } from '@/contexts/CompareContext';
 
 interface CollegeCardProps {
   college: College;
