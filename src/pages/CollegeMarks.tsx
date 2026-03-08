@@ -255,32 +255,34 @@ export default function CollegeMarks() {
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
                       layout
-                      className="bg-muted/40 rounded-xl p-3 border border-border/50 hover:border-primary/20 transition-colors"
+                      className="bg-muted/30 rounded-2xl p-4 border border-border/40 hover:border-primary/20 transition-all"
                     >
-                      {/* Subject Number Badge */}
-                      <div className="flex items-center gap-2 mb-2.5">
-                        <span className="w-6 h-6 rounded-md bg-primary/10 text-primary text-xs font-bold flex items-center justify-center">
+                      {/* Row 1: Badge + Subject Name + Delete */}
+                      <div className="flex items-center gap-3 mb-3">
+                        <span className="w-7 h-7 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center shrink-0 border border-primary/20">
                           {subIdx + 1}
                         </span>
-                        <Input
-                          placeholder="Subject name"
-                          value={sub.name}
-                          onChange={(e) => updateSubject(semIdx, subIdx, 'name', e.target.value)}
-                          className="rounded-lg text-sm border-0 bg-transparent p-0 h-auto font-semibold text-foreground placeholder:text-muted-foreground/60 focus-visible:ring-0"
-                        />
+                        <div className="flex-1">
+                          <Input
+                            placeholder="Subject name"
+                            value={sub.name}
+                            onChange={(e) => updateSubject(semIdx, subIdx, 'name', e.target.value)}
+                            className="rounded-full text-sm h-10 bg-background border border-border/60 px-4 font-medium text-foreground placeholder:text-muted-foreground/50 focus:border-primary/40"
+                          />
+                        </div>
                         {sem.subjects.length > 1 && (
                           <motion.button
                             whileTap={{ scale: 0.85 }}
                             onClick={() => removeSubject(semIdx, subIdx)}
-                            className="w-7 h-7 rounded-lg bg-destructive/10 text-destructive flex items-center justify-center hover:bg-destructive/20 transition-colors shrink-0"
+                            className="w-7 h-7 rounded-full bg-destructive/10 text-destructive flex items-center justify-center hover:bg-destructive/20 transition-colors shrink-0"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </motion.button>
                         )}
                       </div>
 
-                      {/* Marks Inputs */}
-                      <div className="grid grid-cols-2 gap-2">
+                      {/* Row 2: Marks & Max — evenly aligned */}
+                      <div className="grid grid-cols-2 gap-3 ml-10">
                         <div className="relative">
                           <Input
                             type="number"
@@ -289,9 +291,9 @@ export default function CollegeMarks() {
                             max={sub.maxMarks}
                             value={sub.marks || ''}
                             onChange={(e) => updateSubject(semIdx, subIdx, 'marks', Number(e.target.value))}
-                            className="rounded-xl text-sm h-10 pl-3 pr-14 bg-background border-2 border-border focus:border-primary/50"
+                            className="rounded-full text-sm h-10 pl-4 pr-16 bg-background border border-border/60 focus:border-primary/40 font-medium"
                           />
-                          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-muted-foreground">
+                          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-semibold text-muted-foreground pointer-events-none">
                             Marks
                           </span>
                         </div>
@@ -302,9 +304,9 @@ export default function CollegeMarks() {
                             min={1}
                             value={sub.maxMarks}
                             onChange={(e) => updateSubject(semIdx, subIdx, 'maxMarks', Number(e.target.value))}
-                            className="rounded-xl text-sm h-10 pl-3 pr-10 bg-background border-2 border-border focus:border-primary/50"
+                            className="rounded-full text-sm h-10 pl-4 pr-12 bg-background border border-border/60 focus:border-primary/40 font-medium"
                           />
-                          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-muted-foreground">
+                          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-semibold text-muted-foreground pointer-events-none">
                             Max
                           </span>
                         </div>
@@ -312,24 +314,26 @@ export default function CollegeMarks() {
 
                       {/* Mini Progress */}
                       {sub.marks > 0 && sub.maxMarks > 0 && (
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          className="mt-2 h-1.5 rounded-full bg-border overflow-hidden"
-                        >
+                        <div className="ml-10 mt-2.5">
                           <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: `${Math.min(100, (sub.marks / sub.maxMarks) * 100)}%` }}
-                            transition={{ duration: 0.5, ease: 'easeOut' }}
-                            className={`h-full rounded-full ${
-                              (sub.marks / sub.maxMarks) >= 0.75
-                                ? 'gradient-green'
-                                : (sub.marks / sub.maxMarks) >= 0.5
-                                ? 'gradient-yellow'
-                                : 'gradient-orange'
-                            }`}
-                          />
-                        </motion.div>
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="h-1.5 rounded-full bg-border/60 overflow-hidden"
+                          >
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: `${Math.min(100, (sub.marks / sub.maxMarks) * 100)}%` }}
+                              transition={{ duration: 0.5, ease: 'easeOut' }}
+                              className={`h-full rounded-full ${
+                                (sub.marks / sub.maxMarks) >= 0.75
+                                  ? 'gradient-green'
+                                  : (sub.marks / sub.maxMarks) >= 0.5
+                                  ? 'gradient-yellow'
+                                  : 'gradient-orange'
+                              }`}
+                            />
+                          </motion.div>
+                        </div>
                       )}
                     </motion.div>
                   ))}
