@@ -406,9 +406,33 @@ function MarksSlideCard({
               }
               <span className="text-[11px] sm:text-xs font-medium text-white/90 truncate">{typeLabel}</span>
             </div>
-            <div className="flex items-center gap-1.5 bg-white/15 backdrop-blur-sm rounded-full px-2.5 py-1.5 flex-shrink-0">
-              <Trophy className="w-3.5 h-3.5 text-yellow-300" />
-              <span className="text-[11px] sm:text-xs font-semibold text-white">{classification}</span>
+            <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1.5 bg-white/15 backdrop-blur-sm rounded-full px-2.5 py-1.5 flex-shrink-0">
+                <Trophy className="w-3.5 h-3.5 text-yellow-300" />
+                <span className="text-[11px] sm:text-xs font-semibold text-white">{classification}</span>
+              </div>
+              {!confirmDelete ? (
+                <button
+                  onClick={(e) => { e.stopPropagation(); setConfirmDelete(true); }}
+                  className="w-7 h-7 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-red-500/30 transition-colors"
+                  title="Delete entry">
+                  <Trash2 className="w-3.5 h-3.5 text-white/70" />
+                </button>
+              ) : (
+                <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+                  <button
+                    onClick={() => { onDelete(); setConfirmDelete(false); }}
+                    disabled={isDeleting}
+                    className="px-2 py-1 rounded-full bg-red-500/80 text-[10px] font-semibold text-white hover:bg-red-600 transition-colors disabled:opacity-50">
+                    {isDeleting ? '...' : 'Delete'}
+                  </button>
+                  <button
+                    onClick={() => setConfirmDelete(false)}
+                    className="px-2 py-1 rounded-full bg-white/15 text-[10px] font-medium text-white hover:bg-white/25 transition-colors">
+                    Cancel
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
