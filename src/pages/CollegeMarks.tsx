@@ -331,6 +331,13 @@ export default function CollegeMarks() {
                                   ? 'gradient-yellow'
                                   : 'gradient-orange'
                               }`}
+                            />
+                          </motion.div>
+                        </div>
+                      )}
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
 
                 <motion.div whileTap={{ scale: 0.97 }}>
                   <Button
