@@ -33,6 +33,7 @@ import Jobs from "./pages/Jobs";
 import Bookmarks from "./pages/Bookmarks";
 import Profile from "./pages/Profile";
 import EntranceExams from "./pages/EntranceExams";
+import CompareColleges from "./pages/CompareColleges";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
