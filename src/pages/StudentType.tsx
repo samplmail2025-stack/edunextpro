@@ -62,7 +62,8 @@ const slideVariants = {
 export default function StudentType() {
   const navigate = useNavigate();
   const { profile } = useAuth();
-  const { marks, loading } = useMarks();
+  const { marks, loading, deleteMarks } = useMarks();
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const hasMarks = marks.length > 0;
   const firstName = profile?.full_name?.split(' ')[0] || 'Student';
