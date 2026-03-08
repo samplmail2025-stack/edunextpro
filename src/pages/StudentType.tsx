@@ -109,7 +109,39 @@ export default function StudentType() {
           </div>
         </Card3D>
 
-        {/* Quick Access */}
+        {/* Quick Access - New Features */}
+        <div className="space-y-3">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">🚀 Career Tools</p>
+          
+          {[
+            { path: '/scholarships', icon: Award, label: 'Scholarship Finder', desc: '20+ scholarships for TN students', gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-50 dark:bg-emerald-950/30' },
+            { path: '/interview-prep', icon: MessageSquare, label: 'Interview Prep', desc: 'HR, Technical & GD questions', gradient: 'from-violet-500 to-purple-600', bg: 'bg-violet-50 dark:bg-violet-950/30' },
+            { path: '/resume-builder', icon: FileUser, label: 'Resume Builder', desc: 'Create professional CV instantly', gradient: 'from-blue-500 to-indigo-600', bg: 'bg-blue-50 dark:bg-blue-950/30' },
+          ].map((item, i) => {
+            const Icon = item.icon;
+            return (
+              <motion.div
+                key={item.path}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 + i * 0.08 }}
+                onClick={() => navigate(item.path)}
+                className={`w-full ${item.bg} rounded-2xl p-4 flex items-center gap-3 cursor-pointer hover:shadow-md transition-all border border-border/50`}
+              >
+                <div className={`w-10 h-10 rounded-xl bg-gradient-to-r ${item.gradient} flex items-center justify-center flex-shrink-0`}>
+                  <Icon className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-foreground text-sm">{item.label}</h3>
+                  <p className="text-xs text-muted-foreground">{item.desc}</p>
+                </div>
+                <span className="text-xs font-semibold text-primary">View →</span>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Entrance Exams */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
@@ -141,7 +173,7 @@ export default function StudentType() {
                 key={item.label}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 + i * 0.1 }}
+                transition={{ delay: 0.5 + i * 0.1 }}
                 className={`${item.bg} rounded-2xl p-3 text-center`}
               >
                 <Icon className={`w-6 h-6 mx-auto mb-1 ${item.color}`} />
