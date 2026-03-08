@@ -151,6 +151,15 @@ export function CollegeCard({ college, highlightCourse, onSave, isSaved }: Colle
               <ArrowRight className="w-3.5 h-3.5 ml-auto transition-transform group-hover/btn:translate-x-0.5" />
             </Button>
           </a>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => toggleCollege(college)}
+            disabled={!compared && !canAdd}
+            className={`rounded-xl px-3 h-10 ${compared ? 'bg-edu-teal/10 border-edu-teal text-edu-teal' : ''}`}
+          >
+            <GitCompareArrows className={`w-4 h-4 ${compared ? 'text-edu-teal' : ''}`} />
+          </Button>
         </div>
       </div>
     </div>
