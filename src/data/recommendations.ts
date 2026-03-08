@@ -63,29 +63,49 @@ export function getSkillRecommendations(ctx: RecommendationContext): string[] {
   if (percentage < 60) {
     skills.push('Focus on core subject understanding with NCERT / Textbooks');
     skills.push('Practice previous year question papers daily');
-    skills.push('Join a coaching class or study group');
   }
 
+  // Stream-specific skills for school students
+  if (stream?.startsWith('Science (Maths)')) {
+    skills.push('Prepare for JEE / TNEA entrance exams for Engineering');
+    skills.push('Learn Python / MATLAB for competitive edge');
+    skills.push('Practice Quantitative Aptitude for placement exams');
+  } else if (stream?.startsWith('Science (Biology)')) {
+    skills.push('Prepare for NEET-UG for Medical / Dental courses');
+    skills.push('Study Biology diagrams and lab techniques');
+    skills.push('Explore paramedical career options (Nursing, Physio, Pharmacy)');
+  } else if (stream?.startsWith('Science (Computer Science)')) {
+    skills.push('Learn Python / JavaScript programming fundamentals');
+    skills.push('Build projects on GitHub to showcase skills');
+    skills.push('Practice DSA problems on LeetCode / HackerRank');
+  } else if (stream?.startsWith('Commerce')) {
+    skills.push('Learn Tally ERP / Microsoft Excel for accounting');
+    skills.push('Study for CA Foundation / CMA Foundation exams');
+    skills.push('Develop financial literacy and business communication');
+  } else if (stream?.startsWith('Arts')) {
+    skills.push('Prepare for UPSC / TNPSC civil services exams');
+    skills.push('Develop essay writing and analytical thinking skills');
+    skills.push('Read newspapers daily for current affairs');
+  } else if (stream === 'Vocational') {
+    skills.push('Get hands-on industry training and apprenticeships');
+    skills.push('Explore ITI / Polytechnic diploma options');
+    skills.push('Build practical skills portfolio for job placements');
+  }
+
+  // Course-specific skills for college students
   if (course?.toLowerCase().includes('computer') || course?.toLowerCase().includes('bca') || course?.toLowerCase().includes('btech')) {
     skills.push('Learn Python / JavaScript programming');
     skills.push('Build projects on GitHub to showcase skills');
-    skills.push('Practice DSA problems on LeetCode / HackerRank');
   }
-
   if (course?.toLowerCase().includes('commerce') || course?.toLowerCase().includes('bcom') || course?.toLowerCase().includes('bba')) {
     skills.push('Learn Tally ERP / Microsoft Excel');
     skills.push('Study for CA Foundation or CMA');
-    skills.push('Develop communication & presentation skills');
-  }
-
-  if (stream === 'Science' || course?.toLowerCase().includes('science')) {
-    skills.push('Prepare for GATE / NEET / JEE Advanced for higher studies');
-    skills.push('Learn data analysis and MATLAB/Python for research');
   }
 
   skills.push('Build a strong LinkedIn profile and portfolio');
   skills.push('Get internship experience in your domain');
   skills.push('Develop English communication and soft skills');
 
-  return skills.slice(0, 5);
+  // Deduplicate and limit
+  return [...new Set(skills)].slice(0, 6);
 }
