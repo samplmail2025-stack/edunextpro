@@ -9,6 +9,7 @@ import { useRecommendations } from '@/hooks/useRecommendations';
 import { useBookmarks } from '@/hooks/useBookmarks';
 import { Lightbulb, BookOpen, Briefcase, TrendingUp } from 'lucide-react';
 import type { RecommendationContext } from '@/data/recommendations';
+import recsHeroImg from '@/assets/recommendations-study.jpg';
 
 interface LocationState extends RecommendationContext {}
 
@@ -35,6 +36,16 @@ export default function Recommendations() {
     <PageWrapper>
       <AppHeader title="Recommendations" subtitle={`Based on ${ctx.percentage?.toFixed(0)}% • ${ctx.stream || ctx.course || ''}`} gradient />
       <div className="p-4 space-y-4 max-w-lg mx-auto">
+        {/* Hero image banner */}
+        <div className="relative rounded-2xl overflow-hidden h-36 card-shadow">
+          <img src={recsHeroImg} alt="Study recommendations" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+          <div className="absolute bottom-3 left-4 right-4">
+            <h2 className="text-white font-bold text-lg leading-tight">Personalized For You</h2>
+            <p className="text-white/80 text-xs mt-0.5">AI-powered recommendations based on your performance</p>
+          </div>
+        </div>
+
         {/* Score summary */}
         <div className="bg-card rounded-2xl p-4 card-shadow border border-border">
           <div className="flex items-center gap-3">

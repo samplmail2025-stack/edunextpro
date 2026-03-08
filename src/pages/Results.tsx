@@ -6,6 +6,7 @@ import { CircularProgress } from '@/components/charts/CircularProgress';
 import { GradeBarChart } from '@/components/charts/GradeBarChart';
 import { Button } from '@/components/ui/button';
 import { Trophy, Star, TrendingUp, BookOpen } from 'lucide-react';
+import resultsHeroImg from '@/assets/results-celebration.jpg';
 
 interface LocationState {
   studentType: 'school' | 'college';
@@ -46,6 +47,16 @@ export default function Results() {
     <PageWrapper>
       <AppHeader title="Your Results" subtitle="Academic Performance" showBack gradient />
       <div className="p-4 space-y-4 max-w-lg mx-auto">
+        {/* Hero image banner */}
+        <div className="relative rounded-2xl overflow-hidden h-36 card-shadow">
+          <img src={resultsHeroImg} alt="Students celebrating results" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+          <div className="absolute bottom-3 left-4 right-4">
+            <h2 className="text-white font-bold text-lg leading-tight">Your Academic Journey</h2>
+            <p className="text-white/80 text-xs mt-0.5">Detailed performance analysis & insights</p>
+          </div>
+        </div>
+
         {/* Main result card */}
         <div className={`${gradientClass} rounded-3xl p-6 text-white text-center animate-bounce-in card-shadow`}>
           <Trophy className="w-10 h-10 mx-auto mb-2 text-white/90" />
