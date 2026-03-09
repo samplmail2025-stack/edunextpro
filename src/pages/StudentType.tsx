@@ -758,35 +758,47 @@ function MarksSlideCard({
         }
 
         {/* Actions */}
-        <div className="flex gap-2.5">
+        <div className="grid grid-cols-2 gap-3">
           <button
             onClick={onRecommendations}
-            className="flex-1 relative overflow-hidden rounded-2xl h-14 font-bold text-xs sm:text-sm text-white shadow-lg shadow-primary/30 transition-all active:scale-[0.95] group/btn"
+            className="relative overflow-hidden rounded-2xl p-4 text-left transition-all active:scale-[0.96] group/btn bg-card border border-border/50 hover:shadow-xl hover:shadow-primary/10"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-primary via-violet-600 to-fuchsia-500" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(255,255,255,0.2),transparent_50%)]" />
-            <div className="absolute -top-1 -right-1 w-16 h-16 bg-white/10 rounded-full blur-xl group-hover/btn:scale-150 transition-transform duration-500" />
-            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-            <span className="relative flex items-center justify-center gap-2">
-              <span className="w-7 h-7 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                <Target className="w-3.5 h-3.5" />
-              </span>
-              Recommendations
-              <ChevronRight className="w-4 h-4 opacity-60 group-hover/btn:translate-x-0.5 transition-transform" />
-            </span>
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-violet-500 to-fuchsia-500" />
+            <div className="absolute -bottom-6 -right-6 w-28 h-28 rounded-full bg-gradient-to-br from-primary/8 to-violet-500/5 group-hover/btn:scale-125 transition-transform duration-700" />
+            <div className="relative space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-violet-600 flex items-center justify-center shadow-md shadow-primary/20">
+                <Target className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-foreground">Recommendations</h4>
+                <p className="text-[11px] text-muted-foreground mt-0.5">AI-powered suggestions</p>
+              </div>
+              <div className="flex items-center gap-1 text-[11px] font-semibold text-primary">
+                <span>Explore</span>
+                <ChevronRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
+              </div>
+            </div>
           </button>
+
           <button
             onClick={onViewResults}
-            className="flex-1 relative overflow-hidden rounded-2xl h-14 font-bold text-xs sm:text-sm text-foreground border-2 border-primary/20 bg-primary/5 hover:bg-primary/10 transition-all active:scale-[0.95] group/btn2"
+            className="relative overflow-hidden rounded-2xl p-4 text-left transition-all active:scale-[0.96] group/btn2 bg-card border border-border/50 hover:shadow-xl hover:shadow-emerald-500/10"
           >
-            <div className="absolute -top-1 -left-1 w-12 h-12 bg-primary/10 rounded-full blur-xl group-hover/btn2:scale-150 transition-transform duration-500" />
-            <span className="relative flex items-center justify-center gap-2">
-              <span className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center">
-                <BarChart3 className="w-3.5 h-3.5 text-primary" />
-              </span>
-              Full Results
-              <ChevronRight className="w-4 h-4 opacity-40 text-primary group-hover/btn2:translate-x-0.5 transition-transform" />
-            </span>
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500" />
+            <div className="absolute -bottom-6 -right-6 w-28 h-28 rounded-full bg-gradient-to-br from-emerald-500/8 to-teal-500/5 group-hover/btn2:scale-125 transition-transform duration-700" />
+            <div className="relative space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-md shadow-emerald-500/20">
+                <BarChart3 className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-foreground">Full Results</h4>
+                <p className="text-[11px] text-muted-foreground mt-0.5">Detailed analytics</p>
+              </div>
+              <div className="flex items-center gap-1 text-[11px] font-semibold text-emerald-600">
+                <span>View</span>
+                <ChevronRight className="w-3.5 h-3.5 group-hover/btn2:translate-x-1 transition-transform" />
+              </div>
+            </div>
           </button>
         </div>
       </div>
