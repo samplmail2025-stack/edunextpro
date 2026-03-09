@@ -7,8 +7,8 @@ import {
   School, GraduationCap, Sparkles, BookOpen, Building2, Briefcase,
   Target, Lightbulb, PenTool, FileText, Award, MessageSquare, FileUser,
   TrendingUp, BarChart3, Loader2, ChevronRight, ChevronLeft,
-  Trophy, Star, Zap, Trash2, ClipboardList, Search, Calendar, IndianRupee, Clock, Flame
-} from 'lucide-react';
+  Trophy, Star, Zap, Trash2, ClipboardList, Search, Calendar, IndianRupee, Clock, Flame } from
+'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 import { useMarks, type MarksEntry } from '@/hooks/useMarks';
@@ -43,23 +43,23 @@ const COURSE_CATEGORY_IMAGES: Record<string, string> = {
   Medical: medicalImg,
   Arts: artsImg,
   Law: lawImg,
-  Education: educationImg,
+  Education: educationImg
 };
 
 const DAILY_TIPS = [
-  { tip: "Consistency beats intensity. Study 2 hours daily rather than 10 hours once a week.", icon: "📚" },
-  { tip: "Use the Pomodoro technique: 25 min focus + 5 min break. Your brain retains more.", icon: "⏱️" },
-  { tip: "Teach what you learn to someone else — it's the fastest way to master a topic.", icon: "🎓" },
-  { tip: "Don't skip NCERT textbooks. 70% of competitive exam questions come from them.", icon: "📖" },
-  { tip: "Start your day with the hardest subject. Your willpower is strongest in the morning.", icon: "🌅" },
-  { tip: "Practice previous year papers. Patterns repeat more than you think.", icon: "📝" },
-  { tip: "Sleep 7-8 hours. Your brain consolidates memory during deep sleep.", icon: "😴" },
-  { tip: "Set SMART goals: Specific, Measurable, Achievable, Relevant, Time-bound.", icon: "🎯" },
-  { tip: "Join a study group for difficult subjects. Discussion deepens understanding.", icon: "👥" },
-  { tip: "Keep a mistake journal. Reviewing errors is more valuable than re-reading notes.", icon: "✍️" },
-  { tip: "Apply to multiple scholarships — even small amounts add up over your degree.", icon: "💰" },
-  { tip: "Read The Hindu or Dinamani daily for 20 minutes. It helps in every competitive exam.", icon: "📰" },
-];
+{ tip: "Consistency beats intensity. Study 2 hours daily rather than 10 hours once a week.", icon: "📚" },
+{ tip: "Use the Pomodoro technique: 25 min focus + 5 min break. Your brain retains more.", icon: "⏱️" },
+{ tip: "Teach what you learn to someone else — it's the fastest way to master a topic.", icon: "🎓" },
+{ tip: "Don't skip NCERT textbooks. 70% of competitive exam questions come from them.", icon: "📖" },
+{ tip: "Start your day with the hardest subject. Your willpower is strongest in the morning.", icon: "🌅" },
+{ tip: "Practice previous year papers. Patterns repeat more than you think.", icon: "📝" },
+{ tip: "Sleep 7-8 hours. Your brain consolidates memory during deep sleep.", icon: "😴" },
+{ tip: "Set SMART goals: Specific, Measurable, Achievable, Relevant, Time-bound.", icon: "🎯" },
+{ tip: "Join a study group for difficult subjects. Discussion deepens understanding.", icon: "👥" },
+{ tip: "Keep a mistake journal. Reviewing errors is more valuable than re-reading notes.", icon: "✍️" },
+{ tip: "Apply to multiple scholarships — even small amounts add up over your degree.", icon: "💰" },
+{ tip: "Read The Hindu or Dinamani daily for 20 minutes. It helps in every competitive exam.", icon: "📰" }];
+
 
 // Helper to parse subjects from a marks entry
 function parseSubjects(entry: MarksEntry): {name: string;marks: number;maxMarks: number;}[] {
@@ -319,8 +319,8 @@ export default function StudentType() {
               <p className="text-sm text-muted-foreground mt-1">Enter your marks to see performance analytics</p>
             </div>
             <button
-              onClick={() => navigate('/marks')}
-              className="relative w-full overflow-hidden rounded-2xl h-14 font-bold text-sm text-white shadow-lg shadow-primary/25 transition-all active:scale-[0.95] group/cta">
+            onClick={() => navigate('/marks')}
+            className="relative w-full overflow-hidden rounded-2xl h-14 font-bold text-sm text-white shadow-lg shadow-primary/25 transition-all active:scale-[0.95] group/cta">
               <div className="absolute inset-0 bg-gradient-to-r from-primary via-violet-600 to-fuchsia-500" />
               <div className="absolute -top-2 -right-2 w-20 h-20 bg-white/10 rounded-full blur-xl group-hover/cta:scale-150 transition-transform duration-500" />
               <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
@@ -336,43 +336,43 @@ export default function StudentType() {
         }
 
         {/* Study Streak / Progress Tracker */}
-        {!loading && hasMarks &&
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15 }}
-          className="bg-gradient-to-br from-primary/10 via-violet-500/5 to-transparent rounded-2xl p-4 border border-primary/10 space-y-3">
-          <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-violet-600 flex items-center justify-center shadow-md">
-              <TrendingUp className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h3 className="text-sm font-bold text-foreground">Academic Tracker</h3>
-              <p className="text-[11px] text-muted-foreground">You have {marks.length} record{marks.length !== 1 ? 's' : ''} tracked</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, i) => (
-              <div key={i} className="flex flex-col items-center gap-1 flex-1">
-                <span className="text-[9px] font-medium text-muted-foreground">{day}</span>
-                <div className={`w-full aspect-square rounded-lg flex items-center justify-center ${
-                  i < marks.length ? 'bg-primary/20' : 'bg-muted/50'
-                }`}>
-                  {i < marks.length ? (
-                    <Flame className="w-3.5 h-3.5 text-primary" />
-                  ) : (
-                    <div className="w-2 h-2 rounded-full bg-muted-foreground/20" />
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-          <button
-            onClick={() => navigate('/marks')}
-            className="w-full text-xs font-semibold text-primary flex items-center justify-center gap-1 pt-1">
-            Add More Records <ChevronRight className="w-3 h-3" />
-          </button>
-        </motion.div>
+        {!loading && hasMarks
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
 
 
@@ -384,11 +384,11 @@ export default function StudentType() {
           </div>
           <div className="grid grid-cols-2 gap-3">
             {[
-              { path: '/marks', icon: ClipboardList, label: 'Enter Marks', desc: 'Add your scores', gradient: 'from-primary to-primary/80', bg: 'bg-primary/5' },
-              { path: '/college-finder', icon: Search, label: 'Find Colleges', desc: '170+ TN colleges', gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-500/5' },
-              { path: '/recommendations', icon: BookOpen, label: 'Browse Courses', desc: '110+ programs', gradient: 'from-violet-500 to-purple-600', bg: 'bg-violet-500/5' },
-              { path: '/jobs', icon: Briefcase, label: 'Explore Jobs', desc: '75+ career paths', gradient: 'from-amber-500 to-orange-600', bg: 'bg-amber-500/5' },
-            ].map((item, i) => {
+            { path: '/marks', icon: ClipboardList, label: 'Enter Marks', desc: 'Add your scores', gradient: 'from-primary to-primary/80', bg: 'bg-primary/5' },
+            { path: '/college-finder', icon: Search, label: 'Find Colleges', desc: '170+ TN colleges', gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-500/5' },
+            { path: '/recommendations', icon: BookOpen, label: 'Browse Courses', desc: '110+ programs', gradient: 'from-violet-500 to-purple-600', bg: 'bg-violet-500/5' },
+            { path: '/jobs', icon: Briefcase, label: 'Explore Jobs', desc: '75+ career paths', gradient: 'from-amber-500 to-orange-600', bg: 'bg-amber-500/5' }].
+            map((item, i) => {
               const Icon = item.icon;
               return (
                 <motion.div
@@ -405,8 +405,8 @@ export default function StudentType() {
                   <h3 className="font-bold text-foreground text-sm">{item.label}</h3>
                   <p className="text-[11px] text-muted-foreground mt-0.5">{item.desc}</p>
                   <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/50 absolute top-4 right-3.5 group-hover/qa:text-primary transition-colors" />
-                </motion.div>
-              );
+                </motion.div>);
+
             })}
           </div>
         </div>
@@ -423,20 +423,20 @@ export default function StudentType() {
             <p className="text-xs font-bold text-foreground uppercase tracking-wider">Explore by Stream</p>
           </div>
           <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 -mx-1 px-1" style={{ scrollbarWidth: 'none' }}>
-            {Object.entries(COURSE_CATEGORY_IMAGES).map(([stream, img], i) => (
-              <motion.div
-                key={stream}
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.05 + i * 0.04 }}
-                onClick={() => navigate(`/college-finder?course=${encodeURIComponent(stream)}`)}
-                className="flex-shrink-0 snap-start flex flex-col items-center gap-2 cursor-pointer active:scale-95 transition-transform">
+            {Object.entries(COURSE_CATEGORY_IMAGES).map(([stream, img], i) =>
+            <motion.div
+              key={stream}
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.05 + i * 0.04 }}
+              onClick={() => navigate(`/college-finder?course=${encodeURIComponent(stream)}`)}
+              className="flex-shrink-0 snap-start flex flex-col items-center gap-2 cursor-pointer active:scale-95 transition-transform">
                 <div className="w-16 h-16 rounded-2xl overflow-hidden border-2 border-primary/20 shadow-md">
                   <img src={img} alt={stream} loading="lazy" className="w-full h-full object-cover" />
                 </div>
                 <span className="text-[10px] font-semibold text-foreground text-center max-w-[4.5rem] leading-tight">{stream}</span>
               </motion.div>
-            ))}
+            )}
           </div>
         </div>
         }
@@ -454,21 +454,21 @@ export default function StudentType() {
             </button>
           </div>
           <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 -mx-1 px-1 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
-            {COURSES.filter(c => c.level === 'UG').slice(0, 6).map((course, i) => (
-              <motion.div
-                key={course.id}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.1 + i * 0.05 }}
-                onClick={() => navigate(`/college-finder?course=${encodeURIComponent(course.name)}`)}
-                className="flex-shrink-0 w-36 snap-start bg-card rounded-2xl border border-border/50 overflow-hidden cursor-pointer hover:shadow-md transition-all active:scale-95">
+            {COURSES.filter((c) => c.level === 'UG').slice(0, 6).map((course, i) =>
+            <motion.div
+              key={course.id}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.1 + i * 0.05 }}
+              onClick={() => navigate(`/college-finder?course=${encodeURIComponent(course.name)}`)}
+              className="flex-shrink-0 w-36 snap-start bg-card rounded-2xl border border-border/50 overflow-hidden cursor-pointer hover:shadow-md transition-all active:scale-95">
                 <div className="relative h-20 overflow-hidden">
                   <img
-                    src={COURSE_CATEGORY_IMAGES[course.category] || scienceImg}
-                    alt={course.name}
-                    loading="lazy"
-                    className="w-full h-full object-cover"
-                  />
+                  src={COURSE_CATEGORY_IMAGES[course.category] || scienceImg}
+                  alt={course.name}
+                  loading="lazy"
+                  className="w-full h-full object-cover" />
+                
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                   <GraduationCap className="absolute bottom-2 right-2 w-5 h-5 text-white/70" />
                 </div>
@@ -481,7 +481,7 @@ export default function StudentType() {
                   </div>
                 </div>
               </motion.div>
-            ))}
+            )}
           </div>
         </div>
         }
@@ -583,18 +583,18 @@ export default function StudentType() {
               </div>
               <div className="bg-card rounded-2xl border border-border/50 overflow-hidden divide-y divide-border/40">
                 {ENTRANCE_EXAMS.slice(0, 4).map((exam, i) => {
-                  const nextDate = exam.importantDates[0];
-                  return (
-                    <motion.div
-                      key={exam.id}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.1 + i * 0.05 }}
-                      onClick={() => navigate('/entrance-exams')}
-                      className="flex items-center gap-3 p-3.5 cursor-pointer hover:bg-muted/40 transition-colors">
+                const nextDate = exam.importantDates[0];
+                return (
+                  <motion.div
+                    key={exam.id}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 + i * 0.05 }}
+                    onClick={() => navigate('/entrance-exams')}
+                    className="flex items-center gap-3 p-3.5 cursor-pointer hover:bg-muted/40 transition-colors">
                       <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                        exam.level === 'National' ? 'bg-primary/10' : 'bg-amber-500/10'
-                      }`}>
+                    exam.level === 'National' ? 'bg-primary/10' : 'bg-amber-500/10'}`
+                    }>
                         <FileText className={`w-4 h-4 ${exam.level === 'National' ? 'text-primary' : 'text-amber-600'}`} />
                       </div>
                       <div className="flex-1 min-w-0">
@@ -605,9 +605,9 @@ export default function StudentType() {
                         <p className="text-[11px] font-medium text-foreground">{nextDate?.date}</p>
                         <p className="text-[10px] text-muted-foreground">{nextDate?.label}</p>
                       </div>
-                    </motion.div>
-                  );
-                })}
+                    </motion.div>);
+
+              })}
               </div>
             </div>
 
@@ -623,14 +623,14 @@ export default function StudentType() {
                 </button>
               </div>
               <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 -mx-1 px-1" style={{ scrollbarWidth: 'none' }}>
-                {SCHOLARSHIPS.slice(0, 4).map((sch, i) => (
-                  <motion.div
-                    key={sch.id}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 + i * 0.06 }}
-                    onClick={() => navigate('/scholarships')}
-                    className="flex-shrink-0 w-52 snap-start bg-card rounded-2xl border border-border/50 p-4 cursor-pointer hover:shadow-md transition-all active:scale-95 space-y-2">
+                {SCHOLARSHIPS.slice(0, 4).map((sch, i) =>
+              <motion.div
+                key={sch.id}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 + i * 0.06 }}
+                onClick={() => navigate('/scholarships')}
+                className="flex-shrink-0 w-52 snap-start bg-card rounded-2xl border border-border/50 p-4 cursor-pointer hover:shadow-md transition-all active:scale-95 space-y-2">
                     <div className="flex items-center gap-2">
                       <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
                         <Award className="w-4 h-4 text-emerald-600" />
@@ -648,12 +648,12 @@ export default function StudentType() {
                       </div>
                     </div>
                     <span className={`inline-block text-[10px] font-medium px-2 py-0.5 rounded-full ${
-                      sch.category === 'Merit' ? 'bg-blue-500/10 text-blue-600' :
-                      sch.category === 'Income' ? 'bg-amber-500/10 text-amber-600' :
-                      'bg-violet-500/10 text-violet-600'
-                    }`}>{sch.category}</span>
+                sch.category === 'Merit' ? 'bg-blue-500/10 text-blue-600' :
+                sch.category === 'Income' ? 'bg-amber-500/10 text-amber-600' :
+                'bg-violet-500/10 text-violet-600'}`
+                }>{sch.category}</span>
                   </motion.div>
-                ))}
+              )}
               </div>
             </div>
 
@@ -670,20 +670,20 @@ export default function StudentType() {
               </div>
               <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 -mx-1 px-1" style={{ scrollbarWidth: 'none' }}>
                 {JOBS.slice(0, 5).map((job, i) => {
-                  const catColor: Record<string, string> = {
-                    Government: 'bg-blue-500/10 text-blue-600',
-                    Private: 'bg-emerald-500/10 text-emerald-600',
-                    Internship: 'bg-violet-500/10 text-violet-600',
-                    'Skill-based': 'bg-amber-500/10 text-amber-600',
-                  };
-                  return (
-                    <motion.div
-                      key={job.id}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.1 + i * 0.06 }}
-                      onClick={() => navigate('/jobs')}
-                      className="flex-shrink-0 w-52 snap-start bg-card rounded-2xl border border-border/50 p-4 cursor-pointer hover:shadow-md transition-all active:scale-95 space-y-2.5">
+                const catColor: Record<string, string> = {
+                  Government: 'bg-blue-500/10 text-blue-600',
+                  Private: 'bg-emerald-500/10 text-emerald-600',
+                  Internship: 'bg-violet-500/10 text-violet-600',
+                  'Skill-based': 'bg-amber-500/10 text-amber-600'
+                };
+                return (
+                  <motion.div
+                    key={job.id}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 + i * 0.06 }}
+                    onClick={() => navigate('/jobs')}
+                    className="flex-shrink-0 w-52 snap-start bg-card rounded-2xl border border-border/50 p-4 cursor-pointer hover:shadow-md transition-all active:scale-95 space-y-2.5">
                       <div className="flex items-center justify-between">
                         <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${catColor[job.category] || 'bg-muted text-muted-foreground'}`}>{job.category}</span>
                       </div>
@@ -693,19 +693,19 @@ export default function StudentType() {
                         <span className="flex items-center gap-1"><IndianRupee className="w-3 h-3" />{job.salaryRange}</span>
                         <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{job.location}</span>
                       </div>
-                    </motion.div>
-                  );
-                })}
+                    </motion.div>);
+
+              })}
               </div>
             </div>
 
             {/* Interview Prep Quick Stats */}
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25 }}
-              onClick={() => navigate('/interview-prep')}
-              className="bg-card rounded-2xl p-4 border border-border/50 cursor-pointer hover:shadow-lg transition-all active:scale-[0.98] space-y-3 relative overflow-hidden group">
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25 }}
+            onClick={() => navigate('/interview-prep')}
+            className="bg-card rounded-2xl p-4 border border-border/50 cursor-pointer hover:shadow-lg transition-all active:scale-[0.98] space-y-3 relative overflow-hidden group">
               <div className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-violet-500/5 group-hover:scale-150 transition-transform duration-700" />
               <div className="relative flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-md flex-shrink-0">
@@ -719,29 +719,29 @@ export default function StudentType() {
               </div>
               <div className="relative grid grid-cols-4 gap-2">
                 {[
-                  { label: 'HR', count: INTERVIEW_QUESTIONS.filter(q => q.category === 'HR').length, color: 'bg-blue-500/10 text-blue-600' },
-                  { label: 'Tech', count: INTERVIEW_QUESTIONS.filter(q => q.category === 'Technical').length, color: 'bg-emerald-500/10 text-emerald-600' },
-                  { label: 'GD', count: INTERVIEW_QUESTIONS.filter(q => q.category === 'Group Discussion').length, color: 'bg-amber-500/10 text-amber-600' },
-                  { label: 'Gov', count: INTERVIEW_QUESTIONS.filter(q => q.category === 'Government Exam').length, color: 'bg-violet-500/10 text-violet-600' },
-                ].map((cat) => (
-                  <div key={cat.label} className={`rounded-xl py-2 text-center ${cat.color}`}>
+              { label: 'HR', count: INTERVIEW_QUESTIONS.filter((q) => q.category === 'HR').length, color: 'bg-blue-500/10 text-blue-600' },
+              { label: 'Tech', count: INTERVIEW_QUESTIONS.filter((q) => q.category === 'Technical').length, color: 'bg-emerald-500/10 text-emerald-600' },
+              { label: 'GD', count: INTERVIEW_QUESTIONS.filter((q) => q.category === 'Group Discussion').length, color: 'bg-amber-500/10 text-amber-600' },
+              { label: 'Gov', count: INTERVIEW_QUESTIONS.filter((q) => q.category === 'Government Exam').length, color: 'bg-violet-500/10 text-violet-600' }].
+              map((cat) =>
+              <div key={cat.label} className={`rounded-xl py-2 text-center ${cat.color}`}>
                     <p className="text-sm font-bold">{cat.count}</p>
                     <p className="text-[9px] font-medium">{cat.label}</p>
                   </div>
-                ))}
+              )}
               </div>
             </motion.div>
 
 
             {(() => {
-              const dayIndex = Math.floor(Date.now() / 86400000) % DAILY_TIPS.length;
-              const todayTip = DAILY_TIPS[dayIndex];
-              return (
-                <motion.div
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="bg-gradient-to-br from-primary/10 via-primary/5 to-transparent rounded-2xl p-5 border border-primary/10 space-y-2">
+            const dayIndex = Math.floor(Date.now() / 86400000) % DAILY_TIPS.length;
+            const todayTip = DAILY_TIPS[dayIndex];
+            return (
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="bg-gradient-to-br from-primary/10 via-primary/5 to-transparent rounded-2xl p-5 border border-primary/10 space-y-2">
                   <div className="flex items-center gap-2">
                     <span className="text-xl">{todayTip.icon}</span>
                     <div className="flex items-center gap-1.5">
@@ -750,9 +750,9 @@ export default function StudentType() {
                     </div>
                   </div>
                   <p className="text-sm text-foreground leading-relaxed font-medium">{todayTip.tip}</p>
-                </motion.div>
-              );
-            })()}
+                </motion.div>);
+
+          })()}
 
             {/* Info Cards */}
             <div className="grid grid-cols-2 gap-3">
@@ -781,13 +781,13 @@ export default function StudentType() {
 
             {/* Developer Credit Banner */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
-              className="mt-6 mb-24 rounded-2xl overflow-hidden border border-border/30"
-              style={{ background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(262 83% 58%))' }}
-            >
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className="mt-6 mb-24 rounded-2xl overflow-hidden border border-border/30"
+            style={{ background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(262 83% 58%))' }}>
+            
               <div className="px-5 py-5">
                 <div className="flex items-center justify-center gap-3 mb-3">
                   <div className="w-12 h-12 rounded-xl bg-white/95 flex items-center justify-center shadow-lg">
@@ -861,28 +861,28 @@ function MarksSlideCard({
                 <Trophy className="w-3.5 h-3.5 text-yellow-300" />
                 <span className="text-[11px] sm:text-xs font-semibold text-white">{classification}</span>
               </div>
-              {!confirmDelete ? (
-                <button
-                  onClick={(e) => { e.stopPropagation(); setConfirmDelete(true); }}
-                  className="w-7 h-7 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-red-500/30 transition-colors"
-                  title="Delete entry">
+              {!confirmDelete ?
+              <button
+                onClick={(e) => {e.stopPropagation();setConfirmDelete(true);}}
+                className="w-7 h-7 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-red-500/30 transition-colors"
+                title="Delete entry">
                   <Trash2 className="w-3.5 h-3.5 text-white/70" />
-                </button>
-              ) : (
-                <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+                </button> :
+
+              <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
                   <button
-                    onClick={() => { onDelete(); setConfirmDelete(false); }}
-                    disabled={isDeleting}
-                    className="px-2 py-1 rounded-full bg-red-500/80 text-[10px] font-semibold text-white hover:bg-red-600 transition-colors disabled:opacity-50">
+                  onClick={() => {onDelete();setConfirmDelete(false);}}
+                  disabled={isDeleting}
+                  className="px-2 py-1 rounded-full bg-red-500/80 text-[10px] font-semibold text-white hover:bg-red-600 transition-colors disabled:opacity-50">
                     {isDeleting ? '...' : 'Delete'}
                   </button>
                   <button
-                    onClick={() => setConfirmDelete(false)}
-                    className="px-2 py-1 rounded-full bg-white/15 text-[10px] font-medium text-white hover:bg-white/25 transition-colors">
+                  onClick={() => setConfirmDelete(false)}
+                  className="px-2 py-1 rounded-full bg-white/15 text-[10px] font-medium text-white hover:bg-white/25 transition-colors">
                     Cancel
                   </button>
                 </div>
-              )}
+              }
             </div>
           </div>
 
@@ -974,22 +974,22 @@ function MarksSlideCard({
             className="relative overflow-hidden rounded-2xl text-left transition-all active:scale-[0.97] group/btn"
             style={{
               background: 'linear-gradient(145deg, hsl(var(--primary)), hsl(var(--accent)))',
-              boxShadow: '0 6px 20px -4px hsl(var(--primary) / 0.35)',
-            }}
-          >
+              boxShadow: '0 6px 20px -4px hsl(var(--primary) / 0.35)'
+            }}>
+            
             <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(circle at 90% 10%, white, transparent 60%)' }} />
             <div className="relative p-3.5 flex flex-col gap-3">
               <div className="flex items-center justify-between">
                 <div
                   className="w-9 h-9 rounded-xl flex items-center justify-center"
-                  style={{ background: 'hsla(0, 0%, 100%, 0.18)', backdropFilter: 'blur(8px)', border: '1px solid hsla(0, 0%, 100%, 0.15)' }}
-                >
+                  style={{ background: 'hsla(0, 0%, 100%, 0.18)', backdropFilter: 'blur(8px)', border: '1px solid hsla(0, 0%, 100%, 0.15)' }}>
+                  
                   <Target className="w-[18px] h-[18px] text-primary-foreground" />
                 </div>
                 <div
                   className="w-7 h-7 rounded-lg flex items-center justify-center group-hover/btn:translate-x-0.5 transition-transform"
-                  style={{ background: 'hsla(0, 0%, 100%, 0.12)' }}
-                >
+                  style={{ background: 'hsla(0, 0%, 100%, 0.12)' }}>
+                  
                   <ChevronRight className="w-3.5 h-3.5 text-primary-foreground" />
                 </div>
               </div>
@@ -1007,19 +1007,19 @@ function MarksSlideCard({
             onClick={onViewResults}
             className="relative overflow-hidden rounded-2xl text-left transition-all active:scale-[0.97] group/btn2 bg-card border border-border/50 hover:border-primary/20"
             style={{
-              boxShadow: '0 2px 12px -4px hsl(var(--foreground) / 0.06)',
-            }}
-          >
+              boxShadow: '0 2px 12px -4px hsl(var(--foreground) / 0.06)'
+            }}>
+            
             <div className="relative p-3.5 flex flex-col gap-3">
               <div className="flex items-center justify-between">
                 <div
-                  className="w-9 h-9 rounded-xl flex items-center justify-center bg-secondary border border-border/40"
-                >
+                  className="w-9 h-9 rounded-xl flex items-center justify-center bg-secondary border border-border/40">
+                  
                   <BarChart3 className="w-[18px] h-[18px] text-primary" />
                 </div>
                 <div
-                  className="w-7 h-7 rounded-lg flex items-center justify-center bg-secondary group-hover/btn2:translate-x-0.5 transition-transform"
-                >
+                  className="w-7 h-7 rounded-lg flex items-center justify-center bg-secondary group-hover/btn2:translate-x-0.5 transition-transform">
+                  
                   <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
                 </div>
               </div>
