@@ -9,8 +9,9 @@ import { motion } from 'framer-motion';
 import {
   Clock, IndianRupee, GraduationCap, BookOpen, AlertCircle, CheckCircle2,
   TrendingUp, Building2, ArrowRight, MapPin, Briefcase, Award, ChevronRight,
-  FileText, ListChecks
+  FileText, ListChecks, Share2
 } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 
 import scienceImg from '@/assets/course-science.jpg';
 import engineeringImg from '@/assets/course-engineering.jpg';
