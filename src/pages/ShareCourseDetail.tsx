@@ -202,6 +202,35 @@ export default function ShareCourseDetail() {
             </div>
           </motion.div>
         )}
+        {/* Why EduNext */}
+        <motion.div variants={item} className="px-4">
+          <BenefitsCarousel />
+        </motion.div>
+
+        {/* Developer Credit */}
+        <motion.div variants={item} className="mx-4 rounded-2xl overflow-hidden border border-border/30"
+          style={{ background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(262 83% 58%))' }}>
+          <div className="px-5 py-5">
+            <div className="flex items-center justify-center gap-3 mb-3">
+              <div className="w-12 h-12 rounded-xl bg-white/95 flex items-center justify-center shadow-lg">
+                <img src={edunextLogo} alt="EduNext" className="w-9 h-9 object-contain" />
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="w-2 h-2 rounded-full bg-white/60" />
+                <div className="w-6 h-0.5 bg-white/40 rounded-full" />
+                <div className="w-2 h-2 rounded-full bg-white/60" />
+              </div>
+              <div className="w-12 h-12 rounded-xl bg-white/95 flex items-center justify-center shadow-lg">
+                <img src={voorheesLogo} alt="Voorhees College" className="w-9 h-9 object-contain" />
+              </div>
+            </div>
+            <div className="text-center">
+              <p className="text-white/70 text-[10px] font-semibold tracking-widest uppercase">Developed by</p>
+              <p className="text-white font-bold text-sm mt-0.5">Voorhees College</p>
+              <p className="text-white/80 text-xs">BCA Department · Vellore</p>
+            </div>
+          </div>
+        </motion.div>
       </motion.div>
 
       {/* Download EduNext Promo */}
@@ -217,7 +246,7 @@ export default function ShareCourseDetail() {
             <p className="text-sm font-bold text-foreground">EduNext - Career Guide</p>
             <p className="text-[11px] text-muted-foreground">Explore courses, colleges & career paths</p>
           </div>
-          <a href={window.location.origin} className="flex-shrink-0">
+          <a href="https://edunextindia.vercel.app" target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
             <Button size="sm" className="rounded-xl gradient-primary text-white border-0 font-bold text-xs h-10 px-4 gap-1.5">
               <Download className="w-3.5 h-3.5" />
               Get App
