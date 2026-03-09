@@ -102,12 +102,12 @@ export function BenefitsCarousel() {
 
 
           
-          <button
-            onClick={goNext}
-            className="w-7 h-7 rounded-full bg-muted flex items-center justify-center hover:bg-muted-foreground/20 transition-colors">
-            
-            <ChevronRight className="w-4 h-4 text-muted-foreground" />
-          </button>
+          
+
+
+
+
+          
         </div>
       </div>
 
