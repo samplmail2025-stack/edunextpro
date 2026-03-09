@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Home, ClipboardList, Sparkles, Bookmark, User } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, LayoutGroup } from 'framer-motion';
 import { useNavigationDirection, getRouteIndex } from '@/contexts/NavigationDirection';
 import { useRef } from 'react';
 
@@ -42,64 +42,67 @@ export function BottomNav() {
       className="fixed bottom-0 left-0 right-0 z-[100]"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
-      <div className="mx-5 mb-4">
-        <div
-          className="relative flex items-center justify-around bg-card/80 backdrop-blur-2xl border border-border/30 rounded-2xl px-1 py-2"
-          style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}
-        >
-          {NAV_ITEMS.map((item) => {
-            const { icon: Icon, label, path } = item;
-            const active = isActive(item);
-            return (
-              <motion.button
-                key={path}
-                onClick={() => handleNavigate(path)}
-                whileTap={{ scale: 0.85, transition: { duration: 0.06 } }}
-                className="relative flex flex-col items-center justify-center z-10 gap-1 min-w-[44px]"
-              >
-                {/* Icon */}
-                <motion.div
-                  animate={active
-                    ? { y: -2, scale: [1, 1.18, 1] }
-                    : { y: 0, scale: 1 }
-                  }
-                  transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <Icon
-                    className={`w-[21px] h-[21px] transition-colors duration-300 ${
-                      active ? 'text-primary' : 'text-muted-foreground/60'
-                    }`}
-                    strokeWidth={active ? 2.4 : 1.5}
-                  />
-                </motion.div>
+      {/* Fade-out gradient so content doesn't hard-cut behind the bar */}
+      <div
+        className="absolute inset-x-0 bottom-0 h-24 pointer-events-none"
+        style={{ background: 'linear-gradient(to top, hsl(var(--background)), transparent)' }}
+      />
 
-                {/* Line connector + dot */}
-                {active && (
-                  <motion.div
-                    className="flex flex-col items-center"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.2, delay: 0.05 }}
-                  >
+      <LayoutGroup id="bottom-nav">
+        <div className="relative mx-4 mb-3">
+          <div
+            className="relative grid grid-cols-5 items-center bg-card border border-border/40 rounded-2xl overflow-hidden"
+            style={{ boxShadow: '0 -1px 0 hsl(var(--border) / 0.3), 0 4px 20px rgba(0,0,0,0.06)' }}
+          >
+            {NAV_ITEMS.map((item) => {
+              const { icon: Icon, label, path } = item;
+              const active = isActive(item);
+              return (
+                <motion.button
+                  key={path}
+                  onClick={() => handleNavigate(path)}
+                  whileTap={{ scale: 0.92, transition: { duration: 0.05 } }}
+                  className="relative flex flex-col items-center justify-center py-2.5 gap-[3px]"
+                >
+                  {/* Top accent bar */}
+                  {active && (
                     <motion.div
-                      className="w-[1.5px] h-[6px] bg-primary/40 rounded-full"
-                      initial={{ scaleY: 0 }}
-                      animate={{ scaleY: 1 }}
-                      transition={{ duration: 0.2, ease: 'easeOut' }}
+                      layoutId="topBar"
+                      className="absolute top-0 inset-x-3 h-[2.5px] rounded-b-full bg-primary"
+                      transition={{ type: 'spring', stiffness: 450, damping: 30 }}
                     />
-                    <motion.div
-                      layoutId="navDot"
-                      className="w-[5px] h-[5px] rounded-full bg-primary mt-[1px]"
-                      transition={{ type: 'spring', stiffness: 500, damping: 32 }}
+                  )}
+
+                  {/* Icon */}
+                  <motion.div
+                    animate={active
+                      ? { scale: [1, 1.15, 1], y: 0 }
+                      : { scale: 1, y: 0 }
+                    }
+                    transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <Icon
+                      className={`w-[20px] h-[20px] transition-colors duration-200 ${
+                        active ? 'text-primary' : 'text-muted-foreground/50'
+                      }`}
+                      strokeWidth={active ? 2.3 : 1.5}
                     />
                   </motion.div>
-                )}
-                {!active && <div className="h-[14px]" />}
-              </motion.button>
-            );
-          })}
+
+                  {/* Label */}
+                  <span
+                    className={`text-[9px] font-semibold tracking-wide transition-colors duration-200 ${
+                      active ? 'text-primary' : 'text-muted-foreground/40'
+                    }`}
+                  >
+                    {label}
+                  </span>
+                </motion.button>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      </LayoutGroup>
     </nav>
   );
 }
