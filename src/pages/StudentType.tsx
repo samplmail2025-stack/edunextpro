@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { motion, AnimatePresence, type PanInfo } from 'framer-motion';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { BottomNav } from '@/components/layout/BottomNav';
@@ -7,8 +7,8 @@ import {
   School, GraduationCap, Sparkles, BookOpen, Building2, Briefcase,
   Target, Lightbulb, PenTool, FileText, Award, MessageSquare, FileUser,
   TrendingUp, BarChart3, Loader2, ChevronRight, ChevronLeft,
-  Trophy, Star, Zap, Trash2 } from
-'lucide-react';
+  Trophy, Star, Zap, Trash2, ClipboardList, Search, Calendar, IndianRupee, Clock, Flame
+} from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 import { useMarks, type MarksEntry } from '@/hooks/useMarks';
@@ -18,6 +18,24 @@ import { Button } from '@/components/ui/button';
 import studentsStudyingImg from '@/assets/students-studying.jpg';
 import resultsImg from '@/assets/results-celebration.jpg';
 import { BenefitsCarousel } from '@/components/BenefitsCarousel';
+import { COURSES } from '@/data/courses';
+import { ENTRANCE_EXAMS } from '@/data/exams';
+import { SCHOLARSHIPS } from '@/data/scholarships';
+
+const DAILY_TIPS = [
+  { tip: "Consistency beats intensity. Study 2 hours daily rather than 10 hours once a week.", icon: "📚" },
+  { tip: "Use the Pomodoro technique: 25 min focus + 5 min break. Your brain retains more.", icon: "⏱️" },
+  { tip: "Teach what you learn to someone else — it's the fastest way to master a topic.", icon: "🎓" },
+  { tip: "Don't skip NCERT textbooks. 70% of competitive exam questions come from them.", icon: "📖" },
+  { tip: "Start your day with the hardest subject. Your willpower is strongest in the morning.", icon: "🌅" },
+  { tip: "Practice previous year papers. Patterns repeat more than you think.", icon: "📝" },
+  { tip: "Sleep 7-8 hours. Your brain consolidates memory during deep sleep.", icon: "😴" },
+  { tip: "Set SMART goals: Specific, Measurable, Achievable, Relevant, Time-bound.", icon: "🎯" },
+  { tip: "Join a study group for difficult subjects. Discussion deepens understanding.", icon: "👥" },
+  { tip: "Keep a mistake journal. Reviewing errors is more valuable than re-reading notes.", icon: "✍️" },
+  { tip: "Apply to multiple scholarships — even small amounts add up over your degree.", icon: "💰" },
+  { tip: "Read The Hindu or Dinamani daily for 20 minutes. It helps in every competitive exam.", icon: "📰" },
+];
 
 // Helper to parse subjects from a marks entry
 function parseSubjects(entry: MarksEntry): {name: string;marks: number;maxMarks: number;}[] {
@@ -282,8 +300,88 @@ export default function StudentType() {
           </motion.div>
         }
 
-        {/* Benefits Carousel */}
+        {/* Quick Actions Grid */}
+        {!loading &&
+        <div className="space-y-3 pt-1">
+          <div className="flex items-center gap-2">
+            <Flame className="w-4 h-4 text-primary" />
+            <p className="text-xs font-bold text-foreground uppercase tracking-wider">Quick Actions</p>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { path: '/marks', icon: ClipboardList, label: 'Enter Marks', desc: 'Add your scores', gradient: 'from-primary to-primary/80', bg: 'bg-primary/5' },
+              { path: '/college-finder', icon: Search, label: 'Find Colleges', desc: '170+ TN colleges', gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-500/5' },
+              { path: '/recommendations', icon: BookOpen, label: 'Browse Courses', desc: '110+ programs', gradient: 'from-violet-500 to-purple-600', bg: 'bg-violet-500/5' },
+              { path: '/jobs', icon: Briefcase, label: 'Explore Jobs', desc: '75+ career paths', gradient: 'from-amber-500 to-orange-600', bg: 'bg-amber-500/5' },
+            ].map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <motion.div
+                  key={item.path}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.1 + i * 0.06 }}
+                  onClick={() => navigate(item.path)}
+                  className={`${item.bg} rounded-2xl p-4 cursor-pointer hover:shadow-md transition-all border border-border/40 active:scale-95`}>
+                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center mb-2.5 shadow-sm`}>
+                    <Icon className="w-5 h-5 text-white" />
+                  </div>
+                  <h3 className="font-semibold text-foreground text-sm">{item.label}</h3>
+                  <p className="text-[11px] text-muted-foreground mt-0.5">{item.desc}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+        }
+
+
         {!loading && <BenefitsCarousel />}
+
+        {/* Popular Courses */}
+        {!loading &&
+        <div className="space-y-3 pt-1">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <BookOpen className="w-4 h-4 text-primary" />
+              <p className="text-xs font-bold text-foreground uppercase tracking-wider">Popular Courses</p>
+            </div>
+            <button onClick={() => navigate('/recommendations')} className="text-xs font-medium text-primary flex items-center gap-0.5">
+              View All <ChevronRight className="w-3 h-3" />
+            </button>
+          </div>
+          <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 -mx-1 px-1 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+            {COURSES.filter(c => c.level === 'UG').slice(0, 6).map((course, i) => (
+              <motion.div
+                key={course.id}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 + i * 0.05 }}
+                onClick={() => navigate(`/college-finder?course=${encodeURIComponent(course.name)}`)}
+                className="flex-shrink-0 w-36 snap-start bg-card rounded-2xl border border-border/50 overflow-hidden cursor-pointer hover:shadow-md transition-all active:scale-95">
+                <div className={`h-20 bg-gradient-to-br ${
+                  course.category === 'Engineering' ? 'from-blue-500 to-indigo-600' :
+                  course.category === 'Medical' ? 'from-rose-500 to-pink-600' :
+                  course.category === 'Science' ? 'from-emerald-500 to-teal-600' :
+                  course.category === 'Commerce' ? 'from-amber-500 to-orange-600' :
+                  course.category === 'Arts' ? 'from-violet-500 to-purple-600' :
+                  'from-primary to-primary/80'
+                } flex items-center justify-center`}>
+                  <GraduationCap className="w-8 h-8 text-white/80" />
+                </div>
+                <div className="p-3">
+                  <h4 className="text-xs font-bold text-foreground line-clamp-2 leading-tight">{course.name}</h4>
+                  <div className="flex items-center gap-1.5 mt-1.5">
+                    <span className="text-[10px] text-muted-foreground">{course.duration}</span>
+                    <span className="w-1 h-1 rounded-full bg-muted-foreground/30" />
+                    <span className="text-[10px] font-medium text-primary">{course.level}</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+        }
 
         {/* Career Tools */}
         {!loading &&
@@ -338,6 +436,115 @@ export default function StudentType() {
               </div>
               <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-edu-yellow transition-colors flex-shrink-0" />
             </motion.div>
+
+            {/* Upcoming Exam Deadlines */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-primary" />
+                  <p className="text-xs font-bold text-foreground uppercase tracking-wider">Upcoming Exams</p>
+                </div>
+                <button onClick={() => navigate('/entrance-exams')} className="text-xs font-medium text-primary flex items-center gap-0.5">
+                  All Exams <ChevronRight className="w-3 h-3" />
+                </button>
+              </div>
+              <div className="bg-card rounded-2xl border border-border/50 overflow-hidden divide-y divide-border/40">
+                {ENTRANCE_EXAMS.slice(0, 4).map((exam, i) => {
+                  const nextDate = exam.importantDates[0];
+                  return (
+                    <motion.div
+                      key={exam.id}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + i * 0.05 }}
+                      onClick={() => navigate('/entrance-exams')}
+                      className="flex items-center gap-3 p-3.5 cursor-pointer hover:bg-muted/40 transition-colors">
+                      <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                        exam.level === 'National' ? 'bg-primary/10' : 'bg-amber-500/10'
+                      }`}>
+                        <FileText className={`w-4 h-4 ${exam.level === 'National' ? 'text-primary' : 'text-amber-600'}`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-sm font-semibold text-foreground">{exam.name}</h4>
+                        <p className="text-[11px] text-muted-foreground truncate">{exam.category}</p>
+                      </div>
+                      <div className="text-right flex-shrink-0">
+                        <p className="text-[11px] font-medium text-foreground">{nextDate?.date}</p>
+                        <p className="text-[10px] text-muted-foreground">{nextDate?.label}</p>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Top Scholarships */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <IndianRupee className="w-4 h-4 text-primary" />
+                  <p className="text-xs font-bold text-foreground uppercase tracking-wider">Top Scholarships</p>
+                </div>
+                <button onClick={() => navigate('/scholarships')} className="text-xs font-medium text-primary flex items-center gap-0.5">
+                  View All <ChevronRight className="w-3 h-3" />
+                </button>
+              </div>
+              <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 -mx-1 px-1" style={{ scrollbarWidth: 'none' }}>
+                {SCHOLARSHIPS.slice(0, 4).map((sch, i) => (
+                  <motion.div
+                    key={sch.id}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 + i * 0.06 }}
+                    onClick={() => navigate('/scholarships')}
+                    className="flex-shrink-0 w-52 snap-start bg-card rounded-2xl border border-border/50 p-4 cursor-pointer hover:shadow-md transition-all active:scale-95 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                        <Award className="w-4 h-4 text-emerald-600" />
+                      </div>
+                      <h4 className="text-xs font-bold text-foreground line-clamp-2 leading-tight">{sch.name}</h4>
+                    </div>
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-1.5">
+                        <IndianRupee className="w-3 h-3 text-emerald-500" />
+                        <span className="text-xs font-semibold text-emerald-600">{sch.amount}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <Clock className="w-3 h-3 text-muted-foreground" />
+                        <span className="text-[11px] text-muted-foreground">{sch.deadline}</span>
+                      </div>
+                    </div>
+                    <span className={`inline-block text-[10px] font-medium px-2 py-0.5 rounded-full ${
+                      sch.category === 'Merit' ? 'bg-blue-500/10 text-blue-600' :
+                      sch.category === 'Income' ? 'bg-amber-500/10 text-amber-600' :
+                      'bg-violet-500/10 text-violet-600'
+                    }`}>{sch.category}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Daily Tip */}
+            {(() => {
+              const dayIndex = Math.floor(Date.now() / 86400000) % DAILY_TIPS.length;
+              const todayTip = DAILY_TIPS[dayIndex];
+              return (
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="bg-gradient-to-br from-primary/10 via-primary/5 to-transparent rounded-2xl p-5 border border-primary/10 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl">{todayTip.icon}</span>
+                    <div className="flex items-center gap-1.5">
+                      <Lightbulb className="w-3.5 h-3.5 text-primary" />
+                      <p className="text-xs font-bold text-primary uppercase tracking-wider">Tip of the Day</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-foreground leading-relaxed font-medium">{todayTip.tip}</p>
+                </motion.div>
+              );
+            })()}
 
             {/* Info Cards */}
             <div className="grid grid-cols-2 gap-3">
