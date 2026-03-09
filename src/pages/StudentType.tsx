@@ -20,6 +20,7 @@ import { Button } from '@/components/ui/button';
 import studentsStudyingImg from '@/assets/students-studying.jpg';
 import resultsImg from '@/assets/results-celebration.jpg';
 import { BenefitsCarousel } from '@/components/BenefitsCarousel';
+import { useRecentlyViewed } from '@/hooks/useRecentlyViewed';
 import { COURSES } from '@/data/courses';
 import { ENTRANCE_EXAMS } from '@/data/exams';
 import { SCHOLARSHIPS } from '@/data/scholarships';
@@ -110,6 +111,7 @@ export default function StudentType() {
 
   const hasMarks = marks.length > 0;
   const firstName = profile?.full_name?.split(' ')[0] || 'Student';
+  const recentItems = useRecentlyViewed();
 
   // Carousel state
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -753,6 +755,42 @@ export default function StudentType() {
                 </motion.div>);
 
           })()}
+
+            {/* Recently Viewed */}
+            {recentItems.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35 }}
+                className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-4 rounded-full bg-primary" />
+                  <p className="text-xs font-bold text-foreground uppercase tracking-wider">Recently Viewed</p>
+                </div>
+                <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 snap-x snap-mandatory scrollbar-hide">
+                  {recentItems.slice(0, 8).map((item, i) => (
+                    <motion.div
+                      key={`${item.type}-${item.id}`}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + i * 0.05 }}
+                      onClick={() => navigate(item.type === 'college' ? `/college/${item.id}` : `/course/${item.id}`)}
+                      className="flex-shrink-0 w-44 snap-start bg-card rounded-2xl border border-border/50 p-3.5 cursor-pointer hover:shadow-md transition-all active:scale-95 space-y-2">
+                      <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+                        {item.type === 'college'
+                          ? <Building2 className="w-4 h-4 text-primary" />
+                          : <GraduationCap className="w-4 h-4 text-primary" />
+                        }
+                      </div>
+                      <h4 className="text-xs font-bold text-foreground line-clamp-2 leading-tight">{item.name}</h4>
+                      <p className="text-[10px] text-muted-foreground flex items-center gap-1">
+                        <MapPin className="w-3 h-3" /> {item.subtitle}
+                      </p>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
 
             {/* Info Cards */}
             <div className="grid grid-cols-2 gap-3">

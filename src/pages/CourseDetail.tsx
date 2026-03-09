@@ -12,6 +12,8 @@ import {
   FileText, ListChecks, Share2
 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { addRecentlyViewed } from '@/hooks/useRecentlyViewed';
+import { useEffect } from 'react';
 
 import scienceImg from '@/assets/course-science.jpg';
 import engineeringImg from '@/assets/course-engineering.jpg';
@@ -43,6 +45,12 @@ export default function CourseDetail() {
   const { courseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
   const course = COURSES.find(c => c.id === courseId);
+
+  useEffect(() => {
+    if (course) {
+      addRecentlyViewed({ id: course.id, type: 'course', name: course.name, subtitle: course.category });
+    }
+  }, [course]);
 
   if (!course) {
     return (
