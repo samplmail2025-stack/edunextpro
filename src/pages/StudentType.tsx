@@ -657,7 +657,82 @@ export default function StudentType() {
               </div>
             </div>
 
-            {/* Daily Tip */}
+            {/* Trending Jobs */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Briefcase className="w-4 h-4 text-primary" />
+                  <p className="text-xs font-bold text-foreground uppercase tracking-wider">Trending Jobs</p>
+                </div>
+                <button onClick={() => navigate('/jobs')} className="text-xs font-medium text-primary flex items-center gap-0.5">
+                  View All <ChevronRight className="w-3 h-3" />
+                </button>
+              </div>
+              <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 -mx-1 px-1" style={{ scrollbarWidth: 'none' }}>
+                {JOBS.slice(0, 5).map((job, i) => {
+                  const catColor: Record<string, string> = {
+                    Government: 'bg-blue-500/10 text-blue-600',
+                    Private: 'bg-emerald-500/10 text-emerald-600',
+                    Internship: 'bg-violet-500/10 text-violet-600',
+                    'Skill-based': 'bg-amber-500/10 text-amber-600',
+                  };
+                  return (
+                    <motion.div
+                      key={job.id}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + i * 0.06 }}
+                      onClick={() => navigate('/jobs')}
+                      className="flex-shrink-0 w-52 snap-start bg-card rounded-2xl border border-border/50 p-4 cursor-pointer hover:shadow-md transition-all active:scale-95 space-y-2.5">
+                      <div className="flex items-center justify-between">
+                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${catColor[job.category] || 'bg-muted text-muted-foreground'}`}>{job.category}</span>
+                      </div>
+                      <h4 className="text-xs font-bold text-foreground line-clamp-2 leading-tight">{job.title}</h4>
+                      <p className="text-[11px] text-muted-foreground truncate">{job.organization}</p>
+                      <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
+                        <span className="flex items-center gap-1"><IndianRupee className="w-3 h-3" />{job.salaryRange}</span>
+                        <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{job.location}</span>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Interview Prep Quick Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25 }}
+              onClick={() => navigate('/interview-prep')}
+              className="bg-card rounded-2xl p-4 border border-border/50 cursor-pointer hover:shadow-lg transition-all active:scale-[0.98] space-y-3 relative overflow-hidden group">
+              <div className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-violet-500/5 group-hover:scale-150 transition-transform duration-700" />
+              <div className="relative flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-md flex-shrink-0">
+                  <MessageSquare className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-sm font-bold text-foreground">Interview Prep</h3>
+                  <p className="text-[11px] text-muted-foreground">{INTERVIEW_QUESTIONS.length} questions ready</p>
+                </div>
+                <ChevronRight className="w-4 h-4 text-muted-foreground/50" />
+              </div>
+              <div className="relative grid grid-cols-4 gap-2">
+                {[
+                  { label: 'HR', count: INTERVIEW_QUESTIONS.filter(q => q.category === 'HR').length, color: 'bg-blue-500/10 text-blue-600' },
+                  { label: 'Tech', count: INTERVIEW_QUESTIONS.filter(q => q.category === 'Technical').length, color: 'bg-emerald-500/10 text-emerald-600' },
+                  { label: 'GD', count: INTERVIEW_QUESTIONS.filter(q => q.category === 'Group Discussion').length, color: 'bg-amber-500/10 text-amber-600' },
+                  { label: 'Gov', count: INTERVIEW_QUESTIONS.filter(q => q.category === 'Government Exam').length, color: 'bg-violet-500/10 text-violet-600' },
+                ].map((cat) => (
+                  <div key={cat.label} className={`rounded-xl py-2 text-center ${cat.color}`}>
+                    <p className="text-sm font-bold">{cat.count}</p>
+                    <p className="text-[9px] font-medium">{cat.label}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+
             {(() => {
               const dayIndex = Math.floor(Date.now() / 86400000) % DAILY_TIPS.length;
               const todayTip = DAILY_TIPS[dayIndex];
