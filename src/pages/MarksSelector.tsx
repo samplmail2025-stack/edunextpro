@@ -8,6 +8,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { CircularProgress } from '@/components/charts/CircularProgress';
 import schoolStudentImg from '@/assets/school-student.jpg';
 import collegeGraduateImg from '@/assets/college-graduate.jpg';
+import studentsStudyingImg from '@/assets/students-studying.jpg';
 
 export default function MarksSelector() {
   const navigate = useNavigate();
