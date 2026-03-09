@@ -13,6 +13,8 @@ import { toast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 import { useMarks, type MarksEntry } from '@/hooks/useMarks';
 import { CircularProgress } from '@/components/charts/CircularProgress';
+import edunextLogo from '@/assets/edunext-logo.png';
+import voorheesLogo from '@/assets/voorhees-logo.png';
 import { GradeBarChart } from '@/components/charts/GradeBarChart';
 import { Button } from '@/components/ui/button';
 import studentsStudyingImg from '@/assets/students-studying.jpg';
