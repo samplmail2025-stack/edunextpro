@@ -140,9 +140,11 @@ export default function MarksSelector() {
             >
               {/* Accent strip */}
               <div
-                className="h-1.5 rounded-t-[1.25rem]"
+                className="h-1.5 rounded-t-[1.25rem] relative overflow-hidden"
                 style={{ background: 'linear-gradient(90deg, hsl(var(--orange)), hsl(var(--yellow)))' }}
-              />
+              >
+                <div className="absolute inset-0 animate-[shimmer_2.5s_ease-in-out_infinite]" style={{ background: 'linear-gradient(90deg, transparent 0%, hsla(0,0%,100%,0.35) 50%, transparent 100%)', backgroundSize: '200% 100%' }} />
+              </div>
 
               <div className="p-5">
                 <div className="flex items-start gap-4">
@@ -219,9 +221,11 @@ export default function MarksSelector() {
             >
               {/* Accent strip */}
               <div
-                className="h-1.5 rounded-t-[1.25rem]"
+                className="h-1.5 rounded-t-[1.25rem] relative overflow-hidden"
                 style={{ background: 'linear-gradient(90deg, hsl(var(--purple)), hsl(var(--accent)))' }}
-              />
+              >
+                <div className="absolute inset-0 animate-[shimmer_2.5s_ease-in-out_infinite]" style={{ background: 'linear-gradient(90deg, transparent 0%, hsla(0,0%,100%,0.35) 50%, transparent 100%)', backgroundSize: '200% 100%' }} />
+              </div>
 
               <div className="p-5">
                 <div className="flex items-start gap-4">
