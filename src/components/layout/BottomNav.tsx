@@ -51,8 +51,13 @@ export function BottomNav() {
       <LayoutGroup id="bottom-nav">
         <div className="relative mx-4 mb-3">
           <div
-            className="relative grid grid-cols-5 items-center bg-card border border-border/40 rounded-2xl overflow-hidden"
-            style={{ boxShadow: '0 -1px 0 hsl(var(--border) / 0.3), 0 4px 20px rgba(0,0,0,0.06)' }}
+            className="relative grid grid-cols-5 items-center rounded-2xl overflow-hidden"
+            style={{
+              background: 'linear-gradient(135deg, rgba(15,15,20,0.88), rgba(25,25,35,0.92))',
+              backdropFilter: 'blur(24px) saturate(1.8)',
+              WebkitBackdropFilter: 'blur(24px) saturate(1.8)',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.06) inset, 0 1px 0 rgba(255,255,255,0.04) inset',
+            }}
           >
             {NAV_ITEMS.map((item) => {
               const { icon: Icon, label, path } = item;
@@ -68,7 +73,8 @@ export function BottomNav() {
                   {active && (
                     <motion.div
                       layoutId="topBar"
-                      className="absolute top-0 inset-x-3 h-[2.5px] rounded-b-full bg-primary"
+                      className="absolute top-0 inset-x-3 h-[2.5px] rounded-b-full"
+                      style={{ background: 'linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)))' }}
                       transition={{ type: 'spring', stiffness: 450, damping: 30 }}
                     />
                   )}
@@ -83,7 +89,7 @@ export function BottomNav() {
                   >
                     <Icon
                       className={`w-[20px] h-[20px] transition-colors duration-200 ${
-                        active ? 'text-primary' : 'text-muted-foreground/50'
+                        active ? 'text-white' : 'text-white/30'
                       }`}
                       strokeWidth={active ? 2.3 : 1.5}
                     />
@@ -92,7 +98,7 @@ export function BottomNav() {
                   {/* Label */}
                   <span
                     className={`text-[9px] font-semibold tracking-wide transition-colors duration-200 ${
-                      active ? 'text-primary' : 'text-muted-foreground/40'
+                      active ? 'text-white' : 'text-white/25'
                     }`}
                   >
                     {label}
