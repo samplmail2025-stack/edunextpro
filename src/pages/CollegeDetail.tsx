@@ -6,8 +6,9 @@ import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import {
   Building2, MapPin, Phone, Globe, Calendar, Award, BookOpen,
-  ExternalLink, Navigation, ChevronRight
+  ExternalLink, Navigation, ChevronRight, Share2
 } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 
 export default function CollegeDetail() {
   const { collegeId } = useParams<{ collegeId: string }>();
