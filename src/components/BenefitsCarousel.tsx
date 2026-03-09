@@ -91,12 +91,11 @@ export function BenefitsCarousel() {
         <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={index}
-            custom={direction}
             variants={slideVariants}
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ duration: 0.35, ease: 'easeInOut' }}
+            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
           >
             <div className="relative h-48 overflow-hidden">
               <img
