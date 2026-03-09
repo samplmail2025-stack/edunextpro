@@ -797,50 +797,68 @@ function MarksSlideCard({
         }
 
         {/* Actions */}
-        <div className="flex gap-2.5">
+        <div className="grid grid-cols-2 gap-3">
           <motion.button
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35, delay: 0.1 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
             onClick={onRecommendations}
-            className="flex-1 relative overflow-hidden rounded-2xl p-3.5 text-left transition-all active:scale-[0.97] group/btn"
+            className="relative overflow-hidden rounded-2xl text-left transition-all active:scale-[0.97] group/btn"
             style={{
-              background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))',
-              boxShadow: '0 8px 24px -4px hsl(var(--primary) / 0.3)',
+              background: 'linear-gradient(145deg, hsl(var(--primary)), hsl(var(--accent)))',
+              boxShadow: '0 6px 20px -4px hsl(var(--primary) / 0.35)',
             }}
           >
-            <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: 'radial-gradient(circle at 80% 20%, white 0%, transparent 50%)' }} />
-            <div className="relative flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/20">
-                <Target className="w-5 h-5 text-primary-foreground" />
+            <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'radial-gradient(circle at 90% 10%, white, transparent 60%)' }} />
+            <div className="relative p-3.5 flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                <div
+                  className="w-9 h-9 rounded-xl flex items-center justify-center"
+                  style={{ background: 'hsla(0, 0%, 100%, 0.18)', backdropFilter: 'blur(8px)', border: '1px solid hsla(0, 0%, 100%, 0.15)' }}
+                >
+                  <Target className="w-[18px] h-[18px] text-primary-foreground" />
+                </div>
+                <div
+                  className="w-7 h-7 rounded-lg flex items-center justify-center group-hover/btn:translate-x-0.5 transition-transform"
+                  style={{ background: 'hsla(0, 0%, 100%, 0.12)' }}
+                >
+                  <ChevronRight className="w-3.5 h-3.5 text-primary-foreground" />
+                </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <h4 className="text-[13px] font-bold text-primary-foreground leading-tight">Recommendations</h4>
-                <p className="text-[10px] text-primary-foreground/70 mt-0.5">AI-powered picks</p>
+              <div>
+                <h4 className="text-[13px] font-bold text-primary-foreground leading-tight tracking-tight">Recommendations</h4>
+                <p className="text-[10px] text-primary-foreground/60 mt-0.5 font-medium">AI-powered picks</p>
               </div>
-              <ChevronRight className="w-4 h-4 text-primary-foreground/60 group-hover/btn:translate-x-0.5 transition-transform" />
             </div>
           </motion.button>
 
           <motion.button
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35, delay: 0.2 }}
+            transition={{ duration: 0.3, delay: 0.18 }}
             onClick={onViewResults}
-            className="flex-1 relative overflow-hidden rounded-2xl p-3.5 text-left transition-all active:scale-[0.97] group/btn2 bg-card border border-border/60 hover:border-primary/30"
+            className="relative overflow-hidden rounded-2xl text-left transition-all active:scale-[0.97] group/btn2 bg-card border border-border/50 hover:border-primary/20"
             style={{
-              boxShadow: '0 4px 16px -4px hsl(var(--foreground) / 0.06)',
+              boxShadow: '0 2px 12px -4px hsl(var(--foreground) / 0.06)',
             }}
           >
-            <div className="relative flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center border border-border/50">
-                <BarChart3 className="w-5 h-5 text-primary" />
+            <div className="relative p-3.5 flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                <div
+                  className="w-9 h-9 rounded-xl flex items-center justify-center bg-secondary border border-border/40"
+                >
+                  <BarChart3 className="w-[18px] h-[18px] text-primary" />
+                </div>
+                <div
+                  className="w-7 h-7 rounded-lg flex items-center justify-center bg-secondary group-hover/btn2:translate-x-0.5 transition-transform"
+                >
+                  <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
+                </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <h4 className="text-[13px] font-bold text-foreground leading-tight">Full Results</h4>
-                <p className="text-[10px] text-muted-foreground mt-0.5">View analytics</p>
+              <div>
+                <h4 className="text-[13px] font-bold text-foreground leading-tight tracking-tight">Full Results</h4>
+                <p className="text-[10px] text-muted-foreground mt-0.5 font-medium">View analytics</p>
               </div>
-              <ChevronRight className="w-4 h-4 text-muted-foreground group-hover/btn2:translate-x-0.5 transition-transform" />
             </div>
           </motion.button>
         </div>
