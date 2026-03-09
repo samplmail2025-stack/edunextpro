@@ -17,6 +17,7 @@ import { GradeBarChart } from '@/components/charts/GradeBarChart';
 import { Button } from '@/components/ui/button';
 import studentsStudyingImg from '@/assets/students-studying.jpg';
 import resultsImg from '@/assets/results-celebration.jpg';
+import { BenefitsCarousel } from '@/components/BenefitsCarousel';
 
 // Helper to parse subjects from a marks entry
 function parseSubjects(entry: MarksEntry): {name: string;marks: number;maxMarks: number;}[] {
@@ -280,6 +281,9 @@ export default function StudentType() {
             </Button>
           </motion.div>
         }
+
+        {/* Benefits Carousel */}
+        {!loading && <BenefitsCarousel />}
 
         {/* Career Tools */}
         {!loading &&
