@@ -335,7 +335,47 @@ export default function StudentType() {
           </motion.div>
         }
 
-        {/* Quick Actions Grid */}
+        {/* Study Streak / Progress Tracker */}
+        {!loading && hasMarks &&
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="bg-gradient-to-br from-primary/10 via-violet-500/5 to-transparent rounded-2xl p-4 border border-primary/10 space-y-3">
+          <div className="flex items-center gap-2.5">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-violet-600 flex items-center justify-center shadow-md">
+              <TrendingUp className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-foreground">Academic Tracker</h3>
+              <p className="text-[11px] text-muted-foreground">You have {marks.length} record{marks.length !== 1 ? 's' : ''} tracked</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, i) => (
+              <div key={i} className="flex flex-col items-center gap-1 flex-1">
+                <span className="text-[9px] font-medium text-muted-foreground">{day}</span>
+                <div className={`w-full aspect-square rounded-lg flex items-center justify-center ${
+                  i < marks.length ? 'bg-primary/20' : 'bg-muted/50'
+                }`}>
+                  {i < marks.length ? (
+                    <Flame className="w-3.5 h-3.5 text-primary" />
+                  ) : (
+                    <div className="w-2 h-2 rounded-full bg-muted-foreground/20" />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          <button
+            onClick={() => navigate('/marks')}
+            className="w-full text-xs font-semibold text-primary flex items-center justify-center gap-1 pt-1">
+            Add More Records <ChevronRight className="w-3 h-3" />
+          </button>
+        </motion.div>
+        }
+
+
         {!loading &&
         <div className="space-y-3 pt-1">
           <div className="flex items-center gap-2">
