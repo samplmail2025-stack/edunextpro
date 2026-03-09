@@ -60,9 +60,9 @@ function AppRoutes() {
 
   useEffect(() => { initPWA(); }, []);
   useEffect(() => {
-    // Faster splash: 1.5s for EduNext, 1.5s for developer = 3s total
-    const t1 = setTimeout(() => setSplashPhase('developer'), 1500);
-    const t2 = setTimeout(() => setSplashPhase('done'), 3000);
+    // Fast splash: 0.8s for EduNext, 0.8s for developer = 1.6s total
+    const t1 = setTimeout(() => setSplashPhase('developer'), 800);
+    const t2 = setTimeout(() => setSplashPhase('done'), 1600);
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
   useEffect(() => {
