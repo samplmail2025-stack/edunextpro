@@ -486,7 +486,31 @@ export default function StudentType() {
         </div>
         }
 
-        {/* Career Tools */}
+        {/* Compare Colleges CTA */}
+        {!loading &&
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          onClick={() => navigate('/college-finder')}
+          className="relative overflow-hidden rounded-2xl p-5 cursor-pointer active:scale-[0.97] transition-transform"
+          style={{ background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(262 83% 58%))' }}>
+          <div className="absolute -top-6 -right-6 w-28 h-28 rounded-full bg-white/10 blur-xl" />
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          <div className="relative flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+              <Building2 className="w-6 h-6 text-white" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-sm font-bold text-white">Compare Colleges Side by Side</h3>
+              <p className="text-[11px] text-white/70 mt-0.5">Find the best fit from 170+ TN colleges</p>
+            </div>
+            <ChevronRight className="w-5 h-5 text-white/60 flex-shrink-0" />
+          </div>
+        </motion.div>
+        }
+
+
         {!loading &&
         <>
             <div className="space-y-3 pt-1">
