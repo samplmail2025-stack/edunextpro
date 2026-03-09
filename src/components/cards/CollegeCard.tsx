@@ -31,6 +31,7 @@ export function CollegeCard({ college, highlightCourse, onSave, isSaved }: Colle
   const naac = naacConfig[college.naacGrade] || naacConfig['B'];
   const { toggleCollege, isSelected, canAdd } = useCompare();
   const compared = isSelected(college.id);
+  const navigate = useNavigate();
 
   const searchTerms = highlightCourse ? highlightCourse.toLowerCase().split(' ').filter(t => t.length > 1) : [];
   const isHighlighted = (course: string) => {
