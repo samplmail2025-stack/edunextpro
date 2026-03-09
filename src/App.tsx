@@ -39,6 +39,7 @@ import Scholarships from "./pages/Scholarships";
 import InterviewPrep from "./pages/InterviewPrep";
 import ResumeBuilder from "./pages/ResumeBuilder";
 import MarksSelector from "./pages/MarksSelector";
+import CourseDetail from "./pages/CourseDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
