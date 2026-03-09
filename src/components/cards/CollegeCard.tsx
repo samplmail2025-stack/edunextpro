@@ -145,7 +145,7 @@ export function CollegeCard({ college, highlightCourse, onSave, isSaved }: Colle
               <Globe className="w-3.5 h-3.5" /> Website
             </Button>
           </a>
-          <a href={college.mapLink} target="_blank" rel="noopener noreferrer" className="flex-1">
+          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(college.name + ', ' + college.address)}`} target="_blank" rel="noopener noreferrer" className="flex-1">
             <Button size="sm" className="w-full rounded-xl text-xs gradient-primary border-0 gap-1.5 h-10 font-semibold group/btn">
               <MapPin className="w-3.5 h-3.5" /> Directions
               <ArrowRight className="w-3.5 h-3.5 ml-auto transition-transform group-hover/btn:translate-x-0.5" />
