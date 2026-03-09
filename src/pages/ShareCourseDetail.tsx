@@ -9,6 +9,8 @@ import {
   TrendingUp, Building2, MapPin, Award, FileText, ListChecks, Download
 } from 'lucide-react';
 import edunextLogo from '@/assets/edunext-logo.png';
+import voorheesLogo from '@/assets/voorhees-logo.png';
+import { BenefitsCarousel } from '@/components/BenefitsCarousel';
 
 import scienceImg from '@/assets/course-science.jpg';
 import engineeringImg from '@/assets/course-engineering.jpg';
