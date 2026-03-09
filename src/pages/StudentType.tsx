@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { motion, AnimatePresence, type PanInfo } from 'framer-motion';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { BottomNav } from '@/components/layout/BottomNav';
@@ -7,8 +7,8 @@ import {
   School, GraduationCap, Sparkles, BookOpen, Building2, Briefcase,
   Target, Lightbulb, PenTool, FileText, Award, MessageSquare, FileUser,
   TrendingUp, BarChart3, Loader2, ChevronRight, ChevronLeft,
-  Trophy, Star, Zap, Trash2 } from
-'lucide-react';
+  Trophy, Star, Zap, Trash2, ClipboardList, Search, Calendar, IndianRupee, Clock, Flame
+} from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 import { useMarks, type MarksEntry } from '@/hooks/useMarks';
@@ -18,6 +18,24 @@ import { Button } from '@/components/ui/button';
 import studentsStudyingImg from '@/assets/students-studying.jpg';
 import resultsImg from '@/assets/results-celebration.jpg';
 import { BenefitsCarousel } from '@/components/BenefitsCarousel';
+import { COURSES } from '@/data/courses';
+import { ENTRANCE_EXAMS } from '@/data/exams';
+import { SCHOLARSHIPS } from '@/data/scholarships';
+
+const DAILY_TIPS = [
+  { tip: "Consistency beats intensity. Study 2 hours daily rather than 10 hours once a week.", icon: "📚" },
+  { tip: "Use the Pomodoro technique: 25 min focus + 5 min break. Your brain retains more.", icon: "⏱️" },
+  { tip: "Teach what you learn to someone else — it's the fastest way to master a topic.", icon: "🎓" },
+  { tip: "Don't skip NCERT textbooks. 70% of competitive exam questions come from them.", icon: "📖" },
+  { tip: "Start your day with the hardest subject. Your willpower is strongest in the morning.", icon: "🌅" },
+  { tip: "Practice previous year papers. Patterns repeat more than you think.", icon: "📝" },
+  { tip: "Sleep 7-8 hours. Your brain consolidates memory during deep sleep.", icon: "😴" },
+  { tip: "Set SMART goals: Specific, Measurable, Achievable, Relevant, Time-bound.", icon: "🎯" },
+  { tip: "Join a study group for difficult subjects. Discussion deepens understanding.", icon: "👥" },
+  { tip: "Keep a mistake journal. Reviewing errors is more valuable than re-reading notes.", icon: "✍️" },
+  { tip: "Apply to multiple scholarships — even small amounts add up over your degree.", icon: "💰" },
+  { tip: "Read The Hindu or Dinamani daily for 20 minutes. It helps in every competitive exam.", icon: "📰" },
+];
 
 // Helper to parse subjects from a marks entry
 function parseSubjects(entry: MarksEntry): {name: string;marks: number;maxMarks: number;}[] {
