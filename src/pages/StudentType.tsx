@@ -748,23 +748,31 @@ function MarksSlideCard({
         <div className="flex gap-2.5">
           <button
             onClick={onRecommendations}
-            className="flex-1 relative overflow-hidden rounded-2xl h-12 font-bold text-xs sm:text-sm text-white shadow-lg shadow-primary/25 transition-all active:scale-[0.97] group/btn"
+            className="flex-1 relative overflow-hidden rounded-2xl h-14 font-bold text-xs sm:text-sm text-white shadow-lg shadow-primary/30 transition-all active:scale-[0.95] group/btn"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-violet-600" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent_60%)]" />
-            <div className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity bg-gradient-to-r from-violet-600 via-primary to-primary" />
-            <span className="relative flex items-center justify-center gap-1.5">
-              <Target className="w-4 h-4" />
+            <div className="absolute inset-0 bg-gradient-to-r from-primary via-violet-600 to-fuchsia-500" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(255,255,255,0.2),transparent_50%)]" />
+            <div className="absolute -top-1 -right-1 w-16 h-16 bg-white/10 rounded-full blur-xl group-hover/btn:scale-150 transition-transform duration-500" />
+            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+            <span className="relative flex items-center justify-center gap-2">
+              <span className="w-7 h-7 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                <Target className="w-3.5 h-3.5" />
+              </span>
               Recommendations
+              <ChevronRight className="w-4 h-4 opacity-60 group-hover/btn:translate-x-0.5 transition-transform" />
             </span>
           </button>
           <button
             onClick={onViewResults}
-            className="flex-1 relative overflow-hidden rounded-2xl h-12 font-bold text-xs sm:text-sm text-foreground border-2 border-border/60 bg-card hover:bg-muted/60 transition-all active:scale-[0.97] group/btn2"
+            className="flex-1 relative overflow-hidden rounded-2xl h-14 font-bold text-xs sm:text-sm text-foreground border-2 border-primary/20 bg-primary/5 hover:bg-primary/10 transition-all active:scale-[0.95] group/btn2"
           >
-            <span className="relative flex items-center justify-center gap-1.5">
-              <BarChart3 className="w-4 h-4 text-primary" />
+            <div className="absolute -top-1 -left-1 w-12 h-12 bg-primary/10 rounded-full blur-xl group-hover/btn2:scale-150 transition-transform duration-500" />
+            <span className="relative flex items-center justify-center gap-2">
+              <span className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center">
+                <BarChart3 className="w-3.5 h-3.5 text-primary" />
+              </span>
               Full Results
+              <ChevronRight className="w-4 h-4 opacity-40 text-primary group-hover/btn2:translate-x-0.5 transition-transform" />
             </span>
           </button>
         </div>
