@@ -2,36 +2,39 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { BottomNav } from '@/components/layout/BottomNav';
-import { AppHeader } from '@/components/layout/AppHeader';
-import { Card3D } from '@/components/layout/Card3D';
-import { School, GraduationCap, ChevronRight, Calculator, TrendingUp, Award, Sparkles } from 'lucide-react';
+import { School, GraduationCap, ChevronRight, TrendingUp, Sparkles } from 'lucide-react';
 import { useMarks } from '@/hooks/useMarks';
+import { useAuth } from '@/hooks/useAuth';
 import { CircularProgress } from '@/components/charts/CircularProgress';
+import schoolStudentImg from '@/assets/school-student.jpg';
+import collegeGraduateImg from '@/assets/college-graduate.jpg';
 
 export default function MarksSelector() {
   const navigate = useNavigate();
   const { latestMarks } = useMarks();
+  const { profile } = useAuth();
 
   const hasMarks = !!latestMarks;
   const percentage = latestMarks?.percentage ?? 0;
   const classification = latestMarks?.classification ?? '-';
+  const firstName = profile?.full_name?.split(' ')[0] || 'Student';
 
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.05 },
+      transition: { staggerChildren: 0.12, delayChildren: 0.05 },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 16 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } },
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
   };
 
   return (
     <PageWrapper>
-      {/* Compact Hero */}
+      {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div
           className="absolute inset-0"
@@ -39,39 +42,34 @@ export default function MarksSelector() {
             background: 'linear-gradient(145deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary) / 0.9))',
           }}
         />
-        {/* Decorative elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div
-            className="absolute -top-12 -right-12 w-40 h-40 rounded-full opacity-10"
+            className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-10"
             style={{ background: 'radial-gradient(circle, hsl(var(--primary-foreground)), transparent 70%)' }}
           />
           <div
-            className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full opacity-10"
+            className="absolute -bottom-10 -left-10 w-36 h-36 rounded-full opacity-10"
             style={{ background: 'radial-gradient(circle, hsl(var(--accent-foreground)), transparent 70%)' }}
           />
-          <div className="absolute top-6 right-8 opacity-[0.06]">
-            <Calculator className="w-16 h-16 text-primary-foreground" />
-          </div>
-          <div className="absolute bottom-4 left-10 opacity-[0.06]">
-            <Award className="w-12 h-12 text-primary-foreground" />
-          </div>
         </div>
 
-        <div className="relative pt-12 pb-14 px-6 text-center">
+        <div className="relative pt-14 pb-16 px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="inline-flex items-center gap-1.5 bg-primary-foreground/10 backdrop-blur-sm rounded-full px-3.5 py-1.5 mb-3 border border-primary-foreground/10">
-              <Sparkles className="w-3.5 h-3.5 text-primary-foreground/80" />
-              <span className="text-primary-foreground/80 text-xs font-medium tracking-wide">Smart Calculator</span>
+            <div className="inline-flex items-center gap-1.5 bg-primary-foreground/10 backdrop-blur-sm rounded-full px-4 py-1.5 mb-3 border border-primary-foreground/10">
+              <Sparkles className="w-4 h-4 text-primary-foreground/80" />
+              <span className="text-primary-foreground/90 text-sm font-medium">
+                Welcome back, {firstName}! 👋
+              </span>
             </div>
-            <h1 className="text-[1.65rem] font-bold text-primary-foreground tracking-tight leading-tight">
-              Calculate Your Marks
+            <h1 className="text-3xl font-extrabold text-primary-foreground tracking-tight leading-tight">
+              Who are you?
             </h1>
-            <p className="text-primary-foreground/60 text-sm mt-1.5 max-w-[260px] mx-auto">
-              Choose your student category to get started
+            <p className="text-primary-foreground/60 text-sm mt-2 max-w-[280px] mx-auto">
+              Select your student category to get started
             </p>
           </motion.div>
         </div>
@@ -81,7 +79,7 @@ export default function MarksSelector() {
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="px-4 -mt-8 pb-28 space-y-3.5 max-w-lg mx-auto relative z-10"
+        className="px-4 -mt-8 pb-28 space-y-4 max-w-lg mx-auto relative z-10"
       >
         {/* Previous Score Card */}
         {hasMarks && (
@@ -126,164 +124,132 @@ export default function MarksSelector() {
 
         {/* School Student Card */}
         <motion.div variants={itemVariants}>
-          <Card3D
+          <div
+            className="rounded-2xl overflow-hidden cursor-pointer active:scale-[0.98] transition-transform"
+            style={{ boxShadow: '0 8px 32px -8px hsl(var(--orange) / 0.3)' }}
             onClick={() => navigate('/school-marks')}
-            className="w-full rounded-[1.25rem] overflow-hidden text-left cursor-pointer"
           >
-            <div
-              className="relative border border-border/50"
-              style={{
-                background: 'linear-gradient(145deg, hsl(var(--card)), hsl(var(--card)))',
-                borderRadius: '1.25rem',
-                boxShadow: '0 4px 24px -6px hsl(var(--orange) / 0.15), 0 1px 3px hsl(var(--foreground) / 0.04)',
-              }}
-            >
-              {/* Accent strip */}
+            {/* Image Banner */}
+            <div className="relative h-28 overflow-hidden">
+              <img
+                src={schoolStudentImg}
+                alt="School students"
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
               <div
-                className="h-1.5 rounded-t-[1.25rem] relative overflow-hidden"
-                style={{ background: 'linear-gradient(90deg, hsl(var(--orange)), hsl(var(--yellow)))' }}
-              >
-                <div className="absolute inset-0 animate-[shimmer_2.5s_ease-in-out_infinite]" style={{ background: 'linear-gradient(90deg, transparent 0%, hsla(0,0%,100%,0.35) 50%, transparent 100%)', backgroundSize: '200% 100%' }} />
-              </div>
-
-              <div className="p-5">
-                <div className="flex items-start gap-4">
-                  {/* Icon */}
-                  <div
-                    className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0"
-                    style={{
-                      background: 'linear-gradient(135deg, hsl(var(--orange) / 0.12), hsl(var(--yellow) / 0.08))',
-                      border: '1px solid hsl(var(--orange) / 0.15)',
-                    }}
-                  >
-                    <School className="w-7 h-7" style={{ color: 'hsl(var(--orange))' }} />
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <h2 className="text-[1.05rem] font-bold text-foreground tracking-tight">School Student</h2>
-                    <p className="text-sm text-muted-foreground mt-0.5">10th, 11th & 12th Class</p>
-
-                    <div className="flex flex-wrap gap-1.5 mt-3">
-                      {['Science', 'Commerce', 'Arts'].map((s) => (
-                        <span
-                          key={s}
-                          className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full"
-                          style={{
-                            background: 'hsl(var(--orange) / 0.08)',
-                            color: 'hsl(var(--orange))',
-                            border: '1px solid hsl(var(--orange) / 0.12)',
-                          }}
-                        >
-                          {s}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Arrow */}
-                  <div
-                    className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-1"
-                    style={{
-                      background: 'linear-gradient(135deg, hsl(var(--orange)), hsl(var(--yellow)))',
-                      boxShadow: '0 4px 12px hsl(var(--orange) / 0.3)',
-                    }}
-                  >
-                    <ChevronRight className="w-4.5 h-4.5 text-primary-foreground" />
-                  </div>
-                </div>
-
+                className="absolute inset-0"
+                style={{ background: 'linear-gradient(135deg, hsl(var(--orange) / 0.85), hsl(var(--yellow) / 0.7))' }}
+              />
+              <div className="absolute inset-0 flex items-center px-5 gap-4">
                 <div
-                  className="mt-4 pt-3 flex items-center gap-2 text-xs text-muted-foreground"
-                  style={{ borderTop: '1px solid hsl(var(--border) / 0.6)' }}
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm"
+                  style={{ background: 'hsla(0,0%,100%,0.2)', border: '1px solid hsla(0,0%,100%,0.25)' }}
                 >
-                  <Calculator className="w-3.5 h-3.5" style={{ color: 'hsl(var(--orange) / 0.7)' }} />
-                  <span>Calculate marks & get career guidance</span>
+                  <School className="w-7 h-7 text-primary-foreground" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-primary-foreground flex items-center gap-2">
+                    <span>🏫</span> School Student
+                  </h2>
+                  <p className="text-primary-foreground/80 text-sm mt-0.5">10th / 11th / 12th</p>
                 </div>
               </div>
             </div>
-          </Card3D>
+
+            {/* Bottom info */}
+            <div className="bg-card p-4 border border-t-0 border-border/40 rounded-b-2xl">
+              <div className="flex flex-wrap gap-1.5 mb-3">
+                {['Science', 'Commerce', 'Arts'].map((s) => (
+                  <span
+                    key={s}
+                    className="text-[11px] font-semibold px-3 py-1 rounded-full"
+                    style={{
+                      background: 'hsl(var(--orange) / 0.08)',
+                      color: 'hsl(var(--orange))',
+                      border: '1px solid hsl(var(--orange) / 0.15)',
+                    }}
+                  >
+                    {s}
+                  </span>
+                ))}
+              </div>
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-muted-foreground">Calculate marks → Get career guidance</p>
+                <div
+                  className="px-4 py-2 rounded-full text-sm font-bold text-primary-foreground flex items-center gap-1"
+                  style={{ background: 'linear-gradient(135deg, hsl(var(--orange)), hsl(var(--yellow)))' }}
+                >
+                  Start <span>→</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </motion.div>
 
         {/* College Student Card */}
         <motion.div variants={itemVariants}>
-          <Card3D
+          <div
+            className="rounded-2xl overflow-hidden cursor-pointer active:scale-[0.98] transition-transform"
+            style={{ boxShadow: '0 8px 32px -8px hsl(var(--purple) / 0.3)' }}
             onClick={() => navigate('/college-marks')}
-            className="w-full rounded-[1.25rem] overflow-hidden text-left cursor-pointer"
           >
-            <div
-              className="relative border border-border/50"
-              style={{
-                background: 'linear-gradient(145deg, hsl(var(--card)), hsl(var(--card)))',
-                borderRadius: '1.25rem',
-                boxShadow: '0 4px 24px -6px hsl(var(--purple) / 0.15), 0 1px 3px hsl(var(--foreground) / 0.04)',
-              }}
-            >
-              {/* Accent strip */}
+            {/* Image Banner */}
+            <div className="relative h-28 overflow-hidden">
+              <img
+                src={collegeGraduateImg}
+                alt="College graduate"
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
               <div
-                className="h-1.5 rounded-t-[1.25rem] relative overflow-hidden"
-                style={{ background: 'linear-gradient(90deg, hsl(var(--purple)), hsl(var(--accent)))' }}
-              >
-                <div className="absolute inset-0 animate-[shimmer_2.5s_ease-in-out_infinite]" style={{ background: 'linear-gradient(90deg, transparent 0%, hsla(0,0%,100%,0.35) 50%, transparent 100%)', backgroundSize: '200% 100%' }} />
-              </div>
-
-              <div className="p-5">
-                <div className="flex items-start gap-4">
-                  {/* Icon */}
-                  <div
-                    className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0"
-                    style={{
-                      background: 'linear-gradient(135deg, hsl(var(--purple) / 0.12), hsl(var(--accent) / 0.08))',
-                      border: '1px solid hsl(var(--purple) / 0.15)',
-                    }}
-                  >
-                    <GraduationCap className="w-7 h-7" style={{ color: 'hsl(var(--purple))' }} />
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <h2 className="text-[1.05rem] font-bold text-foreground tracking-tight">College Student</h2>
-                    <p className="text-sm text-muted-foreground mt-0.5">UG, PG & PhD Level</p>
-
-                    <div className="flex flex-wrap gap-1.5 mt-3">
-                      {['CGPA', 'Percentage', 'Semester'].map((s) => (
-                        <span
-                          key={s}
-                          className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full"
-                          style={{
-                            background: 'hsl(var(--purple) / 0.08)',
-                            color: 'hsl(var(--purple))',
-                            border: '1px solid hsl(var(--purple) / 0.12)',
-                          }}
-                        >
-                          {s}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Arrow */}
-                  <div
-                    className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-1"
-                    style={{
-                      background: 'linear-gradient(135deg, hsl(var(--purple)), hsl(var(--accent)))',
-                      boxShadow: '0 4px 12px hsl(var(--purple) / 0.3)',
-                    }}
-                  >
-                    <ChevronRight className="w-4.5 h-4.5 text-primary-foreground" />
-                  </div>
-                </div>
-
+                className="absolute inset-0"
+                style={{ background: 'linear-gradient(135deg, hsl(var(--purple) / 0.85), hsl(var(--accent) / 0.7))' }}
+              />
+              <div className="absolute inset-0 flex items-center px-5 gap-4">
                 <div
-                  className="mt-4 pt-3 flex items-center gap-2 text-xs text-muted-foreground"
-                  style={{ borderTop: '1px solid hsl(var(--border) / 0.6)' }}
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 backdrop-blur-sm"
+                  style={{ background: 'hsla(0,0%,100%,0.2)', border: '1px solid hsla(0,0%,100%,0.25)' }}
                 >
-                  <Award className="w-3.5 h-3.5" style={{ color: 'hsl(var(--purple) / 0.7)' }} />
-                  <span>Semester-wise CGPA & smart recommendations</span>
+                  <GraduationCap className="w-7 h-7 text-primary-foreground" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-primary-foreground flex items-center gap-2">
+                    <span>🎓</span> College Student
+                  </h2>
+                  <p className="text-primary-foreground/80 text-sm mt-0.5">UG / PG / PhD</p>
                 </div>
               </div>
             </div>
-          </Card3D>
+
+            {/* Bottom info */}
+            <div className="bg-card p-4 border border-t-0 border-border/40 rounded-b-2xl">
+              <div className="flex flex-wrap gap-1.5 mb-3">
+                {['CGPA', 'Percentage', 'Semester'].map((s) => (
+                  <span
+                    key={s}
+                    className="text-[11px] font-semibold px-3 py-1 rounded-full"
+                    style={{
+                      background: 'hsl(var(--purple) / 0.08)',
+                      color: 'hsl(var(--purple))',
+                      border: '1px solid hsl(var(--purple) / 0.15)',
+                    }}
+                  >
+                    {s}
+                  </span>
+                ))}
+              </div>
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-muted-foreground">Semester-wise CGPA → Smart recommendations</p>
+                <div
+                  className="px-4 py-2 rounded-full text-sm font-bold text-primary-foreground flex items-center gap-1"
+                  style={{ background: 'linear-gradient(135deg, hsl(var(--purple)), hsl(var(--accent)))' }}
+                >
+                  Start <span>→</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </motion.div>
       </motion.div>
 
