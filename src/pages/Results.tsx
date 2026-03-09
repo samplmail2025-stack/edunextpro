@@ -341,7 +341,7 @@ export default function Results() {
             </div>
             <motion.div whileTap={{ scale: 0.97 }}>
               <Button
-                onClick={() => navigate('/recommendations', { state: { studentType, percentage, cgpa, stream, level, course, classification } })}
+                onClick={() => navigate('/recommendations', { state: { studentType, percentage, cgpa, stream, level, course, classification, class: cls } })}
                 className="w-full h-14 rounded-2xl bg-primary hover:bg-primary/90 border-0 flex items-center justify-center gap-2 font-bold text-xs"
               >
                 <Zap className="w-4 h-4" />
