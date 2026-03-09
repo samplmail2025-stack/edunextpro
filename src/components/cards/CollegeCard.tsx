@@ -144,12 +144,12 @@ export function CollegeCard({ college, highlightCourse, onSave, isSaved }: Colle
 
         {/* Action buttons */}
         <div className="flex gap-2 pt-0.5">
-          <a href={college.website} target="_blank" rel="noopener noreferrer" className="flex-1">
+          <a href={college.website} target="_blank" rel="noopener noreferrer" className="flex-1" onClick={(e) => e.stopPropagation()}>
             <Button variant="outline" size="sm" className="w-full rounded-xl text-xs gap-1.5 h-10 font-semibold hover:bg-muted/80 border-border/80">
               <Globe className="w-3.5 h-3.5" /> Website
             </Button>
           </a>
-          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(college.name + ', ' + college.address)}`} target="_blank" rel="noopener noreferrer" className="flex-1">
+          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(college.name + ', ' + college.address)}`} target="_blank" rel="noopener noreferrer" className="flex-1" onClick={(e) => e.stopPropagation()}>
             <Button size="sm" className="w-full rounded-xl text-xs gradient-primary border-0 gap-1.5 h-10 font-semibold group/btn">
               <MapPin className="w-3.5 h-3.5" /> Directions
               <ArrowRight className="w-3.5 h-3.5 ml-auto transition-transform group-hover/btn:translate-x-0.5" />
@@ -158,7 +158,7 @@ export function CollegeCard({ college, highlightCourse, onSave, isSaved }: Colle
           <Button
             variant="outline"
             size="sm"
-            onClick={() => toggleCollege(college)}
+            onClick={(e) => { e.stopPropagation(); toggleCollege(college); }}
             disabled={!compared && !canAdd}
             className={`rounded-xl px-3 h-10 ${compared ? 'bg-edu-teal/10 border-edu-teal text-edu-teal' : ''}`}
           >
