@@ -20,6 +20,7 @@ import { Button } from '@/components/ui/button';
 import studentsStudyingImg from '@/assets/students-studying.jpg';
 import resultsImg from '@/assets/results-celebration.jpg';
 import { BenefitsCarousel } from '@/components/BenefitsCarousel';
+import { useRecentlyViewed } from '@/hooks/useRecentlyViewed';
 import { COURSES } from '@/data/courses';
 import { ENTRANCE_EXAMS } from '@/data/exams';
 import { SCHOLARSHIPS } from '@/data/scholarships';
