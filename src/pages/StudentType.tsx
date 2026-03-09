@@ -352,12 +352,14 @@ export default function StudentType() {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.1 + i * 0.06 }}
                   onClick={() => navigate(item.path)}
-                  className={`${item.bg} rounded-2xl p-4 cursor-pointer hover:shadow-md transition-all border border-border/40 active:scale-95`}>
-                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center mb-2.5 shadow-sm`}>
+                  className="relative overflow-hidden rounded-2xl p-4 cursor-pointer hover:shadow-lg transition-all border border-border/40 active:scale-[0.95] group/qa bg-card">
+                  <div className={`absolute top-0 right-0 w-24 h-24 rounded-full bg-gradient-to-br ${item.gradient} opacity-[0.07] -translate-y-8 translate-x-8 group-hover/qa:scale-150 transition-transform duration-500`} />
+                  <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center mb-3 shadow-md`}>
                     <Icon className="w-5 h-5 text-white" />
                   </div>
-                  <h3 className="font-semibold text-foreground text-sm">{item.label}</h3>
+                  <h3 className="font-bold text-foreground text-sm">{item.label}</h3>
                   <p className="text-[11px] text-muted-foreground mt-0.5">{item.desc}</p>
+                  <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/50 absolute top-4 right-3.5 group-hover/qa:text-primary transition-colors" />
                 </motion.div>
               );
             })}
