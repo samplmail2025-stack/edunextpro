@@ -89,7 +89,7 @@ export function CollegeCard({ college, highlightCourse, onSave, isSaved }: Colle
         {/* Bookmark button */}
         {onSave && (
           <button
-            onClick={onSave}
+            onClick={(e) => { e.stopPropagation(); onSave(); }}
             className={`absolute top-3 right-3 w-9 h-9 rounded-xl flex items-center justify-center transition-all z-10 ${
               isSaved ? 'bg-white/30 text-white' : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white'
             }`}

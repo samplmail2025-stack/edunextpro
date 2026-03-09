@@ -46,6 +46,22 @@ export default function CollegeDetail() {
     <PageWrapper>
       <AppHeader title={college.name} />
 
+      {/* Share FAB */}
+      <button
+        onClick={async () => {
+          const url = `${window.location.origin}/share/college/${college.id}`;
+          if (navigator.share) {
+            await navigator.share({ title: college.name, text: `Check out ${college.name} on EduNext!`, url });
+          } else {
+            await navigator.clipboard.writeText(url);
+            toast({ title: 'Link copied!', description: 'Share this link with your friends.' });
+          }
+        }}
+        className="fixed bottom-24 right-4 z-50 w-12 h-12 rounded-full gradient-primary text-white shadow-lg flex items-center justify-center active:scale-95 transition-transform"
+      >
+        <Share2 className="w-5 h-5" />
+      </button>
+
       {/* Hero header */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="relative bg-gradient-to-br from-primary/10 via-primary/5 to-background p-5 pb-6 border-b border-border">
         <div className="flex items-start gap-4">

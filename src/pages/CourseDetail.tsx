@@ -78,6 +78,22 @@ export default function CourseDetail() {
     <PageWrapper>
       <AppHeader title={course.name} />
 
+      {/* Share FAB */}
+      <button
+        onClick={async () => {
+          const url = `${window.location.origin}/share/course/${course.id}`;
+          if (navigator.share) {
+            await navigator.share({ title: course.name, text: `Check out ${course.name} on EduNext!`, url });
+          } else {
+            await navigator.clipboard.writeText(url);
+            toast({ title: 'Link copied!', description: 'Share this link with your friends.' });
+          }
+        }}
+        className="fixed bottom-24 right-4 z-50 w-12 h-12 rounded-full gradient-primary text-white shadow-lg flex items-center justify-center active:scale-95 transition-transform"
+      >
+        <Share2 className="w-5 h-5" />
+      </button>
+
       {/* Hero */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="relative h-48 overflow-hidden">
         <img src={heroImg} alt={course.category} className="w-full h-full object-cover" />
