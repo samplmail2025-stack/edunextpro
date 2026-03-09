@@ -797,56 +797,53 @@ function MarksSlideCard({
         }
 
         {/* Actions */}
-        <motion.div
-          className="grid grid-cols-2 gap-3"
-          initial="hidden"
-          animate="visible"
-          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.15 } } }}
-        >
+        <div className="flex gap-2.5">
           <motion.button
-            variants={{ hidden: { opacity: 0, y: 20, scale: 0.95 }, visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] } } }}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: 0.1 }}
             onClick={onRecommendations}
-            className="relative overflow-hidden rounded-2xl p-4 text-left transition-all active:scale-[0.96] group/btn bg-card border border-border/50 hover:shadow-xl hover:shadow-primary/10"
+            className="flex-1 relative overflow-hidden rounded-2xl p-3.5 text-left transition-all active:scale-[0.97] group/btn"
+            style={{
+              background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))',
+              boxShadow: '0 8px 24px -4px hsl(var(--primary) / 0.3)',
+            }}
           >
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-violet-500 to-fuchsia-500" />
-            <div className="absolute -bottom-6 -right-6 w-28 h-28 rounded-full bg-gradient-to-br from-primary/8 to-violet-500/5 group-hover/btn:scale-125 transition-transform duration-700" />
-            <div className="relative space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-violet-600 flex items-center justify-center shadow-md shadow-primary/20">
-                <Target className="w-5 h-5 text-white" />
+            <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: 'radial-gradient(circle at 80% 20%, white 0%, transparent 50%)' }} />
+            <div className="relative flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/20">
+                <Target className="w-5 h-5 text-primary-foreground" />
               </div>
-              <div>
-                <h4 className="text-sm font-bold text-foreground">Recommendations</h4>
-                <p className="text-[11px] text-muted-foreground mt-0.5">AI-powered suggestions</p>
+              <div className="flex-1 min-w-0">
+                <h4 className="text-[13px] font-bold text-primary-foreground leading-tight">Recommendations</h4>
+                <p className="text-[10px] text-primary-foreground/70 mt-0.5">AI-powered picks</p>
               </div>
-              <div className="flex items-center gap-1 text-[11px] font-semibold text-primary">
-                <span>Explore</span>
-                <ChevronRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
-              </div>
+              <ChevronRight className="w-4 h-4 text-primary-foreground/60 group-hover/btn:translate-x-0.5 transition-transform" />
             </div>
           </motion.button>
 
           <motion.button
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: 0.2 }}
             onClick={onViewResults}
-            variants={{ hidden: { opacity: 0, y: 20, scale: 0.95 }, visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] } } }}
-            className="relative overflow-hidden rounded-2xl p-4 text-left transition-all active:scale-[0.96] group/btn2 bg-card border border-border/50 hover:shadow-xl hover:shadow-emerald-500/10"
+            className="flex-1 relative overflow-hidden rounded-2xl p-3.5 text-left transition-all active:scale-[0.97] group/btn2 bg-card border border-border/60 hover:border-primary/30"
+            style={{
+              boxShadow: '0 4px 16px -4px hsl(var(--foreground) / 0.06)',
+            }}
           >
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500" />
-            <div className="absolute -bottom-6 -right-6 w-28 h-28 rounded-full bg-gradient-to-br from-emerald-500/8 to-teal-500/5 group-hover/btn2:scale-125 transition-transform duration-700" />
-            <div className="relative space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-md shadow-emerald-500/20">
-                <BarChart3 className="w-5 h-5 text-white" />
+            <div className="relative flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center border border-border/50">
+                <BarChart3 className="w-5 h-5 text-primary" />
               </div>
-              <div>
-                <h4 className="text-sm font-bold text-foreground">Full Results</h4>
-                <p className="text-[11px] text-muted-foreground mt-0.5">Detailed analytics</p>
+              <div className="flex-1 min-w-0">
+                <h4 className="text-[13px] font-bold text-foreground leading-tight">Full Results</h4>
+                <p className="text-[10px] text-muted-foreground mt-0.5">View analytics</p>
               </div>
-              <div className="flex items-center gap-1 text-[11px] font-semibold text-emerald-600">
-                <span>View</span>
-                <ChevronRight className="w-3.5 h-3.5 group-hover/btn2:translate-x-1 transition-transform" />
-              </div>
+              <ChevronRight className="w-4 h-4 text-muted-foreground group-hover/btn2:translate-x-0.5 transition-transform" />
             </div>
           </motion.button>
-        </motion.div>
+        </div>
       </div>
     </div>);
 
