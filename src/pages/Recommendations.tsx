@@ -38,6 +38,7 @@ export default function Recommendations() {
     level: latestMarks.level ?? undefined,
     course: latestMarks.course ?? undefined,
     classification: latestMarks.classification ?? undefined,
+    class: latestMarks.class ?? undefined,
   } : {
     studentType: 'school',
     percentage: 60,
