@@ -97,7 +97,7 @@ export function BottomNav() {
                   {/* Label */}
                   <span
                     className={`text-[9px] font-semibold tracking-wide transition-colors duration-200 ${
-                      active ? 'text-primary' : 'text-muted-foreground/40'
+                      active ? 'text-white' : 'text-white/25'
                     }`}
                   >
                     {label}
