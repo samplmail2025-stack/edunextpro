@@ -21,6 +21,25 @@ import { BenefitsCarousel } from '@/components/BenefitsCarousel';
 import { COURSES } from '@/data/courses';
 import { ENTRANCE_EXAMS } from '@/data/exams';
 import { SCHOLARSHIPS } from '@/data/scholarships';
+import scienceImg from '@/assets/course-science.jpg';
+import engineeringImg from '@/assets/course-engineering.jpg';
+import businessImg from '@/assets/course-business.jpg';
+import medicalImg from '@/assets/course-medical.jpg';
+import artsImg from '@/assets/course-arts.jpg';
+import lawImg from '@/assets/course-law.jpg';
+import educationImg from '@/assets/course-education.jpg';
+
+const COURSE_CATEGORY_IMAGES: Record<string, string> = {
+  Science: scienceImg,
+  'Science & Technology': engineeringImg,
+  Engineering: engineeringImg,
+  Management: businessImg,
+  Commerce: businessImg,
+  Medical: medicalImg,
+  Arts: artsImg,
+  Law: lawImg,
+  Education: educationImg,
+};
 
 const DAILY_TIPS = [
   { tip: "Consistency beats intensity. Study 2 hours daily rather than 10 hours once a week.", icon: "📚" },
@@ -359,15 +378,15 @@ export default function StudentType() {
                 transition={{ delay: 0.1 + i * 0.05 }}
                 onClick={() => navigate(`/college-finder?course=${encodeURIComponent(course.name)}`)}
                 className="flex-shrink-0 w-36 snap-start bg-card rounded-2xl border border-border/50 overflow-hidden cursor-pointer hover:shadow-md transition-all active:scale-95">
-                <div className={`h-20 bg-gradient-to-br ${
-                  course.category === 'Engineering' ? 'from-blue-500 to-indigo-600' :
-                  course.category === 'Medical' ? 'from-rose-500 to-pink-600' :
-                  course.category === 'Science' ? 'from-emerald-500 to-teal-600' :
-                  course.category === 'Commerce' ? 'from-amber-500 to-orange-600' :
-                  course.category === 'Arts' ? 'from-violet-500 to-purple-600' :
-                  'from-primary to-primary/80'
-                } flex items-center justify-center`}>
-                  <GraduationCap className="w-8 h-8 text-white/80" />
+                <div className="relative h-20 overflow-hidden">
+                  <img
+                    src={COURSE_CATEGORY_IMAGES[course.category] || scienceImg}
+                    alt={course.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <GraduationCap className="absolute bottom-2 right-2 w-5 h-5 text-white/70" />
                 </div>
                 <div className="p-3">
                   <h4 className="text-xs font-bold text-foreground line-clamp-2 leading-tight">{course.name}</h4>
