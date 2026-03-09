@@ -300,7 +300,42 @@ export default function StudentType() {
           </motion.div>
         }
 
-        {/* Benefits Carousel */}
+        {/* Quick Actions Grid */}
+        {!loading &&
+        <div className="space-y-3 pt-1">
+          <div className="flex items-center gap-2">
+            <Flame className="w-4 h-4 text-primary" />
+            <p className="text-xs font-bold text-foreground uppercase tracking-wider">Quick Actions</p>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { path: '/marks', icon: ClipboardList, label: 'Enter Marks', desc: 'Add your scores', gradient: 'from-primary to-primary/80', bg: 'bg-primary/5' },
+              { path: '/college-finder', icon: Search, label: 'Find Colleges', desc: '170+ TN colleges', gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-500/5' },
+              { path: '/recommendations', icon: BookOpen, label: 'Browse Courses', desc: '110+ programs', gradient: 'from-violet-500 to-purple-600', bg: 'bg-violet-500/5' },
+              { path: '/jobs', icon: Briefcase, label: 'Explore Jobs', desc: '75+ career paths', gradient: 'from-amber-500 to-orange-600', bg: 'bg-amber-500/5' },
+            ].map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <motion.div
+                  key={item.path}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.1 + i * 0.06 }}
+                  onClick={() => navigate(item.path)}
+                  className={`${item.bg} rounded-2xl p-4 cursor-pointer hover:shadow-md transition-all border border-border/40 active:scale-95`}>
+                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center mb-2.5 shadow-sm`}>
+                    <Icon className="w-5 h-5 text-white" />
+                  </div>
+                  <h3 className="font-semibold text-foreground text-sm">{item.label}</h3>
+                  <p className="text-[11px] text-muted-foreground mt-0.5">{item.desc}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+        }
+
+
         {!loading && <BenefitsCarousel />}
 
         {/* Career Tools */}
