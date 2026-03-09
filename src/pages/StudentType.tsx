@@ -304,18 +304,29 @@ export default function StudentType() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-card rounded-[1.25rem] p-6 border border-border shadow-lg text-center space-y-4">
+          className="bg-card rounded-[1.25rem] p-6 border border-border shadow-lg text-center space-y-5">
           
-            <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/15 to-violet-500/10 flex items-center justify-center mx-auto ring-4 ring-primary/5">
               <BarChart3 className="w-8 h-8 text-primary" />
             </div>
             <div>
               <h3 className="text-lg font-bold text-foreground">No Marks Yet</h3>
               <p className="text-sm text-muted-foreground mt-1">Enter your marks to see performance analytics</p>
             </div>
-            <Button onClick={() => navigate('/marks')} className="rounded-xl bg-gradient-to-r from-primary to-primary/85 text-primary-foreground">
-              Enter Marks <ChevronRight className="w-4 h-4 ml-1" />
-            </Button>
+            <button
+              onClick={() => navigate('/marks')}
+              className="relative w-full overflow-hidden rounded-2xl h-14 font-bold text-sm text-white shadow-lg shadow-primary/25 transition-all active:scale-[0.95] group/cta">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary via-violet-600 to-fuchsia-500" />
+              <div className="absolute -top-2 -right-2 w-20 h-20 bg-white/10 rounded-full blur-xl group-hover/cta:scale-150 transition-transform duration-500" />
+              <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+              <span className="relative flex items-center justify-center gap-2">
+                <span className="w-7 h-7 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                  <ClipboardList className="w-3.5 h-3.5" />
+                </span>
+                Enter Your Marks
+                <ChevronRight className="w-4 h-4 opacity-60 group-hover/cta:translate-x-0.5 transition-transform" />
+              </span>
+            </button>
           </motion.div>
         }
 
@@ -341,12 +352,14 @@ export default function StudentType() {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.1 + i * 0.06 }}
                   onClick={() => navigate(item.path)}
-                  className={`${item.bg} rounded-2xl p-4 cursor-pointer hover:shadow-md transition-all border border-border/40 active:scale-95`}>
-                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center mb-2.5 shadow-sm`}>
+                  className="relative overflow-hidden rounded-2xl p-4 cursor-pointer hover:shadow-lg transition-all border border-border/40 active:scale-[0.95] group/qa bg-card">
+                  <div className={`absolute top-0 right-0 w-24 h-24 rounded-full bg-gradient-to-br ${item.gradient} opacity-[0.07] -translate-y-8 translate-x-8 group-hover/qa:scale-150 transition-transform duration-500`} />
+                  <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center mb-3 shadow-md`}>
                     <Icon className="w-5 h-5 text-white" />
                   </div>
-                  <h3 className="font-semibold text-foreground text-sm">{item.label}</h3>
+                  <h3 className="font-bold text-foreground text-sm">{item.label}</h3>
                   <p className="text-[11px] text-muted-foreground mt-0.5">{item.desc}</p>
+                  <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/50 absolute top-4 right-3.5 group-hover/qa:text-primary transition-colors" />
                 </motion.div>
               );
             })}
