@@ -613,9 +613,10 @@ export default function StudentType() {
 
             {/* Developer Credit Banner */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
               className="mt-6 mb-24 rounded-2xl overflow-hidden border border-border/30"
               style={{ background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(262 83% 58%))' }}
             >
