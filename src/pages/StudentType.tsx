@@ -424,9 +424,9 @@ export default function StudentType() {
                 <p className="text-xs font-bold text-foreground uppercase tracking-wider">Career Tools</p>
               </div>
               {[
-            { path: '/scholarships', icon: Award, label: 'Scholarship Finder', desc: '40+ scholarships for TN students', gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-50/80 dark:bg-emerald-950/20' },
-            { path: '/interview-prep', icon: MessageSquare, label: 'Interview Prep', desc: 'HR, Technical & GD questions', gradient: 'from-violet-500 to-purple-600', bg: 'bg-violet-50/80 dark:bg-violet-950/20' },
-            { path: '/resume-builder', icon: FileUser, label: 'Resume Builder', desc: 'Create professional CV instantly', gradient: 'from-blue-500 to-indigo-600', bg: 'bg-blue-50/80 dark:bg-blue-950/20' }].
+            { path: '/scholarships', icon: Award, label: 'Scholarship Finder', desc: '40+ scholarships for TN students', gradient: 'from-emerald-500 to-teal-600', accent: 'text-emerald-600', accentBg: 'bg-emerald-500/8' },
+            { path: '/interview-prep', icon: MessageSquare, label: 'Interview Prep', desc: 'HR, Technical & GD questions', gradient: 'from-violet-500 to-purple-600', accent: 'text-violet-600', accentBg: 'bg-violet-500/8' },
+            { path: '/resume-builder', icon: FileUser, label: 'Resume Builder', desc: 'Create professional CV instantly', gradient: 'from-blue-500 to-indigo-600', accent: 'text-blue-600', accentBg: 'bg-blue-500/8' }].
             map((item, i) => {
               const Icon = item.icon;
               return (
@@ -436,16 +436,19 @@ export default function StudentType() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.25 + i * 0.08 }}
                   onClick={() => navigate(item.path)}
-                  className={`w-full ${item.bg} rounded-2xl p-4 flex items-center gap-3.5 cursor-pointer hover:shadow-md transition-all border border-border/40 group`}>
-                  
-                    <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center flex-shrink-0 shadow-sm`}>
-                      <Icon className="w-5 h-5 text-white" />
+                  className="w-full bg-card rounded-2xl p-4 flex items-center gap-3.5 cursor-pointer hover:shadow-lg transition-all border border-border/50 group relative overflow-hidden active:scale-[0.98]">
+                  <div className={`absolute top-0 left-0 w-1 h-full bg-gradient-to-b ${item.gradient} rounded-l-2xl`} />
+                  <div className={`absolute -bottom-8 -right-8 w-32 h-32 rounded-full ${item.accentBg} group-hover:scale-150 transition-transform duration-700`} />
+                    <div className={`relative w-12 h-12 rounded-xl bg-gradient-to-br ${item.gradient} flex items-center justify-center flex-shrink-0 shadow-md`}>
+                      <Icon className="w-5.5 h-5.5 text-white" />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-foreground text-sm">{item.label}</h3>
-                      <p className="text-xs text-muted-foreground truncate">{item.desc}</p>
+                    <div className="relative flex-1 min-w-0">
+                      <h3 className="font-bold text-foreground text-sm">{item.label}</h3>
+                      <p className="text-xs text-muted-foreground truncate mt-0.5">{item.desc}</p>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0" />
+                    <div className={`relative w-8 h-8 rounded-lg ${item.accentBg} flex items-center justify-center flex-shrink-0`}>
+                      <ChevronRight className={`w-4 h-4 ${item.accent} group-hover:translate-x-0.5 transition-transform`} />
+                    </div>
                   </motion.div>);
 
             })}
@@ -457,16 +460,19 @@ export default function StudentType() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35 }}
             onClick={() => navigate('/entrance-exams')}
-            className="w-full bg-edu-yellow-light/80 rounded-2xl p-4 flex items-center gap-3.5 cursor-pointer hover:shadow-md transition-all border border-edu-yellow/15 group">
-            
-              <div className="w-11 h-11 rounded-xl gradient-yellow flex items-center justify-center flex-shrink-0 shadow-sm">
-                <FileText className="w-5 h-5 text-white" />
+            className="w-full bg-card rounded-2xl p-4 flex items-center gap-3.5 cursor-pointer hover:shadow-lg transition-all border border-border/50 group relative overflow-hidden active:scale-[0.98]">
+              <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-amber-500 to-orange-500 rounded-l-2xl" />
+              <div className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-amber-500/8 group-hover:scale-150 transition-transform duration-700" />
+              <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center flex-shrink-0 shadow-md">
+                <FileText className="w-5.5 h-5.5 text-white" />
               </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-foreground text-sm">Entrance Exams Guide</h3>
-                <p className="text-xs text-muted-foreground">TNEA, NEET, JEE, TNPSC & more</p>
+              <div className="relative flex-1">
+                <h3 className="font-bold text-foreground text-sm">Entrance Exams Guide</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">TNEA, NEET, JEE, TNPSC & more</p>
               </div>
-              <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-edu-yellow transition-colors flex-shrink-0" />
+              <div className="relative w-8 h-8 rounded-lg bg-amber-500/8 flex items-center justify-center flex-shrink-0">
+                <ChevronRight className="w-4 h-4 text-amber-600 group-hover:translate-x-0.5 transition-transform" />
+              </div>
             </motion.div>
 
             {/* Upcoming Exam Deadlines */}
