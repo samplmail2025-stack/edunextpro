@@ -12,6 +12,8 @@ import {
   FileText, ListChecks, Share2
 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { addRecentlyViewed } from '@/hooks/useRecentlyViewed';
+import { useEffect } from 'react';
 
 import scienceImg from '@/assets/course-science.jpg';
 import engineeringImg from '@/assets/course-engineering.jpg';
