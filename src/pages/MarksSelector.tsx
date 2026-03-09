@@ -4,12 +4,9 @@ import { PageWrapper } from '@/components/layout/PageWrapper';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { AppHeader } from '@/components/layout/AppHeader';
 import { Card3D } from '@/components/layout/Card3D';
-import { School, GraduationCap, ChevronRight, Calculator, BookOpen, Lightbulb } from 'lucide-react';
+import { School, GraduationCap, ChevronRight, Calculator, TrendingUp, Award, Sparkles } from 'lucide-react';
 import { useMarks } from '@/hooks/useMarks';
 import { CircularProgress } from '@/components/charts/CircularProgress';
-import schoolStudentImg from '@/assets/school-student.jpg';
-import collegeGraduateImg from '@/assets/college-graduate.jpg';
-import studentsStudyingImg from '@/assets/students-studying.jpg';
 
 export default function MarksSelector() {
   const navigate = useNavigate();
@@ -19,148 +16,273 @@ export default function MarksSelector() {
   const percentage = latestMarks?.percentage ?? 0;
   const classification = latestMarks?.classification ?? '-';
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.05 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 16 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } },
+  };
+
   return (
     <PageWrapper>
-      {/* Hero */}
+      {/* Compact Hero */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={studentsStudyingImg} alt="Banner" loading="lazy" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/80 to-background" />
-        </div>
-        <div className="relative pt-10 pb-16 px-6 text-center">
-          <div className="absolute inset-0 opacity-[0.05]">
-            <Calculator className="absolute top-8 right-14 w-10 h-10 text-white" />
-            <BookOpen className="absolute bottom-10 left-14 w-10 h-10 text-white" />
-            <Lightbulb className="absolute top-14 left-1/3 w-8 h-8 text-white" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(145deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary) / 0.9))',
+          }}
+        />
+        {/* Decorative elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div
+            className="absolute -top-12 -right-12 w-40 h-40 rounded-full opacity-10"
+            style={{ background: 'radial-gradient(circle, hsl(var(--primary-foreground)), transparent 70%)' }}
+          />
+          <div
+            className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full opacity-10"
+            style={{ background: 'radial-gradient(circle, hsl(var(--accent-foreground)), transparent 70%)' }}
+          />
+          <div className="absolute top-6 right-8 opacity-[0.06]">
+            <Calculator className="w-16 h-16 text-primary-foreground" />
           </div>
+          <div className="absolute bottom-4 left-10 opacity-[0.06]">
+            <Award className="w-12 h-12 text-primary-foreground" />
+          </div>
+        </div>
+
+        <div className="relative pt-12 pb-14 px-6 text-center">
           <motion.div
-            initial={{ opacity: 0, y: -15 }}
+            initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="relative"
           >
-            <div className="inline-flex items-center gap-1.5 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1 mb-3">
-              <Calculator className="w-3.5 h-3.5 text-white/80" />
-              <span className="text-white/80 text-xs font-medium">Marks Calculator</span>
+            <div className="inline-flex items-center gap-1.5 bg-primary-foreground/10 backdrop-blur-sm rounded-full px-3.5 py-1.5 mb-3 border border-primary-foreground/10">
+              <Sparkles className="w-3.5 h-3.5 text-primary-foreground/80" />
+              <span className="text-primary-foreground/80 text-xs font-medium tracking-wide">Smart Calculator</span>
             </div>
-            <h1 className="text-2xl font-bold text-white tracking-tight">Enter Your Marks</h1>
-            <p className="text-white/70 text-sm mt-1.5">Select your student category to calculate</p>
+            <h1 className="text-[1.65rem] font-bold text-primary-foreground tracking-tight leading-tight">
+              Calculate Your Marks
+            </h1>
+            <p className="text-primary-foreground/60 text-sm mt-1.5 max-w-[260px] mx-auto">
+              Choose your student category to get started
+            </p>
           </motion.div>
         </div>
       </div>
 
-      <div className="px-4 -mt-10 pb-8 space-y-4 max-w-lg mx-auto relative z-10">
-        {/* Previous Score Mini Card */}
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+        className="px-4 -mt-8 pb-28 space-y-3.5 max-w-lg mx-auto relative z-10"
+      >
+        {/* Previous Score Card */}
         {hasMarks && (
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-card rounded-2xl p-4 border border-border shadow-sm flex items-center gap-4"
-          >
-            <CircularProgress
-              percentage={percentage}
-              size={60}
-              strokeWidth={6}
-              colorClass={percentage >= 75 ? 'green' : percentage >= 50 ? 'orange' : 'primary'}
-            />
-            <div className="flex-1 min-w-0">
-              <p className="text-xs text-muted-foreground">Last Calculated</p>
-              <p className="text-lg font-bold text-foreground">{percentage}%</p>
-              <p className="text-xs text-muted-foreground">{classification}</p>
-            </div>
+          <motion.div variants={itemVariants}>
             <div
+              className="rounded-2xl p-4 border border-border/60 flex items-center gap-4 cursor-pointer active:scale-[0.98] transition-transform"
+              style={{
+                background: 'linear-gradient(135deg, hsl(var(--card)), hsl(var(--secondary) / 0.5))',
+                boxShadow: '0 2px 16px -4px hsl(var(--primary) / 0.08)',
+              }}
               onClick={() => navigate('/results')}
-              className="text-xs font-semibold text-primary cursor-pointer hover:underline flex items-center gap-0.5"
             >
-              View <ChevronRight className="w-3 h-3" />
+              <div className="relative">
+                <CircularProgress
+                  percentage={percentage}
+                  size={56}
+                  strokeWidth={5}
+                  colorClass={percentage >= 75 ? 'green' : percentage >= 50 ? 'orange' : 'primary'}
+                />
+                <div
+                  className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center"
+                  style={{ background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))' }}
+                >
+                  <TrendingUp className="w-3 h-3 text-primary-foreground" />
+                </div>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Last Score</p>
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-2xl font-bold text-foreground">{percentage}</span>
+                  <span className="text-sm font-medium text-muted-foreground">%</span>
+                </div>
+                <p className="text-xs text-muted-foreground">{classification}</p>
+              </div>
+              <div className="flex items-center gap-1 text-xs font-semibold text-primary">
+                Details
+                <ChevronRight className="w-3.5 h-3.5" />
+              </div>
             </div>
           </motion.div>
         )}
 
-        {/* School Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
+        {/* School Student Card */}
+        <motion.div variants={itemVariants}>
           <Card3D
             onClick={() => navigate('/school-marks')}
-            className="w-full bg-card rounded-[1.25rem] overflow-hidden border border-border text-left cursor-pointer shadow-lg shadow-black/5"
+            className="w-full rounded-[1.25rem] overflow-hidden text-left cursor-pointer"
           >
-            <div className="relative h-32 overflow-hidden">
-              <img src={schoolStudentImg} alt="School student" loading="lazy" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-600/85 to-orange-500/60" />
-              <div className="absolute inset-0 flex items-center p-5">
-                <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center flex-shrink-0 mr-4 border border-white/20">
-                  <School className="w-7 h-7 text-white" />
+            <div
+              className="relative border border-border/50"
+              style={{
+                background: 'linear-gradient(145deg, hsl(var(--card)), hsl(var(--card)))',
+                borderRadius: '1.25rem',
+                boxShadow: '0 4px 24px -6px hsl(var(--orange) / 0.15), 0 1px 3px hsl(var(--foreground) / 0.04)',
+              }}
+            >
+              {/* Accent strip */}
+              <div
+                className="h-1.5 rounded-t-[1.25rem]"
+                style={{ background: 'linear-gradient(90deg, hsl(var(--orange)), hsl(var(--yellow)))' }}
+              />
+
+              <div className="p-5">
+                <div className="flex items-start gap-4">
+                  {/* Icon */}
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0"
+                    style={{
+                      background: 'linear-gradient(135deg, hsl(var(--orange) / 0.12), hsl(var(--yellow) / 0.08))',
+                      border: '1px solid hsl(var(--orange) / 0.15)',
+                    }}
+                  >
+                    <School className="w-7 h-7" style={{ color: 'hsl(var(--orange))' }} />
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1 min-w-0">
+                    <h2 className="text-[1.05rem] font-bold text-foreground tracking-tight">School Student</h2>
+                    <p className="text-sm text-muted-foreground mt-0.5">10th, 11th & 12th Class</p>
+
+                    <div className="flex flex-wrap gap-1.5 mt-3">
+                      {['Science', 'Commerce', 'Arts'].map((s) => (
+                        <span
+                          key={s}
+                          className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full"
+                          style={{
+                            background: 'hsl(var(--orange) / 0.08)',
+                            color: 'hsl(var(--orange))',
+                            border: '1px solid hsl(var(--orange) / 0.12)',
+                          }}
+                        >
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Arrow */}
+                  <div
+                    className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-1"
+                    style={{
+                      background: 'linear-gradient(135deg, hsl(var(--orange)), hsl(var(--yellow)))',
+                      boxShadow: '0 4px 12px hsl(var(--orange) / 0.3)',
+                    }}
+                  >
+                    <ChevronRight className="w-4.5 h-4.5 text-primary-foreground" />
+                  </div>
                 </div>
-                <div>
-                  <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                    <School className="w-4 h-4" /> School Student
-                  </h2>
-                  <p className="text-white/80 text-sm mt-0.5">10th / 11th / 12th Class</p>
-                </div>
-              </div>
-            </div>
-            <div className="p-4">
-              <div className="flex gap-1.5 mb-3">
-                {['Science', 'Commerce', 'Arts'].map((s) => (
-                  <span key={s} className="text-xs bg-edu-orange-light text-edu-orange px-2.5 py-1 rounded-full font-medium">{s}</span>
-                ))}
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="text-xs text-muted-foreground">Calculate marks & get career guidance</div>
-                <div className="gradient-orange rounded-full px-3.5 py-1.5 text-white text-xs font-semibold flex items-center gap-1"
-                  style={{ boxShadow: '0 4px 14px rgba(249,115,22,0.25)' }}>
-                  Start <ChevronRight className="w-3 h-3" />
+
+                <div
+                  className="mt-4 pt-3 flex items-center gap-2 text-xs text-muted-foreground"
+                  style={{ borderTop: '1px solid hsl(var(--border) / 0.6)' }}
+                >
+                  <Calculator className="w-3.5 h-3.5" style={{ color: 'hsl(var(--orange) / 0.7)' }} />
+                  <span>Calculate marks & get career guidance</span>
                 </div>
               </div>
             </div>
           </Card3D>
         </motion.div>
 
-        {/* College Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
+        {/* College Student Card */}
+        <motion.div variants={itemVariants}>
           <Card3D
             onClick={() => navigate('/college-marks')}
-            className="w-full bg-card rounded-[1.25rem] overflow-hidden border border-border text-left cursor-pointer shadow-lg shadow-black/5"
+            className="w-full rounded-[1.25rem] overflow-hidden text-left cursor-pointer"
           >
-            <div className="relative h-32 overflow-hidden">
-              <img src={collegeGraduateImg} alt="College graduate" loading="lazy" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-r from-violet-600/85 to-purple-500/60" />
-              <div className="absolute inset-0 flex items-center p-5">
-                <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center flex-shrink-0 mr-4 border border-white/20">
-                  <GraduationCap className="w-7 h-7 text-white" />
+            <div
+              className="relative border border-border/50"
+              style={{
+                background: 'linear-gradient(145deg, hsl(var(--card)), hsl(var(--card)))',
+                borderRadius: '1.25rem',
+                boxShadow: '0 4px 24px -6px hsl(var(--purple) / 0.15), 0 1px 3px hsl(var(--foreground) / 0.04)',
+              }}
+            >
+              {/* Accent strip */}
+              <div
+                className="h-1.5 rounded-t-[1.25rem]"
+                style={{ background: 'linear-gradient(90deg, hsl(var(--purple)), hsl(var(--accent)))' }}
+              />
+
+              <div className="p-5">
+                <div className="flex items-start gap-4">
+                  {/* Icon */}
+                  <div
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0"
+                    style={{
+                      background: 'linear-gradient(135deg, hsl(var(--purple) / 0.12), hsl(var(--accent) / 0.08))',
+                      border: '1px solid hsl(var(--purple) / 0.15)',
+                    }}
+                  >
+                    <GraduationCap className="w-7 h-7" style={{ color: 'hsl(var(--purple))' }} />
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1 min-w-0">
+                    <h2 className="text-[1.05rem] font-bold text-foreground tracking-tight">College Student</h2>
+                    <p className="text-sm text-muted-foreground mt-0.5">UG, PG & PhD Level</p>
+
+                    <div className="flex flex-wrap gap-1.5 mt-3">
+                      {['CGPA', 'Percentage', 'Semester'].map((s) => (
+                        <span
+                          key={s}
+                          className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full"
+                          style={{
+                            background: 'hsl(var(--purple) / 0.08)',
+                            color: 'hsl(var(--purple))',
+                            border: '1px solid hsl(var(--purple) / 0.12)',
+                          }}
+                        >
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Arrow */}
+                  <div
+                    className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-1"
+                    style={{
+                      background: 'linear-gradient(135deg, hsl(var(--purple)), hsl(var(--accent)))',
+                      boxShadow: '0 4px 12px hsl(var(--purple) / 0.3)',
+                    }}
+                  >
+                    <ChevronRight className="w-4.5 h-4.5 text-primary-foreground" />
+                  </div>
                 </div>
-                <div>
-                  <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                    <GraduationCap className="w-4 h-4" /> College Student
-                  </h2>
-                  <p className="text-white/80 text-sm mt-0.5">UG / PG / PhD Level</p>
-                </div>
-              </div>
-            </div>
-            <div className="p-4">
-              <div className="flex gap-1.5 mb-3">
-                {['CGPA', 'Percentage', 'Semester'].map((s) => (
-                  <span key={s} className="text-xs bg-edu-purple-light text-edu-purple px-2.5 py-1 rounded-full font-medium">{s}</span>
-                ))}
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="text-xs text-muted-foreground">Semester-wise CGPA & smart recommendations</div>
-                <div className="gradient-purple rounded-full px-3.5 py-1.5 text-white text-xs font-semibold flex items-center gap-1"
-                  style={{ boxShadow: '0 4px 14px rgba(139,92,246,0.25)' }}>
-                  Start <ChevronRight className="w-3 h-3" />
+
+                <div
+                  className="mt-4 pt-3 flex items-center gap-2 text-xs text-muted-foreground"
+                  style={{ borderTop: '1px solid hsl(var(--border) / 0.6)' }}
+                >
+                  <Award className="w-3.5 h-3.5" style={{ color: 'hsl(var(--purple) / 0.7)' }} />
+                  <span>Semester-wise CGPA & smart recommendations</span>
                 </div>
               </div>
             </div>
           </Card3D>
         </motion.div>
-      </div>
+      </motion.div>
+
       <BottomNav />
     </PageWrapper>
   );
