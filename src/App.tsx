@@ -114,6 +114,9 @@ function AppRoutes() {
         <Route path="/course/:courseId" element={user ? <PageTransition><CourseDetail /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/college/:collegeId" element={user ? <PageTransition><CollegeDetail /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/profile" element={user ? <PageTransition><Profile /></PageTransition> : <Navigate to="/auth" replace />} />
+        {/* Public share routes - no auth required */}
+        <Route path="/share/college/:collegeId" element={<PageTransition><ShareCollegeDetail /></PageTransition>} />
+        <Route path="/share/course/:courseId" element={<PageTransition><ShareCourseDetail /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
       </>
