@@ -88,7 +88,7 @@ export function BottomNav() {
                   >
                     <Icon
                       className={`w-[20px] h-[20px] transition-colors duration-200 ${
-                        active ? 'text-primary' : 'text-muted-foreground/50'
+                        active ? 'text-white' : 'text-white/30'
                       }`}
                       strokeWidth={active ? 2.3 : 1.5}
                     />
