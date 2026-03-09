@@ -15,9 +15,7 @@ import { Loader2 } from 'lucide-react';
 const CLASSES = ['10th', '11th', '12th'];
 const STREAMS = [
   'Science (Maths)', 'Science (Biology)', 'Science (Computer Science)',
-  'Commerce', 'Commerce (Computer Applications)',
-  'Arts (History)', 'Arts (Political Science)', 'Arts (Economics)',
-  'Vocational'
+  'Other', 'Diploma'
 ];
 
 export default function SchoolMarks() {
