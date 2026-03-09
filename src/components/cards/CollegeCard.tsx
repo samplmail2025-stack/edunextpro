@@ -42,7 +42,9 @@ export function CollegeCard({ college, highlightCourse, onSave, isSaved }: Colle
   };
 
   return (
-    <div className="group bg-card rounded-2xl overflow-hidden border border-border animate-fade-in hover:-translate-y-0.5 transition-all duration-300"
+    <div
+      onClick={() => navigate(`/college/${college.id}`)}
+      className="group bg-card rounded-2xl overflow-hidden border border-border animate-fade-in hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
       style={{ boxShadow: '0 4px 24px -4px rgba(0,0,0,0.08), 0 2px 8px -2px rgba(0,0,0,0.04)' }}>
 
       {/* Gradient Header */}
