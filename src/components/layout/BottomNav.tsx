@@ -65,7 +65,7 @@ export function BottomNav() {
                 <motion.button
                   key={path}
                   onClick={() => handleNavigate(path)}
-                  whileTap={{ scale: 0.9 }}
+                  whileTap={{ scale: 0.85, transition: { duration: 0.08 } }}
                   className="relative flex flex-col items-center justify-center z-10 py-2 px-3 min-w-[52px]"
                 >
                   {/* Active pill background */}
@@ -82,8 +82,8 @@ export function BottomNav() {
 
                   {/* Icon */}
                   <motion.div
-                    animate={active ? { scale: [1, 1.15, 1] } : { scale: 1 }}
-                    transition={{ duration: 0.25, ease: 'easeOut' }}
+                    animate={active ? { scale: [1, 1.25, 0.95, 1.05, 1], rotate: [0, -4, 4, 0] } : { scale: 1, rotate: 0 }}
+                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                     className="relative z-10 mb-0.5"
                   >
                     <Icon
