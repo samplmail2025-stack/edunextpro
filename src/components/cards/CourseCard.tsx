@@ -143,9 +143,9 @@ export function CourseCard({ course, onSave, isSaved }: CourseCardProps) {
         <Button
           size="sm"
           className="w-full rounded-xl text-xs font-semibold h-10 gradient-primary border-0 text-white shadow-md group/btn hover:shadow-lg transition-all"
-          onClick={() => navigate(`/college-finder?course=${encodeURIComponent(course.name)}`)}
+          onClick={() => navigate(`/course/${course.id}`)}
         >
-          View Colleges
+          View Details
           <ArrowRight className="w-3.5 h-3.5 ml-1.5 transition-transform group-hover/btn:translate-x-0.5" />
         </Button>
       </div>
