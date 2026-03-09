@@ -80,12 +80,24 @@ export default function CourseDetail() {
 
       {/* Share FAB */}
       <button
-        onClick={async () => {
+        onClick={async (e) => {
+          e.stopPropagation();
           const url = `${window.location.origin}/share/course/${course.id}`;
-          if (navigator.share) {
-            await navigator.share({ title: course.name, text: `Check out ${course.name} on EduNext!`, url });
-          } else {
-            await navigator.clipboard.writeText(url);
+          try {
+            if (navigator.share) {
+              await navigator.share({ title: course.name, text: `Check out ${course.name} on EduNext!`, url });
+            } else {
+              await navigator.clipboard.writeText(url);
+              toast({ title: 'Link copied!', description: 'Share this link with your friends.' });
+            }
+          } catch {
+            // Fallback: create a temporary input to copy
+            const input = document.createElement('input');
+            input.value = url;
+            document.body.appendChild(input);
+            input.select();
+            document.execCommand('copy');
+            document.body.removeChild(input);
             toast({ title: 'Link copied!', description: 'Share this link with your friends.' });
           }
         }}
