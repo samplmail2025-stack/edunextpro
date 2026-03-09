@@ -59,26 +59,20 @@ function AppRoutes() {
   const { user, profile, loading, profileLoading, isProfileComplete } = useAuth();
   const { authStep } = useAuthStep();
   const location = useLocation();
-  const [splashPhase, setSplashPhase] = useState<'app' | 'developer' | 'done'>('app');
+  const [splashDone, setSplashDone] = useState(false);
   const [isStandalone, setIsStandalone] = useState(true);
 
   useEffect(() => { initPWA(); }, []);
   useEffect(() => {
-    // Fast splash: 0.8s for EduNext, 0.8s for developer = 1.6s total
-    const t1 = setTimeout(() => setSplashPhase('developer'), 800);
-    const t2 = setTimeout(() => setSplashPhase('done'), 1600);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
+    const t = setTimeout(() => setSplashDone(true), 1200);
+    return () => clearTimeout(t);
   }, []);
   useEffect(() => {
     setIsStandalone(isPWA());
   }, []);
 
-  if (splashPhase === 'app' || loading || profileLoading) {
+  if (!splashDone || loading || profileLoading) {
     return <SplashScreen show={true} />;
-  }
-
-  if (splashPhase === 'developer') {
-    return <DeveloperSplash show={true} />;
   }
 
   if (!isStandalone && import.meta.env.PROD) {
