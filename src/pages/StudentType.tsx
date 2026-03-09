@@ -21,6 +21,25 @@ import { BenefitsCarousel } from '@/components/BenefitsCarousel';
 import { COURSES } from '@/data/courses';
 import { ENTRANCE_EXAMS } from '@/data/exams';
 import { SCHOLARSHIPS } from '@/data/scholarships';
+import scienceImg from '@/assets/course-science.jpg';
+import engineeringImg from '@/assets/course-engineering.jpg';
+import businessImg from '@/assets/course-business.jpg';
+import medicalImg from '@/assets/course-medical.jpg';
+import artsImg from '@/assets/course-arts.jpg';
+import lawImg from '@/assets/course-law.jpg';
+import educationImg from '@/assets/course-education.jpg';
+
+const COURSE_CATEGORY_IMAGES: Record<string, string> = {
+  Science: scienceImg,
+  'Science & Technology': engineeringImg,
+  Engineering: engineeringImg,
+  Management: businessImg,
+  Commerce: businessImg,
+  Medical: medicalImg,
+  Arts: artsImg,
+  Law: lawImg,
+  Education: educationImg,
+};
 
 const DAILY_TIPS = [
   { tip: "Consistency beats intensity. Study 2 hours daily rather than 10 hours once a week.", icon: "📚" },
