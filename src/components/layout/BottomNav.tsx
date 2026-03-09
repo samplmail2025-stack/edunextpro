@@ -39,24 +39,16 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-[100]"
+      className="fixed bottom-0 left-0 right-0 z-[100] flex justify-center"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
-      {/* Fade-out gradient so content doesn't hard-cut behind the bar */}
-      <div
-        className="absolute inset-x-0 bottom-0 h-24 pointer-events-none"
-        style={{ background: 'linear-gradient(to top, hsl(var(--background)), transparent)' }}
-      />
-
       <LayoutGroup id="bottom-nav">
-        <div className="relative mx-4 mb-3">
+        <div className="mb-4">
           <div
-            className="relative grid grid-cols-5 items-center rounded-2xl overflow-hidden"
+            className="relative flex items-center gap-1 rounded-full px-2 py-2"
             style={{
-              background: 'linear-gradient(135deg, rgba(15,15,20,0.88), rgba(25,25,35,0.92))',
-              backdropFilter: 'blur(24px) saturate(1.8)',
-              WebkitBackdropFilter: 'blur(24px) saturate(1.8)',
-              boxShadow: '0 8px 32px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.06) inset, 0 1px 0 rgba(255,255,255,0.04) inset',
+              background: 'linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--card)))',
+              boxShadow: '0 4px 24px hsl(var(--primary) / 0.12), 0 0 0 1px hsl(var(--border) / 0.5)',
             }}
           >
             {NAV_ITEMS.map((item) => {
@@ -66,43 +58,49 @@ export function BottomNav() {
                 <motion.button
                   key={path}
                   onClick={() => handleNavigate(path)}
-                  whileTap={{ scale: 0.92, transition: { duration: 0.05 } }}
-                  className="relative flex flex-col items-center justify-center py-2.5 gap-[3px]"
+                  whileTap={{ scale: 0.9, transition: { duration: 0.05 } }}
+                  className="relative flex items-center justify-center z-10"
+                  layout
                 >
-                  {/* Top accent bar */}
+                  {/* Active expanded pill */}
                   {active && (
                     <motion.div
-                      layoutId="topBar"
-                      className="absolute top-0 inset-x-3 h-[2.5px] rounded-b-full"
-                      style={{ background: 'linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)))' }}
+                      layoutId="activePill"
+                      className="absolute inset-0 rounded-full"
+                      style={{
+                        background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))',
+                        boxShadow: '0 2px 12px hsl(var(--primary) / 0.35)',
+                      }}
                       transition={{ type: 'spring', stiffness: 450, damping: 30 }}
                     />
                   )}
 
-                  {/* Icon */}
-                  <motion.div
-                    animate={active
-                      ? { scale: [1, 1.15, 1], y: 0 }
-                      : { scale: 1, y: 0 }
-                    }
-                    transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    <Icon
-                      className={`w-[20px] h-[20px] transition-colors duration-200 ${
-                        active ? 'text-white' : 'text-white/30'
-                      }`}
-                      strokeWidth={active ? 2.3 : 1.5}
-                    />
-                  </motion.div>
+                  <div className={`relative z-10 flex items-center gap-2 ${active ? 'px-4 py-2' : 'p-2.5'}`}>
+                    <motion.div
+                      animate={active ? { scale: [1, 1.15, 1] } : { scale: 1 }}
+                      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      <Icon
+                        className={`w-[20px] h-[20px] transition-colors duration-200 ${
+                          active ? 'text-primary-foreground' : 'text-muted-foreground'
+                        }`}
+                        strokeWidth={active ? 2.3 : 1.6}
+                      />
+                    </motion.div>
 
-                  {/* Label */}
-                  <span
-                    className={`text-[9px] font-semibold tracking-wide transition-colors duration-200 ${
-                      active ? 'text-white' : 'text-white/25'
-                    }`}
-                  >
-                    {label}
-                  </span>
+                    {/* Label only for active */}
+                    {active && (
+                      <motion.span
+                        initial={{ opacity: 0, width: 0 }}
+                        animate={{ opacity: 1, width: 'auto' }}
+                        exit={{ opacity: 0, width: 0 }}
+                        transition={{ duration: 0.2, ease: 'easeOut' }}
+                        className="text-[12px] font-semibold text-primary-foreground whitespace-nowrap"
+                      >
+                        {label}
+                      </motion.span>
+                    )}
+                  </div>
                 </motion.button>
               );
             })}
