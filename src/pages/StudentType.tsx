@@ -758,8 +758,14 @@ function MarksSlideCard({
         }
 
         {/* Actions */}
-        <div className="grid grid-cols-2 gap-3">
-          <button
+        <motion.div
+          className="grid grid-cols-2 gap-3"
+          initial="hidden"
+          animate="visible"
+          variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.15 } } }}
+        >
+          <motion.button
+            variants={{ hidden: { opacity: 0, y: 20, scale: 0.95 }, visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] } } }}
             onClick={onRecommendations}
             className="relative overflow-hidden rounded-2xl p-4 text-left transition-all active:scale-[0.96] group/btn bg-card border border-border/50 hover:shadow-xl hover:shadow-primary/10"
           >
