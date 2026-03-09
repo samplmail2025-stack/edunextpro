@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Home, ClipboardList, Sparkles, Bookmark, User } from 'lucide-react';
-import { LayoutGroup, motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigationDirection, getRouteIndex } from '@/contexts/NavigationDirection';
 import { useRef } from 'react';
 
@@ -46,78 +46,69 @@ export function BottomNav() {
       className="fixed bottom-0 left-0 right-0 z-[100]"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
-      <LayoutGroup id="bottom-nav">
-        <div className="relative mx-3 mb-3">
-          {/* Soft glow behind the bar */}
-          <div
-            className="absolute inset-0 rounded-[22px] opacity-40 blur-xl -z-10"
-            style={{ background: 'linear-gradient(135deg, hsl(var(--primary) / 0.3), hsl(var(--accent) / 0.2))' }}
-          />
-
-          <div
-            className="relative flex items-center justify-around bg-card/90 backdrop-blur-2xl border border-border/50 rounded-[22px] px-1 py-1"
-            style={{ boxShadow: '0 -2px 20px rgba(0,0,0,0.06), 0 4px 30px rgba(0,0,0,0.1)' }}
-          >
-            {NAV_ITEMS.map((item) => {
-              const { icon: Icon, label, path } = item;
-              const active = isActive(item);
-              return (
-                <motion.button
-                  key={path}
-                  onClick={() => handleNavigate(path)}
-                  whileTap={{ scale: 0.85, transition: { duration: 0.08 } }}
-                  className="relative flex flex-col items-center justify-center z-10 py-2 px-3 min-w-[52px]"
-                >
-                  {/* Active pill background */}
+      <div className="mx-4 mb-4">
+        <div
+          className="relative flex items-center justify-around bg-foreground/95 backdrop-blur-xl rounded-full px-2 py-1.5"
+          style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.05) inset' }}
+        >
+          {NAV_ITEMS.map((item) => {
+            const { icon: Icon, label, path } = item;
+            const active = isActive(item);
+            return (
+              <motion.button
+                key={path}
+                onClick={() => handleNavigate(path)}
+                whileTap={{ scale: 0.88, transition: { duration: 0.06 } }}
+                className="relative flex flex-col items-center justify-center z-10 py-1.5 px-3 min-w-[48px]"
+              >
+                {/* Active background bubble */}
+                <AnimatePresence>
                   {active && (
                     <motion.div
-                      layoutId="navPill"
-                      className="absolute inset-1 rounded-2xl"
+                      layoutId="activeTab"
+                      className="absolute inset-0.5 rounded-full"
                       style={{
-                        background: 'linear-gradient(135deg, hsl(var(--primary) / 0.12), hsl(var(--accent) / 0.1))',
+                        background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)))',
                       }}
-                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                      initial={{ opacity: 0, scale: 0.6 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.6 }}
+                      transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                     />
                   )}
+                </AnimatePresence>
 
-                  {/* Icon */}
-                  <motion.div
-                    animate={active ? { scale: [1, 1.25, 0.95, 1.05, 1], rotate: [0, -4, 4, 0] } : { scale: 1, rotate: 0 }}
-                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                    className="relative z-10 mb-0.5"
-                  >
-                    <Icon
-                      className={`w-[22px] h-[22px] transition-colors duration-200 ${
-                        active ? 'text-primary' : 'text-muted-foreground'
-                      }`}
-                      strokeWidth={active ? 2.5 : 1.8}
-                    />
-                  </motion.div>
-
-                  {/* Label */}
-                  <motion.span
-                    animate={{ opacity: active ? 1 : 0.7 }}
-                    className={`text-[10px] font-semibold tracking-wide relative z-10 transition-colors duration-200 ${
-                      active ? 'text-primary' : 'text-muted-foreground'
+                {/* Icon */}
+                <motion.div
+                  animate={active
+                    ? { scale: [1, 1.2, 0.95, 1.05, 1], y: [0, -2, 0] }
+                    : { scale: 1, y: 0 }
+                  }
+                  transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                  className="relative z-10 mb-0.5"
+                >
+                  <Icon
+                    className={`w-[20px] h-[20px] transition-colors duration-200 ${
+                      active ? 'text-primary-foreground' : 'text-muted-foreground'
                     }`}
-                  >
-                    {label}
-                  </motion.span>
+                    strokeWidth={active ? 2.5 : 1.6}
+                  />
+                </motion.div>
 
-                  {/* Active dot indicator */}
-                  {active && (
-                    <motion.div
-                      layoutId="navDot"
-                      className="absolute -bottom-0.5 w-1 h-1 rounded-full bg-primary"
-                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                    />
-                  )}
-                </motion.button>
-              );
-            })}
-          </div>
+                {/* Label */}
+                <motion.span
+                  animate={{ opacity: active ? 1 : 0.5 }}
+                  className={`text-[9px] font-bold uppercase tracking-widest relative z-10 transition-colors duration-200 ${
+                    active ? 'text-primary-foreground' : 'text-muted-foreground'
+                  }`}
+                >
+                  {label}
+                </motion.span>
+              </motion.button>
+            );
+          })}
         </div>
-      </LayoutGroup>
+      </div>
     </nav>
   );
 }
