@@ -338,6 +338,51 @@ export default function StudentType() {
 
         {!loading && <BenefitsCarousel />}
 
+        {/* Popular Courses */}
+        {!loading &&
+        <div className="space-y-3 pt-1">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <BookOpen className="w-4 h-4 text-primary" />
+              <p className="text-xs font-bold text-foreground uppercase tracking-wider">Popular Courses</p>
+            </div>
+            <button onClick={() => navigate('/recommendations')} className="text-xs font-medium text-primary flex items-center gap-0.5">
+              View All <ChevronRight className="w-3 h-3" />
+            </button>
+          </div>
+          <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 -mx-1 px-1 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+            {COURSES.filter(c => c.level === 'UG').slice(0, 6).map((course, i) => (
+              <motion.div
+                key={course.id}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 + i * 0.05 }}
+                onClick={() => navigate(`/college-finder?course=${encodeURIComponent(course.name)}`)}
+                className="flex-shrink-0 w-36 snap-start bg-card rounded-2xl border border-border/50 overflow-hidden cursor-pointer hover:shadow-md transition-all active:scale-95">
+                <div className={`h-20 bg-gradient-to-br ${
+                  course.category === 'Engineering' ? 'from-blue-500 to-indigo-600' :
+                  course.category === 'Medical' ? 'from-rose-500 to-pink-600' :
+                  course.category === 'Science' ? 'from-emerald-500 to-teal-600' :
+                  course.category === 'Commerce' ? 'from-amber-500 to-orange-600' :
+                  course.category === 'Arts' ? 'from-violet-500 to-purple-600' :
+                  'from-primary to-primary/80'
+                } flex items-center justify-center`}>
+                  <GraduationCap className="w-8 h-8 text-white/80" />
+                </div>
+                <div className="p-3">
+                  <h4 className="text-xs font-bold text-foreground line-clamp-2 leading-tight">{course.name}</h4>
+                  <div className="flex items-center gap-1.5 mt-1.5">
+                    <span className="text-[10px] text-muted-foreground">{course.duration}</span>
+                    <span className="w-1 h-1 rounded-full bg-muted-foreground/30" />
+                    <span className="text-[10px] font-medium text-primary">{course.level}</span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+        }
+
         {/* Career Tools */}
         {!loading &&
         <>
