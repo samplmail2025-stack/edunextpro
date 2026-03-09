@@ -73,15 +73,28 @@ export function BottomNav() {
                   />
                 </motion.div>
 
-                {/* Floating dot */}
+                {/* Line connector + dot */}
                 {active && (
                   <motion.div
-                    layoutId="navDot"
-                    className="w-[5px] h-[5px] rounded-full bg-primary"
-                    transition={{ type: 'spring', stiffness: 500, damping: 32 }}
-                  />
+                    className="flex flex-col items-center"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.2, delay: 0.05 }}
+                  >
+                    <motion.div
+                      className="w-[1.5px] h-[6px] bg-primary/40 rounded-full"
+                      initial={{ scaleY: 0 }}
+                      animate={{ scaleY: 1 }}
+                      transition={{ duration: 0.2, ease: 'easeOut' }}
+                    />
+                    <motion.div
+                      layoutId="navDot"
+                      className="w-[5px] h-[5px] rounded-full bg-primary mt-[1px]"
+                      transition={{ type: 'spring', stiffness: 500, damping: 32 }}
+                    />
+                  </motion.div>
                 )}
-                {!active && <div className="w-[5px] h-[5px]" />}
+                {!active && <div className="h-[14px]" />}
               </motion.button>
             );
           })}
