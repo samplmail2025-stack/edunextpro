@@ -1,31 +1,24 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { TN_COLLEGES } from '@/data/colleges';
-import { PageWrapper } from '@/components/layout/PageWrapper';
-import { AppHeader } from '@/components/layout/AppHeader';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import {
   Building2, MapPin, Phone, Globe, Calendar, Award, BookOpen,
-  ExternalLink, Navigation, ChevronRight, Share2
+  ExternalLink, Navigation, Download
 } from 'lucide-react';
-import { toast } from '@/hooks/use-toast';
+import edunextLogo from '@/assets/edunext-logo.png';
 
-export default function CollegeDetail() {
+export default function ShareCollegeDetail() {
   const { collegeId } = useParams<{ collegeId: string }>();
-  const navigate = useNavigate();
   const college = TN_COLLEGES.find(c => c.id === collegeId);
 
   if (!college) {
     return (
-      <PageWrapper>
-        <AppHeader title="College Not Found" />
-        <div className="flex flex-col items-center justify-center min-h-[60vh] p-6 text-center">
-          <Building2 className="w-16 h-16 text-muted-foreground/30 mb-4" />
-          <h2 className="text-lg font-bold text-foreground mb-2">College not found</h2>
-          <p className="text-sm text-muted-foreground mb-6">The college you're looking for doesn't exist.</p>
-          <Button onClick={() => navigate(-1)} variant="outline">Go Back</Button>
-        </div>
-      </PageWrapper>
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-center">
+        <Building2 className="w-16 h-16 text-muted-foreground/30 mb-4" />
+        <h2 className="text-lg font-bold text-foreground mb-2">College not found</h2>
+        <p className="text-sm text-muted-foreground">The college you're looking for doesn't exist.</p>
+      </div>
     );
   }
 
@@ -36,31 +29,18 @@ export default function CollegeDetail() {
     Deemed: 'from-amber-500 to-orange-600',
     Central: 'from-rose-500 to-red-600',
   };
-
   const badgeGradient = typeColors[college.type] || typeColors.Government;
 
   const container = { hidden: {}, show: { transition: { staggerChildren: 0.08 } } };
   const item = { hidden: { opacity: 0, y: 15 }, show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] } } };
 
   return (
-    <PageWrapper>
-      <AppHeader title={college.name} />
-
-      {/* Share FAB */}
-      <button
-        onClick={async () => {
-          const url = `${window.location.origin}/share/college/${college.id}`;
-          if (navigator.share) {
-            await navigator.share({ title: college.name, text: `Check out ${college.name} on EduNext!`, url });
-          } else {
-            await navigator.clipboard.writeText(url);
-            toast({ title: 'Link copied!', description: 'Share this link with your friends.' });
-          }
-        }}
-        className="fixed bottom-24 right-4 z-50 w-12 h-12 rounded-full gradient-primary text-white shadow-lg flex items-center justify-center active:scale-95 transition-transform"
-      >
-        <Share2 className="w-5 h-5" />
-      </button>
+    <div className="min-h-screen bg-background max-w-lg mx-auto">
+      {/* Header bar */}
+      <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm border-b border-border px-4 py-3 flex items-center gap-3">
+        <img src={edunextLogo} alt="EduNext" className="w-8 h-8 rounded-lg" />
+        <span className="text-sm font-bold text-foreground">EduNext</span>
+      </div>
 
       {/* Hero header */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="relative bg-gradient-to-br from-primary/10 via-primary/5 to-background p-5 pb-6 border-b border-border">
@@ -82,7 +62,7 @@ export default function CollegeDetail() {
         </div>
       </motion.div>
 
-      <motion.div variants={container} initial="hidden" animate="show" className="p-4 pb-28 space-y-4">
+      <motion.div variants={container} initial="hidden" animate="show" className="p-4 pb-8 space-y-4">
         {/* Quick Info */}
         <motion.div variants={item} className="grid grid-cols-2 gap-3">
           <div className="bg-card rounded-2xl border border-border p-4 flex items-center gap-3">
@@ -170,6 +150,28 @@ export default function CollegeDetail() {
           )}
         </motion.div>
       </motion.div>
-    </PageWrapper>
+
+      {/* Download EduNext Promo */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+        className="sticky bottom-0 bg-card/95 backdrop-blur-xl border-t border-border p-4"
+      >
+        <div className="flex items-center gap-3">
+          <img src={edunextLogo} alt="EduNext" className="w-12 h-12 rounded-2xl shadow-md" />
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-bold text-foreground">EduNext - Career Guide</p>
+            <p className="text-[11px] text-muted-foreground">Explore courses, colleges & career paths</p>
+          </div>
+          <a href={window.location.origin} className="flex-shrink-0">
+            <Button size="sm" className="rounded-xl gradient-primary text-white border-0 font-bold text-xs h-10 px-4 gap-1.5">
+              <Download className="w-3.5 h-3.5" />
+              Get App
+            </Button>
+          </a>
+        </div>
+      </motion.div>
+    </div>
   );
 }

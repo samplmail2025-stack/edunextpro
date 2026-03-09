@@ -1,4 +1,5 @@
 import { ExternalLink, MapPin, Phone, Bookmark, ArrowRight, Calendar, GraduationCap, Globe, Star, GitCompareArrows } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { College } from '@/data/colleges';
 import { Button } from '@/components/ui/button';
 import { useCompare } from '@/contexts/CompareContext';
@@ -30,6 +31,7 @@ export function CollegeCard({ college, highlightCourse, onSave, isSaved }: Colle
   const naac = naacConfig[college.naacGrade] || naacConfig['B'];
   const { toggleCollege, isSelected, canAdd } = useCompare();
   const compared = isSelected(college.id);
+  const navigate = useNavigate();
 
   const searchTerms = highlightCourse ? highlightCourse.toLowerCase().split(' ').filter(t => t.length > 1) : [];
   const isHighlighted = (course: string) => {
@@ -40,7 +42,9 @@ export function CollegeCard({ college, highlightCourse, onSave, isSaved }: Colle
   };
 
   return (
-    <div className="group bg-card rounded-2xl overflow-hidden border border-border animate-fade-in hover:-translate-y-0.5 transition-all duration-300"
+    <div
+      onClick={() => navigate(`/college/${college.id}`)}
+      className="group bg-card rounded-2xl overflow-hidden border border-border animate-fade-in hover:-translate-y-0.5 transition-all duration-300 cursor-pointer"
       style={{ boxShadow: '0 4px 24px -4px rgba(0,0,0,0.08), 0 2px 8px -2px rgba(0,0,0,0.04)' }}>
 
       {/* Gradient Header */}
@@ -85,7 +89,7 @@ export function CollegeCard({ college, highlightCourse, onSave, isSaved }: Colle
         {/* Bookmark button */}
         {onSave && (
           <button
-            onClick={onSave}
+            onClick={(e) => { e.stopPropagation(); onSave(); }}
             className={`absolute top-3 right-3 w-9 h-9 rounded-xl flex items-center justify-center transition-all z-10 ${
               isSaved ? 'bg-white/30 text-white' : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white'
             }`}
@@ -140,12 +144,12 @@ export function CollegeCard({ college, highlightCourse, onSave, isSaved }: Colle
 
         {/* Action buttons */}
         <div className="flex gap-2 pt-0.5">
-          <a href={college.website} target="_blank" rel="noopener noreferrer" className="flex-1">
+          <a href={college.website} target="_blank" rel="noopener noreferrer" className="flex-1" onClick={(e) => e.stopPropagation()}>
             <Button variant="outline" size="sm" className="w-full rounded-xl text-xs gap-1.5 h-10 font-semibold hover:bg-muted/80 border-border/80">
               <Globe className="w-3.5 h-3.5" /> Website
             </Button>
           </a>
-          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(college.name + ', ' + college.address)}`} target="_blank" rel="noopener noreferrer" className="flex-1">
+          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(college.name + ', ' + college.address)}`} target="_blank" rel="noopener noreferrer" className="flex-1" onClick={(e) => e.stopPropagation()}>
             <Button size="sm" className="w-full rounded-xl text-xs gradient-primary border-0 gap-1.5 h-10 font-semibold group/btn">
               <MapPin className="w-3.5 h-3.5" /> Directions
               <ArrowRight className="w-3.5 h-3.5 ml-auto transition-transform group-hover/btn:translate-x-0.5" />
@@ -154,7 +158,7 @@ export function CollegeCard({ college, highlightCourse, onSave, isSaved }: Colle
           <Button
             variant="outline"
             size="sm"
-            onClick={() => toggleCollege(college)}
+            onClick={(e) => { e.stopPropagation(); toggleCollege(college); }}
             disabled={!compared && !canAdd}
             className={`rounded-xl px-3 h-10 ${compared ? 'bg-edu-teal/10 border-edu-teal text-edu-teal' : ''}`}
           >
