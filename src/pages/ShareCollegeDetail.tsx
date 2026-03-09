@@ -7,6 +7,8 @@ import {
   ExternalLink, Navigation, Download
 } from 'lucide-react';
 import edunextLogo from '@/assets/edunext-logo.png';
+import voorheesLogo from '@/assets/voorhees-logo.png';
+import { BenefitsCarousel } from '@/components/BenefitsCarousel';
 
 export default function ShareCollegeDetail() {
   const { collegeId } = useParams<{ collegeId: string }>();
