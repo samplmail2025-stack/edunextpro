@@ -784,10 +784,11 @@ function MarksSlideCard({
                 <ChevronRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
               </div>
             </div>
-          </button>
+          </motion.button>
 
-          <button
+          <motion.button
             onClick={onViewResults}
+            variants={{ hidden: { opacity: 0, y: 20, scale: 0.95 }, visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] } } }}
             className="relative overflow-hidden rounded-2xl p-4 text-left transition-all active:scale-[0.96] group/btn2 bg-card border border-border/50 hover:shadow-xl hover:shadow-emerald-500/10"
           >
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500" />
@@ -805,8 +806,8 @@ function MarksSlideCard({
                 <ChevronRight className="w-3.5 h-3.5 group-hover/btn2:translate-x-1 transition-transform" />
               </div>
             </div>
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       </div>
     </div>);
 
