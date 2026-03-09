@@ -1,4 +1,5 @@
 import { ExternalLink, MapPin, Phone, Bookmark, ArrowRight, Calendar, GraduationCap, Globe, Star, GitCompareArrows } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { College } from '@/data/colleges';
 import { Button } from '@/components/ui/button';
 import { useCompare } from '@/contexts/CompareContext';
