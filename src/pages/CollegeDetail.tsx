@@ -9,11 +9,19 @@ import {
   ExternalLink, Navigation, ChevronRight, Share2
 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { addRecentlyViewed } from '@/hooks/useRecentlyViewed';
+import { useEffect } from 'react';
 
 export default function CollegeDetail() {
   const { collegeId } = useParams<{ collegeId: string }>();
   const navigate = useNavigate();
   const college = TN_COLLEGES.find(c => c.id === collegeId);
+
+  useEffect(() => {
+    if (college) {
+      addRecentlyViewed({ id: college.id, type: 'college', name: college.name, subtitle: college.district });
+    }
+  }, [college]);
 
   if (!college) {
     return (

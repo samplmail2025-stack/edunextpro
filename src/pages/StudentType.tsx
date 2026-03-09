@@ -111,6 +111,7 @@ export default function StudentType() {
 
   const hasMarks = marks.length > 0;
   const firstName = profile?.full_name?.split(' ')[0] || 'Student';
+  const recentItems = useRecentlyViewed();
 
   // Carousel state
   const [currentIndex, setCurrentIndex] = useState(0);
