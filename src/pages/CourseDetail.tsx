@@ -1,13 +1,15 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { COURSES } from '@/data/courses';
 import { TN_COLLEGES } from '@/data/colleges';
+import { getCourseDescription, getCourseSyllabus } from '@/data/courseDescriptions';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { AppHeader } from '@/components/layout/AppHeader';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import {
   Clock, IndianRupee, GraduationCap, BookOpen, AlertCircle, CheckCircle2,
-  TrendingUp, Building2, ArrowRight, MapPin, Briefcase, Award, ChevronRight
+  TrendingUp, Building2, ArrowRight, MapPin, Briefcase, Award, ChevronRight,
+  FileText, ListChecks
 } from 'lucide-react';
 
 import scienceImg from '@/assets/course-science.jpg';
@@ -57,6 +59,8 @@ export default function CourseDetail() {
 
   const heroImg = categoryImages[course.category] || scienceImg;
   const badgeGradient = levelColors[course.level] || levelColors.UG;
+  const description = getCourseDescription(course);
+  const syllabus = getCourseSyllabus(course);
 
   // Find colleges offering this course
   const matchingColleges = TN_COLLEGES.filter(college =>
@@ -110,6 +114,31 @@ export default function CourseDetail() {
               <p className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider">Approx. Fees</p>
               <p className="text-sm font-bold text-foreground">{course.approxFees}</p>
             </div>
+          </div>
+        </motion.div>
+
+        {/* About This Course */}
+        <motion.div variants={item} className="bg-card rounded-2xl border border-border p-5 space-y-3">
+          <h2 className="text-sm font-bold text-foreground flex items-center gap-2">
+            <FileText className="w-4 h-4 text-primary" /> About This Course
+          </h2>
+          <p className="text-[13px] leading-relaxed text-muted-foreground">{description}</p>
+        </motion.div>
+
+        {/* Syllabus Highlights */}
+        <motion.div variants={item} className="bg-card rounded-2xl border border-border p-5 space-y-3">
+          <h2 className="text-sm font-bold text-foreground flex items-center gap-2">
+            <ListChecks className="w-4 h-4 text-primary" /> Syllabus Highlights
+          </h2>
+          <div className="grid grid-cols-1 gap-2">
+            {syllabus.map((topic, i) => (
+              <div key={topic} className="flex items-center gap-3 p-2.5 bg-muted/40 rounded-xl border border-border/50">
+                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center text-[10px] font-bold text-primary flex-shrink-0">
+                  {i + 1}
+                </div>
+                <span className="text-[13px] font-medium text-foreground">{topic}</span>
+              </div>
+            ))}
           </div>
         </motion.div>
 
@@ -183,7 +212,11 @@ export default function CourseDetail() {
           {matchingColleges.length > 0 ? (
             <div className="space-y-2">
               {matchingColleges.map(college => (
-                <div key={college.id} className="flex items-center gap-3 p-3 bg-muted/40 rounded-xl border border-border/50">
+                <button
+                  key={college.id}
+                  onClick={() => navigate(`/college/${college.id}`)}
+                  className="w-full flex items-center gap-3 p-3 bg-muted/40 rounded-xl border border-border/50 hover:bg-muted/70 hover:border-primary/20 transition-all text-left active:scale-[0.98]"
+                >
                   <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center flex-shrink-0">
                     <Building2 className="w-4 h-4 text-primary" />
                   </div>
@@ -197,7 +230,7 @@ export default function CourseDetail() {
                     </div>
                   </div>
                   <ChevronRight className="w-4 h-4 text-muted-foreground/50 flex-shrink-0" />
-                </div>
+                </button>
               ))}
             </div>
           ) : (

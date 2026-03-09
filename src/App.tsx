@@ -40,6 +40,7 @@ import InterviewPrep from "./pages/InterviewPrep";
 import ResumeBuilder from "./pages/ResumeBuilder";
 import MarksSelector from "./pages/MarksSelector";
 import CourseDetail from "./pages/CourseDetail";
+import CollegeDetail from "./pages/CollegeDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -109,6 +110,7 @@ function AppRoutes() {
         <Route path="/interview-prep" element={user ? <PageTransition><InterviewPrep /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/resume-builder" element={user ? <PageTransition><ResumeBuilder /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/course/:courseId" element={user ? <PageTransition><CourseDetail /></PageTransition> : <Navigate to="/auth" replace />} />
+        <Route path="/college/:collegeId" element={user ? <PageTransition><CollegeDetail /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="/profile" element={user ? <PageTransition><Profile /></PageTransition> : <Navigate to="/auth" replace />} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
