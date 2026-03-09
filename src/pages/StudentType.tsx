@@ -23,6 +23,9 @@ import { BenefitsCarousel } from '@/components/BenefitsCarousel';
 import { COURSES } from '@/data/courses';
 import { ENTRANCE_EXAMS } from '@/data/exams';
 import { SCHOLARSHIPS } from '@/data/scholarships';
+import { JOBS } from '@/data/jobs';
+import { INTERVIEW_QUESTIONS } from '@/data/interviewQuestions';
+import { MapPin } from 'lucide-react';
 import scienceImg from '@/assets/course-science.jpg';
 import engineeringImg from '@/assets/course-engineering.jpg';
 import businessImg from '@/assets/course-business.jpg';
@@ -332,7 +335,47 @@ export default function StudentType() {
           </motion.div>
         }
 
-        {/* Quick Actions Grid */}
+        {/* Study Streak / Progress Tracker */}
+        {!loading && hasMarks &&
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="bg-gradient-to-br from-primary/10 via-violet-500/5 to-transparent rounded-2xl p-4 border border-primary/10 space-y-3">
+          <div className="flex items-center gap-2.5">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-violet-600 flex items-center justify-center shadow-md">
+              <TrendingUp className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-foreground">Academic Tracker</h3>
+              <p className="text-[11px] text-muted-foreground">You have {marks.length} record{marks.length !== 1 ? 's' : ''} tracked</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, i) => (
+              <div key={i} className="flex flex-col items-center gap-1 flex-1">
+                <span className="text-[9px] font-medium text-muted-foreground">{day}</span>
+                <div className={`w-full aspect-square rounded-lg flex items-center justify-center ${
+                  i < marks.length ? 'bg-primary/20' : 'bg-muted/50'
+                }`}>
+                  {i < marks.length ? (
+                    <Flame className="w-3.5 h-3.5 text-primary" />
+                  ) : (
+                    <div className="w-2 h-2 rounded-full bg-muted-foreground/20" />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          <button
+            onClick={() => navigate('/marks')}
+            className="w-full text-xs font-semibold text-primary flex items-center justify-center gap-1 pt-1">
+            Add More Records <ChevronRight className="w-3 h-3" />
+          </button>
+        </motion.div>
+        }
+
+
         {!loading &&
         <div className="space-y-3 pt-1">
           <div className="flex items-center gap-2">
@@ -372,7 +415,33 @@ export default function StudentType() {
 
         {!loading && <BenefitsCarousel />}
 
-        {/* Popular Courses */}
+        {/* Explore by Stream */}
+        {!loading &&
+        <div className="space-y-3 pt-1">
+          <div className="flex items-center gap-2">
+            <GraduationCap className="w-4 h-4 text-primary" />
+            <p className="text-xs font-bold text-foreground uppercase tracking-wider">Explore by Stream</p>
+          </div>
+          <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 -mx-1 px-1" style={{ scrollbarWidth: 'none' }}>
+            {Object.entries(COURSE_CATEGORY_IMAGES).map(([stream, img], i) => (
+              <motion.div
+                key={stream}
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.05 + i * 0.04 }}
+                onClick={() => navigate(`/college-finder?course=${encodeURIComponent(stream)}`)}
+                className="flex-shrink-0 snap-start flex flex-col items-center gap-2 cursor-pointer active:scale-95 transition-transform">
+                <div className="w-16 h-16 rounded-2xl overflow-hidden border-2 border-primary/20 shadow-md">
+                  <img src={img} alt={stream} loading="lazy" className="w-full h-full object-cover" />
+                </div>
+                <span className="text-[10px] font-semibold text-foreground text-center max-w-[4.5rem] leading-tight">{stream}</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+        }
+
+
         {!loading &&
         <div className="space-y-3 pt-1">
           <div className="flex items-center justify-between">
@@ -417,7 +486,31 @@ export default function StudentType() {
         </div>
         }
 
-        {/* Career Tools */}
+        {/* Compare Colleges CTA */}
+        {!loading &&
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          onClick={() => navigate('/college-finder')}
+          className="relative overflow-hidden rounded-2xl p-5 cursor-pointer active:scale-[0.97] transition-transform"
+          style={{ background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(262 83% 58%))' }}>
+          <div className="absolute -top-6 -right-6 w-28 h-28 rounded-full bg-white/10 blur-xl" />
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          <div className="relative flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+              <Building2 className="w-6 h-6 text-white" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-sm font-bold text-white">Compare Colleges Side by Side</h3>
+              <p className="text-[11px] text-white/70 mt-0.5">Find the best fit from 170+ TN colleges</p>
+            </div>
+            <ChevronRight className="w-5 h-5 text-white/60 flex-shrink-0" />
+          </div>
+        </motion.div>
+        }
+
+
         {!loading &&
         <>
             <div className="space-y-3 pt-1">
@@ -564,7 +657,82 @@ export default function StudentType() {
               </div>
             </div>
 
-            {/* Daily Tip */}
+            {/* Trending Jobs */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Briefcase className="w-4 h-4 text-primary" />
+                  <p className="text-xs font-bold text-foreground uppercase tracking-wider">Trending Jobs</p>
+                </div>
+                <button onClick={() => navigate('/jobs')} className="text-xs font-medium text-primary flex items-center gap-0.5">
+                  View All <ChevronRight className="w-3 h-3" />
+                </button>
+              </div>
+              <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 -mx-1 px-1" style={{ scrollbarWidth: 'none' }}>
+                {JOBS.slice(0, 5).map((job, i) => {
+                  const catColor: Record<string, string> = {
+                    Government: 'bg-blue-500/10 text-blue-600',
+                    Private: 'bg-emerald-500/10 text-emerald-600',
+                    Internship: 'bg-violet-500/10 text-violet-600',
+                    'Skill-based': 'bg-amber-500/10 text-amber-600',
+                  };
+                  return (
+                    <motion.div
+                      key={job.id}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + i * 0.06 }}
+                      onClick={() => navigate('/jobs')}
+                      className="flex-shrink-0 w-52 snap-start bg-card rounded-2xl border border-border/50 p-4 cursor-pointer hover:shadow-md transition-all active:scale-95 space-y-2.5">
+                      <div className="flex items-center justify-between">
+                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${catColor[job.category] || 'bg-muted text-muted-foreground'}`}>{job.category}</span>
+                      </div>
+                      <h4 className="text-xs font-bold text-foreground line-clamp-2 leading-tight">{job.title}</h4>
+                      <p className="text-[11px] text-muted-foreground truncate">{job.organization}</p>
+                      <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
+                        <span className="flex items-center gap-1"><IndianRupee className="w-3 h-3" />{job.salaryRange}</span>
+                        <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{job.location}</span>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Interview Prep Quick Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25 }}
+              onClick={() => navigate('/interview-prep')}
+              className="bg-card rounded-2xl p-4 border border-border/50 cursor-pointer hover:shadow-lg transition-all active:scale-[0.98] space-y-3 relative overflow-hidden group">
+              <div className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-violet-500/5 group-hover:scale-150 transition-transform duration-700" />
+              <div className="relative flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-md flex-shrink-0">
+                  <MessageSquare className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-sm font-bold text-foreground">Interview Prep</h3>
+                  <p className="text-[11px] text-muted-foreground">{INTERVIEW_QUESTIONS.length} questions ready</p>
+                </div>
+                <ChevronRight className="w-4 h-4 text-muted-foreground/50" />
+              </div>
+              <div className="relative grid grid-cols-4 gap-2">
+                {[
+                  { label: 'HR', count: INTERVIEW_QUESTIONS.filter(q => q.category === 'HR').length, color: 'bg-blue-500/10 text-blue-600' },
+                  { label: 'Tech', count: INTERVIEW_QUESTIONS.filter(q => q.category === 'Technical').length, color: 'bg-emerald-500/10 text-emerald-600' },
+                  { label: 'GD', count: INTERVIEW_QUESTIONS.filter(q => q.category === 'Group Discussion').length, color: 'bg-amber-500/10 text-amber-600' },
+                  { label: 'Gov', count: INTERVIEW_QUESTIONS.filter(q => q.category === 'Government Exam').length, color: 'bg-violet-500/10 text-violet-600' },
+                ].map((cat) => (
+                  <div key={cat.label} className={`rounded-xl py-2 text-center ${cat.color}`}>
+                    <p className="text-sm font-bold">{cat.count}</p>
+                    <p className="text-[9px] font-medium">{cat.label}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+
             {(() => {
               const dayIndex = Math.floor(Date.now() / 86400000) % DAILY_TIPS.length;
               const todayTip = DAILY_TIPS[dayIndex];
