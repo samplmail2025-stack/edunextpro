@@ -36,22 +36,18 @@ export default function MarksSelector() {
     <PageWrapper>
       {/* Hero Section */}
       <div className="relative overflow-hidden">
+        <img
+          src={studentsStudyingImg}
+          alt="Students studying"
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="lazy"
+        />
         <div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(145deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary) / 0.9))',
+            background: 'linear-gradient(145deg, hsl(var(--primary) / 0.88), hsl(var(--accent) / 0.82), hsl(var(--primary) / 0.9))',
           }}
         />
-        <div className="absolute inset-0 overflow-hidden">
-          <div
-            className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-10"
-            style={{ background: 'radial-gradient(circle, hsl(var(--primary-foreground)), transparent 70%)' }}
-          />
-          <div
-            className="absolute -bottom-10 -left-10 w-36 h-36 rounded-full opacity-10"
-            style={{ background: 'radial-gradient(circle, hsl(var(--accent-foreground)), transparent 70%)' }}
-          />
-        </div>
 
         <div className="relative pt-14 pb-16 px-6 text-center">
           <motion.div
