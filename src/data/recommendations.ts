@@ -25,27 +25,84 @@ function getStreamTags(stream?: string): string[] {
 }
 
 export function getHigherStudiesRecommendations(ctx: RecommendationContext): Course[] {
-  const { percentage, stream, level, studentType } = ctx;
+  const { percentage, stream, level, studentType, course } = ctx;
+  const cls = ctx.class;
 
-  return COURSES.filter((course) => {
-    if (percentage < course.minPercentage) return false;
+  return COURSES.filter((c) => {
+    if (percentage < c.minPercentage) return false;
 
-    // School student → UG courses with stream-specific matching
+    // School student
     if (studentType === 'school') {
-      if (course.level !== 'UG') return false;
-      if (stream && course.stream && course.stream.length > 0) {
+      if (c.level !== 'UG') return false;
+
+      // 10th student: show general courses across all streams (no stream filter)
+      if (cls === '10th') return true;
+
+      // 11th/12th: filter by stream tags
+      if (stream && c.stream && c.stream.length > 0) {
         const tags = getStreamTags(stream);
-        // Course must match at least one of the student's stream tags
-        const matches = tags.length === 0 || course.stream.some(s => tags.includes(s));
-        if (!matches) return false;
+        if (tags.length > 0) {
+          const matches = c.stream.some(s => tags.includes(s));
+          if (!matches) return false;
+        }
       }
       return true;
     }
 
-    if (level === 'UG') return course.level === 'PG';
-    if (level === 'PG') return course.level === 'PhD';
+    // College student: recommend next level based on current level
+    if (studentType === 'college') {
+      if (level === 'UG') {
+        if (c.level !== 'PG') return false;
+      } else if (level === 'PG') {
+        if (c.level !== 'PhD') return false;
+      } else {
+        return false;
+      }
+
+      // Filter by related course/stream if available
+      if (course) {
+        const courseLower = course.toLowerCase();
+        const courseTerms = getCollegeCourseTerms(courseLower);
+        if (courseTerms.length > 0 && c.stream && c.stream.length > 0) {
+          const matches = c.stream.some(s => courseTerms.includes(s.toLowerCase()));
+          if (!matches) {
+            // Also check if course name contains related keywords
+            const nameMatch = courseTerms.some(t => c.name.toLowerCase().includes(t));
+            if (!nameMatch) return false;
+          }
+        }
+      }
+      return true;
+    }
+
     return false;
   }).slice(0, 15);
+}
+
+// Map college course names to relevant stream/category terms
+function getCollegeCourseTerms(course: string): string[] {
+  if (course.includes('computer') || course.includes('bca') || course.includes('bsc cs') || course.includes('bsc it') || course.includes('information technology')) {
+    return ['science', 'engineering', 'technology'];
+  }
+  if (course.includes('engineering') || course.includes('btech') || course.includes('b.e') || course.includes('be ')) {
+    return ['engineering', 'technology', 'science'];
+  }
+  if (course.includes('commerce') || course.includes('bcom') || course.includes('b.com') || course.includes('bba') || course.includes('mba')) {
+    return ['commerce'];
+  }
+  if (course.includes('arts') || course.includes('ba ') || course.includes('b.a') || course.includes('history') || course.includes('english') || course.includes('political')) {
+    return ['arts'];
+  }
+  if (course.includes('medical') || course.includes('mbbs') || course.includes('nursing') || course.includes('pharmacy') || course.includes('bsc bio')) {
+    return ['medical', 'science'];
+  }
+  if (course.includes('law') || course.includes('llb') || course.includes('l.l.b')) {
+    return ['law'];
+  }
+  if (course.includes('education') || course.includes('b.ed') || course.includes('bed')) {
+    return ['education'];
+  }
+  return [];
 }
 
 export function getJobRecommendations(ctx: RecommendationContext): Job[] {
