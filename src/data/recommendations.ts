@@ -9,6 +9,7 @@ export interface RecommendationContext {
   level?: string;
   course?: string;
   classification?: string;
+  class?: string;
 }
 
 // Map specific school HSC groups to course stream tags
