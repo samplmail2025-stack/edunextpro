@@ -90,23 +90,9 @@ export function getSchoolSubjects(stream: string, cls: string): string[] {
   if (stream === 'Science (Computer Science)') {
     return [...common, 'Computer Science', 'Physics', 'Chemistry'];
   }
-  if (stream === 'Commerce') {
-    return [...common, 'Accountancy', 'Commerce', 'Economics'];
+  if (stream === 'Diploma') {
+    return [...common, 'Engineering Drawing', 'Workshop Practice', 'Technical Subject'];
   }
-  if (stream === 'Commerce (Computer Applications)') {
-    return [...common, 'Accountancy', 'Commerce', 'Computer Applications'];
-  }
-  if (stream === 'Arts (History)') {
-    return [...common, 'History', 'Economics', 'Political Science'];
-  }
-  if (stream === 'Arts (Political Science)') {
-    return [...common, 'Political Science', 'Economics', 'History'];
-  }
-  if (stream === 'Arts (Economics)') {
-    return [...common, 'Economics', 'Commerce', 'Political Science'];
-  }
-  if (stream === 'Vocational') {
-    return [...common, 'Vocational Theory', 'Vocational Practical', 'Allied Subject'];
-  }
-  return [...common, 'History', 'Geography', 'Political Science'];
+  // Other
+  return [...common, 'Subject 1', 'Subject 2', 'Subject 3'];
 }
