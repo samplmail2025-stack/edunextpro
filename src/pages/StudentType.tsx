@@ -13,6 +13,8 @@ import { toast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 import { useMarks, type MarksEntry } from '@/hooks/useMarks';
 import { CircularProgress } from '@/components/charts/CircularProgress';
+import edunextLogo from '@/assets/edunext-logo.png';
+import voorheesLogo from '@/assets/voorhees-logo.png';
 import { GradeBarChart } from '@/components/charts/GradeBarChart';
 import { Button } from '@/components/ui/button';
 import studentsStudyingImg from '@/assets/students-studying.jpg';
@@ -608,6 +610,36 @@ export default function StudentType() {
 
             })}
             </div>
+
+            {/* Developer Credit Banner */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="mt-6 mb-24 rounded-2xl overflow-hidden border border-border/30"
+              style={{ background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(262 83% 58%))' }}
+            >
+              <div className="px-5 py-5">
+                <div className="flex items-center justify-center gap-3 mb-3">
+                  <div className="w-12 h-12 rounded-xl bg-white/95 flex items-center justify-center shadow-lg">
+                    <img src={edunextLogo} alt="EduNext" className="w-9 h-9 object-contain" />
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2 h-2 rounded-full bg-white/60" />
+                    <div className="w-6 h-0.5 bg-white/40 rounded-full" />
+                    <div className="w-2 h-2 rounded-full bg-white/60" />
+                  </div>
+                  <div className="w-12 h-12 rounded-xl bg-white/95 flex items-center justify-center shadow-lg">
+                    <img src={voorheesLogo} alt="Voorhees College" className="w-9 h-9 object-contain" />
+                  </div>
+                </div>
+                <div className="text-center">
+                  <p className="text-white/70 text-[10px] font-semibold tracking-widest uppercase">Developed by</p>
+                  <p className="text-white font-bold text-sm mt-0.5">Voorhees College</p>
+                  <p className="text-white/80 text-xs">BCA Department · Vellore</p>
+                </div>
+              </div>
+            </motion.div>
           </>
         }
       </div>
