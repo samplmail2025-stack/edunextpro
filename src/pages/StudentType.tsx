@@ -415,7 +415,33 @@ export default function StudentType() {
 
         {!loading && <BenefitsCarousel />}
 
-        {/* Popular Courses */}
+        {/* Explore by Stream */}
+        {!loading &&
+        <div className="space-y-3 pt-1">
+          <div className="flex items-center gap-2">
+            <GraduationCap className="w-4 h-4 text-primary" />
+            <p className="text-xs font-bold text-foreground uppercase tracking-wider">Explore by Stream</p>
+          </div>
+          <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 -mx-1 px-1" style={{ scrollbarWidth: 'none' }}>
+            {Object.entries(COURSE_CATEGORY_IMAGES).map(([stream, img], i) => (
+              <motion.div
+                key={stream}
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.05 + i * 0.04 }}
+                onClick={() => navigate(`/college-finder?course=${encodeURIComponent(stream)}`)}
+                className="flex-shrink-0 snap-start flex flex-col items-center gap-2 cursor-pointer active:scale-95 transition-transform">
+                <div className="w-16 h-16 rounded-2xl overflow-hidden border-2 border-primary/20 shadow-md">
+                  <img src={img} alt={stream} loading="lazy" className="w-full h-full object-cover" />
+                </div>
+                <span className="text-[10px] font-semibold text-foreground text-center max-w-[4.5rem] leading-tight">{stream}</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+        }
+
+
         {!loading &&
         <div className="space-y-3 pt-1">
           <div className="flex items-center justify-between">
