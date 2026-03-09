@@ -73,7 +73,8 @@ export function BottomNav() {
                   {active && (
                     <motion.div
                       layoutId="topBar"
-                      className="absolute top-0 inset-x-3 h-[2.5px] rounded-b-full bg-primary"
+                      className="absolute top-0 inset-x-3 h-[2.5px] rounded-b-full"
+                      style={{ background: 'linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)))' }}
                       transition={{ type: 'spring', stiffness: 450, damping: 30 }}
                     />
                   )}
