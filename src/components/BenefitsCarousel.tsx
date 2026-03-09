@@ -2,8 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronLeft, ChevronRight, BookOpen, Compass, Award,
-  TrendingUp, Building2, FileUser, FileText,
-} from 'lucide-react';
+  TrendingUp, Building2, FileUser, FileText } from
+'lucide-react';
 
 import benefitSmartLearning from '@/assets/benefit-smart-learning.jpg';
 import benefitCareerGuidance from '@/assets/benefit-career-guidance.jpg';
@@ -14,49 +14,49 @@ import benefitResume from '@/assets/benefit-resume.jpg';
 import benefitEntranceExam from '@/assets/benefit-entrance-exam.jpg';
 
 const benefits = [
-  {
-    image: benefitSmartLearning,
-    icon: BookOpen,
-    title: 'Smart Learning Path',
-    description: 'AI-powered course recommendations based on your marks, stream, and interests.',
-  },
-  {
-    image: benefitCollegeFinder,
-    icon: Building2,
-    title: 'College Finder',
-    description: 'Explore 170+ colleges across Tamil Nadu with filters, maps & comparisons.',
-  },
-  {
-    image: benefitCareerGuidance,
-    icon: Compass,
-    title: 'Career Guidance',
-    description: 'Get personalized career advice with 75+ job paths and interview preparation.',
-  },
-  {
-    image: benefitEntranceExam,
-    icon: FileText,
-    title: 'Entrance Exam Guide',
-    description: 'Complete guides for TNEA, NEET, JEE, TNPSC & other competitive exams.',
-  },
-  {
-    image: benefitExamResults,
-    icon: TrendingUp,
-    title: 'Track Your Progress',
-    description: 'Analyze your academic performance with detailed charts and grade insights.',
-  },
-  {
-    image: benefitResume,
-    icon: FileUser,
-    title: 'Resume Builder',
-    description: 'Create a professional CV instantly — stand out to employers & colleges.',
-  },
-  {
-    image: benefitScholarships,
-    icon: Award,
-    title: 'Scholarship Finder',
-    description: 'Discover 40+ scholarships for Tamil Nadu students — never miss an opportunity.',
-  },
-];
+{
+  image: benefitSmartLearning,
+  icon: BookOpen,
+  title: 'Smart Learning Path',
+  description: 'AI-powered course recommendations based on your marks, stream, and interests.'
+},
+{
+  image: benefitCollegeFinder,
+  icon: Building2,
+  title: 'College Finder',
+  description: 'Explore 170+ colleges across Tamil Nadu with filters, maps & comparisons.'
+},
+{
+  image: benefitCareerGuidance,
+  icon: Compass,
+  title: 'Career Guidance',
+  description: 'Get personalized career advice with 75+ job paths and interview preparation.'
+},
+{
+  image: benefitEntranceExam,
+  icon: FileText,
+  title: 'Entrance Exam Guide',
+  description: 'Complete guides for TNEA, NEET, JEE, TNPSC & other competitive exams.'
+},
+{
+  image: benefitExamResults,
+  icon: TrendingUp,
+  title: 'Track Your Progress',
+  description: 'Analyze your academic performance with detailed charts and grade insights.'
+},
+{
+  image: benefitResume,
+  icon: FileUser,
+  title: 'Resume Builder',
+  description: 'Create a professional CV instantly — stand out to employers & colleges.'
+},
+{
+  image: benefitScholarships,
+  icon: Award,
+  title: 'Scholarship Finder',
+  description: 'Discover 40+ scholarships for Tamil Nadu students — never miss an opportunity.'
+}];
+
 
 // Preload all images immediately
 benefits.forEach((b) => {
@@ -96,16 +96,16 @@ export function BenefitsCarousel() {
           </p>
         </div>
         <div className="flex items-center gap-1">
-          <button
-            onClick={goPrev}
-            className="w-7 h-7 rounded-full bg-muted flex items-center justify-center hover:bg-muted-foreground/20 transition-colors"
-          >
-            <ChevronLeft className="w-4 h-4 text-muted-foreground" />
-          </button>
+          
+
+
+
+
+          
           <button
             onClick={goNext}
-            className="w-7 h-7 rounded-full bg-muted flex items-center justify-center hover:bg-muted-foreground/20 transition-colors"
-          >
+            className="w-7 h-7 rounded-full bg-muted flex items-center justify-center hover:bg-muted-foreground/20 transition-colors">
+            
             <ChevronRight className="w-4 h-4 text-muted-foreground" />
           </button>
         </div>
@@ -113,16 +113,16 @@ export function BenefitsCarousel() {
 
       <div className="relative overflow-hidden rounded-2xl border border-border shadow-lg h-48">
         {/* Background: all images stacked, only active one visible */}
-        {benefits.map((b, i) => (
-          <img
-            key={i}
-            src={b.image}
-            alt={b.title}
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
-              i === index ? 'opacity-100' : 'opacity-0'
-            }`}
-          />
-        ))}
+        {benefits.map((b, i) =>
+        <img
+          key={i}
+          src={b.image}
+          alt={b.title}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
+          i === index ? 'opacity-100' : 'opacity-0'}`
+          } />
+
+        )}
 
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent" />
@@ -135,8 +135,8 @@ export function BenefitsCarousel() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="absolute bottom-0 left-0 right-0 p-4"
-          >
+            className="absolute bottom-0 left-0 right-0 p-4">
+            
             <div className="flex items-center gap-2 mb-1.5">
               <div className="w-8 h-8 rounded-lg bg-primary/90 flex items-center justify-center">
                 <Icon className="w-4 h-4 text-primary-foreground" />
@@ -151,20 +151,20 @@ export function BenefitsCarousel() {
 
         {/* Dots */}
         <div className="absolute top-3 right-3 flex gap-1">
-          {benefits.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => {
-                setDirection(i > index ? 1 : -1);
-                setIndex(i);
-              }}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === index ? 'w-5 bg-white' : 'w-1.5 bg-white/40'
-              }`}
-            />
-          ))}
+          {benefits.map((_, i) =>
+          <button
+            key={i}
+            onClick={() => {
+              setDirection(i > index ? 1 : -1);
+              setIndex(i);
+            }}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+            i === index ? 'w-5 bg-white' : 'w-1.5 bg-white/40'}`
+            } />
+
+          )}
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 }
