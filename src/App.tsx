@@ -41,6 +41,8 @@ import ResumeBuilder from "./pages/ResumeBuilder";
 import MarksSelector from "./pages/MarksSelector";
 import CourseDetail from "./pages/CourseDetail";
 import CollegeDetail from "./pages/CollegeDetail";
+import ShareCollegeDetail from "./pages/ShareCollegeDetail";
+import ShareCourseDetail from "./pages/ShareCourseDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
