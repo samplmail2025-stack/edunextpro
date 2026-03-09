@@ -282,6 +282,9 @@ export default function StudentType() {
           </motion.div>
         }
 
+        {/* Benefits Carousel */}
+        {!loading && <BenefitsCarousel />}
+
         {/* Career Tools */}
         {!loading &&
         <>
