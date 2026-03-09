@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { PageTransition } from "@/components/layout/PageTransition";
 import { SplashScreen } from "@/components/layout/SplashScreen";
-import { DeveloperSplash } from "@/components/layout/DeveloperSplash";
+
 import { NavigationDirectionProvider } from "@/contexts/NavigationDirection";
 import { CompareProvider } from "@/contexts/CompareContext";
 import { ScrollRestoration } from "@/components/layout/ScrollRestoration";
