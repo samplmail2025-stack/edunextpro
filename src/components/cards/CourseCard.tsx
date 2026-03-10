@@ -30,7 +30,7 @@ interface CourseCardProps {
 }
 
 // Course-specific image mapping by course ID
-const courseIdImages: Record<string, string> = {
+export const courseIdImages: Record<string, string> = {
   'bsc-agriculture': agricultureImg,
   'bsc-cs': computerScienceImg,
   'bsc-it': computerScienceImg,

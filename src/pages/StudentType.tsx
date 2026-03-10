@@ -22,6 +22,7 @@ import resultsImg from '@/assets/results-celebration.jpg';
 import { BenefitsCarousel } from '@/components/BenefitsCarousel';
 import { useRecentlyViewed } from '@/hooks/useRecentlyViewed';
 import { COURSES } from '@/data/courses';
+import { courseIdImages } from '@/components/cards/CourseCard';
 import { ENTRANCE_EXAMS } from '@/data/exams';
 import { SCHOLARSHIPS } from '@/data/scholarships';
 import { JOBS } from '@/data/jobs';
@@ -29,18 +30,20 @@ import { INTERVIEW_QUESTIONS } from '@/data/interviewQuestions';
 import { MapPin } from 'lucide-react';
 import scienceImg from '@/assets/course-science.jpg';
 import engineeringImg from '@/assets/course-engineering.jpg';
-import businessImg from '@/assets/course-business.jpg';
+import managementImg from '@/assets/course-management.jpg';
 import medicalImg from '@/assets/course-medical.jpg';
 import artsImg from '@/assets/course-arts.jpg';
 import lawImg from '@/assets/course-law.jpg';
-import educationImg from '@/assets/course-education.jpg';
+import educationImg from '@/assets/course-teaching.jpg';
+import computerScienceImg from '@/assets/course-computer-science.jpg';
+import commerceImg from '@/assets/course-commerce.jpg';
 
 const COURSE_CATEGORY_IMAGES: Record<string, string> = {
   Science: scienceImg,
-  'Science & Technology': engineeringImg,
+  'Science & Technology': computerScienceImg,
   Engineering: engineeringImg,
-  Management: businessImg,
-  Commerce: businessImg,
+  Management: managementImg,
+  Commerce: commerceImg,
   Medical: medicalImg,
   Arts: artsImg,
   Law: lawImg,
@@ -466,7 +469,7 @@ export default function StudentType() {
               className="flex-shrink-0 w-36 snap-start bg-card rounded-2xl border border-border/50 overflow-hidden cursor-pointer hover:shadow-md transition-all active:scale-95">
                 <div className="relative h-20 overflow-hidden">
                   <img
-                  src={COURSE_CATEGORY_IMAGES[course.category] || scienceImg}
+                  src={courseIdImages[course.id] || COURSE_CATEGORY_IMAGES[course.category] || scienceImg}
                   alt={course.name}
                   loading="lazy"
                   className="w-full h-full object-cover" />
