@@ -42,6 +42,14 @@ export default function Onboarding() {
   const [educationType, setEducationType] = useState('');
   const [saving, setSaving] = useState(false);
 
+  // If profile is already complete, skip onboarding
+  const { isProfileComplete } = useAuth();
+  useEffect(() => {
+    if (isProfileComplete) {
+      navigate('/student-type', { replace: true });
+    }
+  }, [isProfileComplete, navigate]);
+
   const canNext = () => {
     if (step === 0) return fullName.trim().length >= 2;
     if (step === 1) return !!dob;
