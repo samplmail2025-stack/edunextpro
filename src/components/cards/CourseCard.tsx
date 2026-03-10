@@ -115,8 +115,7 @@ const levelBadge: Record<string, string> = {
 
 export function CourseCard({ course, onSave, isSaved }: CourseCardProps) {
   const navigate = useNavigate();
-  const heroImg = categoryImages[course.category] || scienceImg;
-  const badgeGradient = levelBadge[course.level] || levelBadge.UG;
+  const heroImg = courseIdImages[course.id] || categoryImages[course.category] || scienceImg;
 
   return (
     <div className="group rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5 border border-border bg-card">
