@@ -10,6 +10,18 @@ import medicalImg from '@/assets/course-medical.jpg';
 import artsImg from '@/assets/course-arts.jpg';
 import lawImg from '@/assets/course-law.jpg';
 import educationImg from '@/assets/course-education.jpg';
+import agricultureImg from '@/assets/course-agriculture.jpg';
+import computerScienceImg from '@/assets/course-computer-science.jpg';
+import nursingImg from '@/assets/course-nursing.jpg';
+import pharmacyImg from '@/assets/course-pharmacy.jpg';
+import designImg from '@/assets/course-design.jpg';
+import managementImg from '@/assets/course-management.jpg';
+import teachingImg from '@/assets/course-teaching.jpg';
+import biotechImg from '@/assets/course-biotech.jpg';
+import commerceImg from '@/assets/course-commerce.jpg';
+import yogaImg from '@/assets/course-yoga.jpg';
+import libraryImg from '@/assets/course-library.jpg';
+import forensicImg from '@/assets/course-forensic.jpg';
 
 interface CourseCardProps {
   course: Course;
@@ -17,16 +29,82 @@ interface CourseCardProps {
   isSaved?: boolean;
 }
 
+// Course-specific image mapping by course ID
+const courseIdImages: Record<string, string> = {
+  'bsc-agriculture': agricultureImg,
+  'bsc-cs': computerScienceImg,
+  'bsc-it': computerScienceImg,
+  'bca': computerScienceImg,
+  'msc-cs': computerScienceImg,
+  'mca': computerScienceImg,
+  'bsc-nursing': nursingImg,
+  'msc-nursing': nursingImg,
+  'bpharm': pharmacyImg,
+  'mpharm': pharmacyImg,
+  'bdes': designImg,
+  'bsc-visual-comm': designImg,
+  'mba': managementImg,
+  'mba-hospital': managementImg,
+  'mba-agri': agricultureImg,
+  'pgdm': managementImg,
+  'bed': teachingImg,
+  'med': teachingImg,
+  'bsc-biotech': biotechImg,
+  'msc-biotech': biotechImg,
+  'bsc-microbiology': biotechImg,
+  'msc-microbio': biotechImg,
+  'msc-biochem': biotechImg,
+  'bcom': commerceImg,
+  'bba': commerceImg,
+  'bcom-ca': commerceImg,
+  'bcom-finance': commerceImg,
+  'bcom-banking': commerceImg,
+  'mcom': commerceImg,
+  'mcom-finance': commerceImg,
+  'mcom-ca': commerceImg,
+  'msc-yoga': yogaImg,
+  'mlis': libraryImg,
+  'msc-forensic': forensicImg,
+  'bsc-nutrition': biotechImg,
+  'msc-nutrition': biotechImg,
+  'bpt': nursingImg,
+  'mpt': nursingImg,
+  'bams': medicalImg,
+  'bsms': medicalImg,
+  'bhms': medicalImg,
+  'btech-cse': computerScienceImg,
+  'btech-it': computerScienceImg,
+  'btech-aiml': computerScienceImg,
+  'btech-data-science': computerScienceImg,
+  'btech-cyber': computerScienceImg,
+  'btech-biomedical': biotechImg,
+  'btech-food': agricultureImg,
+  'btech-auto': engineeringImg,
+  'btech-chemical': engineeringImg,
+  'btech-marine': engineeringImg,
+  'btech-textile': engineeringImg,
+  'ba-english': libraryImg,
+  'ma-english': libraryImg,
+  'ba-history': libraryImg,
+  'ma-history': libraryImg,
+  'ba-tamil': libraryImg,
+  'ma-tamil': libraryImg,
+  'mphil-tamil': libraryImg,
+  'msc-env-science': agricultureImg,
+  'msc-zoology': biotechImg,
+  'msc-botany': agricultureImg,
+};
+
 const categoryImages: Record<string, string> = {
   Science: scienceImg,
-  'Science & Technology': engineeringImg,
+  'Science & Technology': computerScienceImg,
   Engineering: engineeringImg,
-  Management: businessImg,
-  Commerce: businessImg,
+  Management: managementImg,
+  Commerce: commerceImg,
   Medical: medicalImg,
   Arts: artsImg,
   Law: lawImg,
-  Education: educationImg,
+  Education: teachingImg,
 };
 
 const levelBadge: Record<string, string> = {
