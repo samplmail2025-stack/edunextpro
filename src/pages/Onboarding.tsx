@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
@@ -41,6 +41,14 @@ export default function Onboarding() {
   const [district, setDistrict] = useState('');
   const [educationType, setEducationType] = useState('');
   const [saving, setSaving] = useState(false);
+
+  // If profile is already complete, skip onboarding
+  const { isProfileComplete } = useAuth();
+  useEffect(() => {
+    if (isProfileComplete) {
+      navigate('/student-type', { replace: true });
+    }
+  }, [isProfileComplete, navigate]);
 
   const canNext = () => {
     if (step === 0) return fullName.trim().length >= 2;
