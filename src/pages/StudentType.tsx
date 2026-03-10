@@ -22,6 +22,7 @@ import resultsImg from '@/assets/results-celebration.jpg';
 import { BenefitsCarousel } from '@/components/BenefitsCarousel';
 import { useRecentlyViewed } from '@/hooks/useRecentlyViewed';
 import { COURSES } from '@/data/courses';
+import { courseIdImages } from '@/components/cards/CourseCard';
 import { ENTRANCE_EXAMS } from '@/data/exams';
 import { SCHOLARSHIPS } from '@/data/scholarships';
 import { JOBS } from '@/data/jobs';
