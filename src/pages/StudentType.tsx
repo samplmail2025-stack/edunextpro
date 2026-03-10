@@ -469,7 +469,7 @@ export default function StudentType() {
               className="flex-shrink-0 w-36 snap-start bg-card rounded-2xl border border-border/50 overflow-hidden cursor-pointer hover:shadow-md transition-all active:scale-95">
                 <div className="relative h-20 overflow-hidden">
                   <img
-                  src={COURSE_CATEGORY_IMAGES[course.category] || scienceImg}
+                  src={courseIdImages[course.id] || COURSE_CATEGORY_IMAGES[course.category] || scienceImg}
                   alt={course.name}
                   loading="lazy"
                   className="w-full h-full object-cover" />
