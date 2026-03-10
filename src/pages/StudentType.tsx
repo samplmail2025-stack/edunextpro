@@ -29,18 +29,20 @@ import { INTERVIEW_QUESTIONS } from '@/data/interviewQuestions';
 import { MapPin } from 'lucide-react';
 import scienceImg from '@/assets/course-science.jpg';
 import engineeringImg from '@/assets/course-engineering.jpg';
-import businessImg from '@/assets/course-business.jpg';
+import managementImg from '@/assets/course-management.jpg';
 import medicalImg from '@/assets/course-medical.jpg';
 import artsImg from '@/assets/course-arts.jpg';
 import lawImg from '@/assets/course-law.jpg';
-import educationImg from '@/assets/course-education.jpg';
+import educationImg from '@/assets/course-teaching.jpg';
+import computerScienceImg from '@/assets/course-computer-science.jpg';
+import commerceImg from '@/assets/course-commerce.jpg';
 
 const COURSE_CATEGORY_IMAGES: Record<string, string> = {
   Science: scienceImg,
-  'Science & Technology': engineeringImg,
+  'Science & Technology': computerScienceImg,
   Engineering: engineeringImg,
-  Management: businessImg,
-  Commerce: businessImg,
+  Management: managementImg,
+  Commerce: commerceImg,
   Medical: medicalImg,
   Arts: artsImg,
   Law: lawImg,
